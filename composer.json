@@ -1,0 +1,23 @@
+{
+    "name": "vodea/vodeamanager",
+    "description": "The package for use tenant management",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yudi Hertanto",
+            "email": "yudi@vodea.id"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "laravel/framework": "^6.2",
+        "wildside/userstamps": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vodea\\Vodeamanager\\": "src/"
+        }
+    }
+}
