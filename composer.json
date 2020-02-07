@@ -23,7 +23,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Vodea\\Vodeamanager\\VodeaManagerServiceProvider"
+                "Vodea\\Vodeamanager\\Providers\\VodeaManagerServiceProvider"
             ]
         }
     }
