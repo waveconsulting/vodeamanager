@@ -19,5 +19,12 @@
         "psr-4": {
             "Vodea\\Vodeamanager\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vodea\\Vodeamanager\\VodeaManagerServiceProvider"
+            ]
+        }
     }
 }
