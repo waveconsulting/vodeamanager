@@ -31,7 +31,7 @@ class ValidPassword implements Rule
      */
     public function passes($attribute, $value)
     {
-        $user = config('smoothsystem.models.user')::find($this->id);
+        $user = config('vodeamanager.models.user')::find($this->id);
 
         return Hash::check($this->password, $user->password);
     }

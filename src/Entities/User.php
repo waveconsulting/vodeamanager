@@ -21,11 +21,11 @@ class User extends Authenticatable
     ];
 
     public function roles() {
-        return $this->belongsToMany(config('smoothsystem.models.role'), 'role_users');
+        return $this->belongsToMany(config('vodeamanager.models.role'), 'role_users');
     }
 
     public function roleUsers() {
-        return $this->hasMany(config('smoothsystem.models.role_user'));
+        return $this->hasMany(config('vodeamanager.models.role_user'));
     }
 
     public function getRoleUserAttribute() {

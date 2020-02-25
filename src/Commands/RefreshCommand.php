@@ -57,7 +57,7 @@ class RefreshCommand extends Command
             return false;
         }
 
-        if (config('smoothsystem.passport.register')) {
+        if (config('vodeamanager.passport.register')) {
             try {
                 Artisan::call('passport:install');
 

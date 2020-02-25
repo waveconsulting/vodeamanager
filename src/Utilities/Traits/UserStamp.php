@@ -62,7 +62,7 @@ trait UserStamp
      */
     public function creator()
     {
-        return $this->belongsTo(config('smoothsystem.models.user'), $this->getCreatedByColumn());
+        return $this->belongsTo(config('vodeamanager.models.user'), $this->getCreatedByColumn());
     }
 
     /**
@@ -70,7 +70,7 @@ trait UserStamp
      */
     public function editor()
     {
-        return $this->belongsTo(config('smoothsystem.models.user'), $this->getUpdatedByColumn());
+        return $this->belongsTo(config('vodeamanager.models.user'), $this->getUpdatedByColumn());
     }
 
     /**
@@ -78,7 +78,7 @@ trait UserStamp
      */
     public function destroyer()
     {
-        return $this->belongsTo(config('smoothsystem.models.user'), $this->getDeletedByColumn());
+        return $this->belongsTo(config('vodeamanager.models.user'), $this->getDeletedByColumn());
     }
 
     /**

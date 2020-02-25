@@ -13,11 +13,11 @@ class GateSettingPermission extends BaseEntity
     ];
 
     public function gateSetting() {
-        return $this->belongsTo(config('smoothsystem.models.gate_setting'));
+        return $this->belongsTo(config('vodeamanager.models.gate_setting'));
     }
 
     public function permission() {
-        return $this->belongsTo(config('smoothsystem.models.permission'));
+        return $this->belongsTo(config('vodeamanager.models.permission'));
     }
 
 }
