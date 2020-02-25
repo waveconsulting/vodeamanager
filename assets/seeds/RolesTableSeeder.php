@@ -24,9 +24,6 @@ class RolesTableSeeder extends Seeder
         ];
 
         foreach ($roles as $index => $role) {
-            $role['created_by'] = 1;
-            $role['updated_by'] = 1;
-
             config('vodeamanager.models.role')::create($role);
         }
     }

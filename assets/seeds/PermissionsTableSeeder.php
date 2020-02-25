@@ -22,8 +22,6 @@ class PermissionsTableSeeder extends Seeder
                 'name' => $route->getName(),
                 'controller' => \Illuminate\Support\Arr::first(explode('@', $route->getActionName())),
                 'method' => $route->getActionMethod(),
-                'created_by' => 1,
-                'updated_by' => 1,
             ];
 
             if (config('vodeamanager.models.permission')::where($permission)->exists()) {
