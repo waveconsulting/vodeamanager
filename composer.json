@@ -30,7 +30,7 @@
         },
         "laravel": {
             "providers": [
-                "Vodeamanager\\Core\\CoreServiceProvider"
+                "Vodeamanager\\Core\\VodeaManagerServiceProvider"
             ]
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodeamanager\Core;
+namespace Vodeamanager;
 
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Database\Schema\Blueprint;
