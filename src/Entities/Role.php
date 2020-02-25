@@ -13,15 +13,15 @@ class Role extends BaseEntity
         'is_special',
     ];
 
-    public function users() {
-        return $this->belongsToMany(config('vodeamanager.models.user'));
-    }
-
     public function roleUsers() {
         return $this->hasMany(config('vodeamanager.models.role_user'));
     }
 
     public function gateSettings() {
         return $this->hasMany(config('vodeamanager.models.gate_setting'));
+    }
+
+    public function users() {
+        return $this->belongsToMany(config('vodeamanager.models.user'), 'role_users');
     }
 }

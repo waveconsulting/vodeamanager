@@ -20,11 +20,11 @@ class GateSetting extends BaseEntity
         return $this->belongsTo(config('vodeamanager.entities.user'));
     }
 
-    public function permissions() {
-        return $this->belongsToMany(config('vodeamanager.models.permission'));
-    }
-
     public function gateSettingPermissions() {
         return $this->hasMany(config('vodeamanager.models.gate_permission_setting'));
+    }
+
+    public function permissions() {
+        return $this->belongsToMany(config('vodeamanager.models.permission'), 'gate_setting_permissions');
     }
 }
