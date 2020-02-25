@@ -10,8 +10,17 @@ class Role extends BaseEntity
         'code',
         'name',
         'description',
+        'parent_id',
         'is_special',
     ];
+
+    public function parent() {
+        return $this->belongsTo(config('vodeamanager.models.role'))->with('parent');
+    }
+
+    public function children() {
+        return $this->hasMany(config('vodeamanager.models.role'),'parent_id')->with('children');
+    }
 
     public function roleUsers() {
         return $this->hasMany(config('vodeamanager.models.role_user'));

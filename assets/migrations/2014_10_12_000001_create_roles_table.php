@@ -19,6 +19,7 @@ class CreateRolesTable extends Migration
             $table->string('code')->nullable();
             $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->relation('parent_id', 'roles');
             $table->tinyInteger('is_special')->default(0);
 
             $table->userTimeStamp();
