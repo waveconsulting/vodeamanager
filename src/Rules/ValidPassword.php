@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoothsystem\Core\Rules;
+namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;

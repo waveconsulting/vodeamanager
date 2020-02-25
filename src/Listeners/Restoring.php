@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoothsystem\Core\Listeners;
+namespace Vodeamanager\Core\Listeners;
 
 use Illuminate\Database\Eloquent\Model;
 

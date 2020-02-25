@@ -1,10 +1,10 @@
 <?php
 
-namespace Smoothsystem\Core\Listeners;
+namespace Vodeamanager\Core\Listeners;
 
 use Illuminate\Support\Facades\Request;
 use Laravel\Passport\Events\AccessTokenCreated;
-use Smoothsystem\Core\Entities\LoginActivity;
+use Vodeamanager\Core\Entities\LoginActivity;
 
 class TokenSuccessfulGenerate
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoothsystem\Core;
+namespace Vodeamanager\Core;
 
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Database\Schema\Blueprint;
@@ -38,33 +38,33 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         $this->registerSessionGuard();
 
-        if (config('smoothsystem.passport.register', true)) {
+        if (config('vodeamanager.passport.register', true)) {
             $this->registerPassport();
         }
 
     }
 
     protected function registerAssets() {
-        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/smoothsystem.php',
-            'smoothsystem-config');
+        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/vodeamanager.php',
+            'vodeamanager-config');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([$config => config_path('smoothsystem.php')], 'smoothsystem-config');
+            $this->publishes([$config => config_path('vodeamanager.php')], 'vodeamanager-config');
         }
 
         $this->publishes(
             [__DIR__ . '/../assets/migrations' => database_path('migrations')],
-            'smoothsystem-migration'
+            'vodeamanager-migration'
         );
 
         $this->publishes(
             [__DIR__ . '/../assets/factories' => database_path('factories')],
-            'smoothsystem-factory'
+            'vodeamanager-factory'
         );
 
         $this->publishes(
             [__DIR__ . '/../assets/seeds' => database_path('seeds')],
-            'smoothsystem-seed'
+            'vodeamanager-seed'
         );
     }
 
@@ -103,31 +103,31 @@ class VodeaManagerServiceProvider extends ServiceProvider
     {
         Event::listen(
             'Illuminate\Auth\Events\Login',
-            'Smoothsystem\Core\Listeners\LogSuccessfulLogin'
+            'Vodeamanager\Core\Listeners\LogSuccessfulLogin'
         );
 
         Event::listen(
             'Laravel\Passport\Events\AccessTokenCreated',
-            'Smoothsystem\Core\Listeners\TokenSuccessfulGenerate'
+            'Vodeamanager\Core\Listeners\TokenSuccessfulGenerate'
         );
     }
 
     protected function registerCommands()
     {
-        $this->commands('Smoothsystem\Core\Commands\RefreshCommand');
+        $this->commands('Vodeamanager\Core\Commands\RefreshCommand');
     }
 
     protected function registerPassport()
     {
-        if (!config('smoothsystem.passport.custom_routes', false)) {
+        if (!config('vodeamanager.passport.custom_routes', false)) {
             Passport::routes();
         }
 
-        Passport::tokensExpireIn(now()->addDays(config('smoothsystem.passport.expires.token', 15)));
+        Passport::tokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.token', 15)));
 
-        Passport::refreshTokensExpireIn(now()->addDays(config('smoothsystem.passport.expires.refresh_token', 30)));
+        Passport::refreshTokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.refresh_token', 30)));
 
-        Passport::personalAccessTokensExpireIn(now()->addMonths(config('smoothsystem.passport.expires.personal_access_token', 6)));
+        Passport::personalAccessTokensExpireIn(now()->addMonths(config('vodeamanager.passport.expires.personal_access_token', 6)));
     }
 
     private function registerSessionGuard()

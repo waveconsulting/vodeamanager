@@ -1,8 +1,8 @@
 <?php
 
-namespace Smoothsystem\Core\Listeners;
+namespace Vodeamanager\Core\Listeners;
 
-use Smoothsystem\Core\Entities\LoginActivity;
+use Vodeamanager\Core\Entities\LoginActivity;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

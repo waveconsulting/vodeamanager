@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Smoothsystem\Core\Utilities\Entities;
+namespace Vodeamanager\Core\Utilities\Entities;
 
 
 use Illuminate\Database\Eloquent\Relations\HasMany;

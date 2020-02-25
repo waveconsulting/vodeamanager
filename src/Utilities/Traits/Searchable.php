@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoothsystem\Core\Utilities\Traits;
+namespace Vodeamanager\Core\Utilities\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;

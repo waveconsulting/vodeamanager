@@ -1,8 +1,8 @@
 <?php
 
-namespace Smoothsystem\Core\Utilities\Traits;
+namespace Vodeamanager\Core\Utilities\Traits;
 
-use Smoothsystem\Core\Utilities\UserStampScope;
+use Vodeamanager\Core\Utilities\UserStampScope;
 
 trait UserStamp
 {
@@ -32,12 +32,12 @@ trait UserStamp
      */
     public static function registerListeners()
     {
-        static::creating('Smoothsystem\Core\Listeners\Creating@handle');
-        static::updating('Smoothsystem\Core\Listeners\Updating@handle');
+        static::creating('Vodeamanager\Core\Listeners\Creating@handle');
+        static::updating('Vodeamanager\Core\Listeners\Updating@handle');
 
         if (static::usingSoftDeletes()) {
-            static::deleting('Smoothsystem\Core\Listeners\Deleting@handle');
-            static::restoring('Smoothsystem\Core\Listeners\Restoring@handle');
+            static::deleting('Vodeamanager\Core\Listeners\Deleting@handle');
+            static::restoring('Vodeamanager\Core\Listeners\Restoring@handle');
         }
     }
 

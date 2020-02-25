@@ -1,11 +1,11 @@
 <?php
 
-namespace Smoothsystem\Core\Utilities\Traits;
+namespace Vodeamanager\Core\Utilities\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
-use Smoothsystem\Core\Http\Resources\SelectResource;
+use Vodeamanager\Core\Http\Resources\SelectResource;
 
 trait CoreController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoothsystem\Core\Http\Middleware;
+namespace Vodeamanager\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
