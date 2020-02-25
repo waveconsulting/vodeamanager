@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoothsystem\Core\Commands;
+namespace Vodeamanager\Core\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
