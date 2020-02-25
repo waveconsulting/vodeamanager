@@ -1,9 +1,6 @@
 <?php
 
 return [
-    'authorization' => [
-        'register' => false,
-    ],
     'passport' => [
         'register' => true,
         'custom_routes' => false,
