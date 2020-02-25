@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(config('smoothsystem.models.user'), function (Faker $faker) {
+$factory->define(config('vodeamanager.models.user'), function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,

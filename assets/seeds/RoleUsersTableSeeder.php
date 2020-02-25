@@ -17,8 +17,8 @@ class RoleUsersTableSeeder extends Seeder
         ];
 
         foreach ($users as $email => $role) {
-            $role = config('smoothsystem.models.role')::where('code', $role)->first();
-            $user = config('smoothsystem.models.user')::where('email', $email)->first();
+            $role = config('vodeamanager.models.role')::where('code', $role)->first();
+            $user = config('vodeamanager.models.user')::where('email', $email)->first();
 
             if ($user && $role) {
                 $user->roles()->sync($role);

@@ -14,7 +14,7 @@ class PermissionsTableSeeder extends Seeder
         $routes = Route::getRoutes()->getRoutes();
         foreach ($routes as $route) {
             $middleware = $route->gatherMiddleware();
-            if (!in_array('smoothsystem.gate', $middleware) || !$route->getName()) {
+            if (!in_array('vodeamanager.gate', $middleware) || !$route->getName()) {
                 continue;
             }
 
@@ -26,11 +26,11 @@ class PermissionsTableSeeder extends Seeder
                 'updated_by' => 1,
             ];
 
-            if (config('smoothsystem.models.permission')::where($permission)->exists()) {
+            if (config('vodeamanager.models.permission')::where($permission)->exists()) {
                 continue;
             }
 
-            config('smoothsystem.models.permission')::create($permission);
+            config('vodeamanager.models.permission')::create($permission);
         }
     }
 }

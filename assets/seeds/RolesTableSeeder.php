@@ -27,7 +27,7 @@ class RolesTableSeeder extends Seeder
             $role['created_by'] = 1;
             $role['updated_by'] = 1;
 
-            config('smoothsystem.models.role')::create($role);
+            config('vodeamanager.models.role')::create($role);
         }
     }
 }
