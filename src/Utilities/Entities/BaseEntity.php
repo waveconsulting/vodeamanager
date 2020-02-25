@@ -50,4 +50,9 @@ abstract class BaseEntity extends Model
         return $this->name;
     }
 
+    // todo: create validation can delete by relation
+    public function getCanDeleteAttribute() {
+        return true;
+    }
+
 }
