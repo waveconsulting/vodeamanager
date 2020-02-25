@@ -33,4 +33,5 @@ class Role extends BaseEntity
     public function users() {
         return $this->belongsToMany(config('vodeamanager.models.user'), 'role_users');
     }
+
 }

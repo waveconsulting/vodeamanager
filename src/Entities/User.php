@@ -41,4 +41,5 @@ class User extends Authenticatable
     public function getRoleNameAttribute() {
         return $this->role ? $this->role->getLabel() : null;
     }
+
 }
