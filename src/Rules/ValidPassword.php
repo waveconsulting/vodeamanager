@@ -3,19 +3,23 @@
 namespace Smoothsystem\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class NotPresent implements Rule
+class ValidPassword implements Rule
 {
-    protected $message;
+    protected $id;
+    protected $password;
 
     /**
      * Create a new rule instance.
      *
-     * @param string $message
+     * @return void
      */
-    public function __construct($message = 'The :attribute must not be present.')
+    public function __construct($password, $id = null)
     {
-        $this->message = $message;
+        $this->id = $id ?? Auth::id();
+        $this->password = $password;
     }
 
     /**
@@ -27,7 +31,9 @@ class NotPresent implements Rule
      */
     public function passes($attribute, $value)
     {
-        return false;
+        $user = config('smoothsystem.models.user')::find($this->id);
+
+        return Hash::check($this->password, $user->password);
     }
 
     /**
@@ -37,6 +43,6 @@ class NotPresent implements Rule
      */
     public function message()
     {
-        return __($this->message);
+        return __('Password is incorrect.');
     }
 }

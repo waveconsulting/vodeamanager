@@ -4,16 +4,17 @@ namespace Smoothsystem\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class NotPresent implements Rule
+class MustBeTrue implements Rule
 {
     protected $message;
 
     /**
      * Create a new rule instance.
      *
+     * @param $val
      * @param string $message
      */
-    public function __construct($message = 'The :attribute must not be present.')
+    public function __construct($message = 'The :attribute must be true.')
     {
         $this->message = $message;
     }
@@ -27,7 +28,7 @@ class NotPresent implements Rule
      */
     public function passes($attribute, $value)
     {
-        return false;
+        return $value;
     }
 
     /**

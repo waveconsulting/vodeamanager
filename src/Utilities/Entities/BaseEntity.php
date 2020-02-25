@@ -1,15 +1,27 @@
 <?php
 
-namespace Vodea\Vodeamanager\Utilities\Entities;
+namespace Smoothsystem\Core\Utilities\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Vodea\Vodeamanager\Rules\NotPresent;
-use Wildside\Userstamps\Userstamps;
+use Smoothsystem\Core\Rules\NotPresent;
+use Smoothsystem\Core\Utilities\Traits\Searchable;
+use Smoothsystem\Core\Utilities\Traits\UserStamp;
 
 abstract class BaseEntity extends Model
 {
-    use SoftDeletes, Userstamps;
+    use SoftDeletes, UserStamp, Searchable;
+
+    /**
+     * Columns and their priority in search results.
+     * Columns with higher values are more important.
+     * Columns with equal values have equal importance.
+     ** @var array
+     */
+    protected $searchable = [
+        'columns' => [],
+        'joins' => [],
+    ];
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
@@ -33,4 +45,9 @@ abstract class BaseEntity extends Model
 
         return $rules;
     }
+
+    public function getLabel() {
+        return $this->name;
+    }
+
 }
