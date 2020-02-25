@@ -114,7 +114,8 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerCommands()
     {
-
+        $this->commands('Vodeamanager\Core\Commands\RefreshCommand');
+        $this->commands('Vodeamanager\Core\Commands\PermissionSeedCommand');
     }
 
     protected function registerPassport()
