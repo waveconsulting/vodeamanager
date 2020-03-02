@@ -29,7 +29,7 @@ class User extends Authenticatable
     }
 
     public function getRoleUserAttribute($date = null) {
-        if (empty($date)) {
+        if (!$date) {
             $date = now()->toDateString();
         }
 
