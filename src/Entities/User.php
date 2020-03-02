@@ -28,8 +28,14 @@ class User extends Authenticatable
         return $this->hasMany(config('vodeamanager.models.role_user'));
     }
 
-    public function getRoleUserAttribute() {
-        return $this->roleUsers()->whereBetween('valid_from', [])->orderByDesc('valid_from')->first();
+    public function getRoleUserAttribute($date) {
+        if (empty($date)) {
+            $date = now()->toDateString();
+        }
+
+        return $this->roleUsers()->whereDate('role_users.valid_from', $date)
+            ->orderByDesc('role_users.valid_from')
+            ->first();
     }
 
     public function getRoleAttribute() {

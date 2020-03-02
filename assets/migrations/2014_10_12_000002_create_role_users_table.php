@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateRoleUsersTable extends Migration
@@ -18,7 +19,7 @@ class CreateRoleUsersTable extends Migration
 
             $table->relation('role_id', 'roles');
             $table->relation('user_id', 'users');
-            $table->timestamp('valid_from')->useCurrent();
+            $table->date('valid_from')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->userTimeStamp();
         });
