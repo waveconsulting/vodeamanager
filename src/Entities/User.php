@@ -29,7 +29,7 @@ class User extends Authenticatable
     }
 
     public function getRoleUserAttribute() {
-        return $this->roleUsers()->orderByDesc('valid_from')->first();
+        return $this->roleUsers()->whereBetween('valid_from', [])->orderByDesc('valid_from')->first();
     }
 
     public function getRoleAttribute() {
