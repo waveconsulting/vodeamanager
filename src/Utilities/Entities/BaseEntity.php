@@ -26,16 +26,11 @@ abstract class BaseEntity extends Model
         'joins' => [],
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('criteria', function (Builder $builder, $request) {
-            if ($request->has('order_by') && Schema::hasColumn($this->getTable(), $request->get('order_by'))) {
-                $sorted = $request->get('sorted_by') == 'desc' ? 'desc' : 'asc';
-                $builder->orderBy($request->get('order_by'), $sorted);
-            }
-        });
+    public function scopeCriteria($query, Request $request) {
+        if ($request->has('order_by') && Schema::hasColumn($this->getTable(), $request->get('order_by'))) {
+            $sorted = $request->get('sorted_by') == 'desc' ? 'desc' : 'asc';
+            $query->orderBy($request->get('order_by'), $sorted);
+        }
     }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
