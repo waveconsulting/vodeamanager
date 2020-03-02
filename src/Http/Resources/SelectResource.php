@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodea\Vodeamanager\Http\Resources;
+namespace Vodeamanager\Core\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,8 +16,7 @@ class SelectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->getLabel()
+            'text' => $this->getLabel() ?? null,
         ];
     }
 }
-

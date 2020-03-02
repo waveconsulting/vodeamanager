@@ -2,11 +2,11 @@
 
 namespace Vodeamanager\Core\Listeners;
 
-use Vodeamanager\Core\Entities\LoginActivity;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Request;
+use Vodeamanager\Core\Entities\LoginActivity;
 
 class LogSuccessfulLogin
 {

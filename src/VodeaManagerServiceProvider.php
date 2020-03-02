@@ -2,9 +2,7 @@
 
 namespace Vodeamanager\Core;
 
-use Illuminate\Auth\SessionGuard;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;

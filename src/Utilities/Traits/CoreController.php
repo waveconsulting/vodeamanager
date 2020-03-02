@@ -13,28 +13,39 @@ trait CoreController
     protected $fillable;
     protected $resource;
     protected $selectResource;
-    protected $policy = false;
     protected $view;
     protected $page;
+    protected $policy = false;
+    protected $indexData = false;
+
+    public function __construct()
+    {
+        $this->fillable = $this->repository->getFillable();
+    }
 
     public function index(Request $request) {
-        $repository = $request->has('search')
-            ? $this->repository->search($request->get('search'), null, true)
-            : $this->repository;
-
-        $data = $request->has('per_page')
-            ? $repository->all()
-            : $repository->paginate($request->per_page);
-
-        return view("$this->view.index", [
-            'data' => $data,
+        $returnData = [
             'page' => $this->page,
-        ]);
+        ];
+
+        if ($this->indexData) {
+            $repository = $request->has('search')
+                ? $this->repository->search($request->get('search'), null, true)
+                : $this->repository;
+
+            $data = $request->has('per_page')
+                ? $repository->paginate($request->per_page)
+                : $repository->all();
+
+            $returnData['data'] = $data;
+        }
+
+        return view("$this->view.index", $returnData);
     }
 
     public function select(Request $request, $id = null) {
-        if ($id || $request->id) {
-            $data = $this->repository->findOrFail($id ?? $request->id);
+        if ($id || $request->has('id')) {
+            $data = $this->repository->findOrFail($id ?? $request->get('id'));
 
             return new SelectResource($data);
         }
@@ -44,8 +55,8 @@ trait CoreController
             : $this->repository;
 
         $data = $request->has('per_page')
-            ? $repository->all()
-            : $repository->paginate($request->per_page);
+            ? $repository->paginate($request->per_page)
+            : $repository->all();
 
         if (is_subclass_of($this->selectResource, JsonResource::class)) {
             return $this->selectResource::collection($data);
@@ -54,8 +65,7 @@ trait CoreController
         return SelectResource::collection($data);
     }
 
-    public function create(Request $request)
-    {
+    public function create() {
         return view("$this->view.detail");
     }
 
@@ -64,6 +74,32 @@ trait CoreController
 
         if ($this->policy) {
             $this->authorize('view', $data);
+        }
+
+        if (view()->exists("$this->view.show")) {
+            return view("$this->view.show", [
+                'data' => $data,
+                'page' => $this->page,
+            ]);
+        }
+
+        return is_subclass_of($this->resource, JsonResource::class)
+            ? new $this->resource($data)
+            : $data;
+    }
+
+    public function edit($id) {
+        $data = $this->repository->findOrFail($id);
+
+        if ($this->policy) {
+            $this->authorize('update', $data);
+        }
+
+        if (view()->exists("$this->view.detail")) {
+            return view("$this->view.detail", [
+                'data' => $data,
+                'page' => $this->page,
+            ]);
         }
 
         return view("$this->view.detail",[

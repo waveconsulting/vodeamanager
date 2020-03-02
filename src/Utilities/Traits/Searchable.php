@@ -32,6 +32,10 @@ trait Searchable
 
     public function scopeSearchRestricted(Builder $q, $search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
     {
+        if (!count($this->getColumns())) {
+            return $q;
+        }
+        
         $query = clone $q;
         $query->select($this->getTable() . '.*');
         $this->makeJoins($query);
@@ -50,11 +54,11 @@ trait Searchable
 
         $selects = [];
         $this->searchBindings = [];
-        $relevance_count = 0;
+        $relevanceCount = 0;
 
         foreach ($this->getColumns() as $column => $relevance)
         {
-            $relevance_count += $relevance;
+            $relevanceCount += $relevance;
 
             if (!$entireTextOnly) {
                 $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
@@ -80,7 +84,7 @@ trait Searchable
 
         // Default the threshold if no value was passed.
         if (is_null($threshold)) {
-            $threshold = $relevance_count / count($this->getColumns());
+            $threshold = $relevanceCount / count($this->getColumns());
         }
 
         if (!empty($selects)) {
@@ -237,20 +241,20 @@ trait Searchable
      *
      * @param Builder $query
      * @param array $selects
-     * @param float $relevance_count
+     * @param float $relevanceCount
      */
-    protected function filterQueryWithRelevance(Builder $query, array $selects, $relevance_count)
+    protected function filterQueryWithRelevance(Builder $query, array $selects, $relevanceCount)
     {
         $comparator = $this->isMysqlDatabase() ? $this->getRelevanceField() : implode(' + ', $selects);
 
-        $relevance_count=number_format($relevance_count,2,'.','');
+        $relevanceCount=number_format($relevanceCount,2,'.','');
 
         if ($this->isMysqlDatabase()) {
             $bindings = [];
         } else {
             $bindings = $this->searchBindings;
         }
-        $query->havingRaw("$comparator >= $relevance_count", $bindings);
+        $query->havingRaw("$comparator >= $relevanceCount", $bindings);
         $query->orderBy($this->getRelevanceField(), 'desc');
 
         // add bindings to postgres

@@ -16,14 +16,19 @@ trait RestCoreController
     protected $policy = false;
     protected $page;
 
+    public function __construct()
+    {
+        $this->fillable = $this->repository->getFillable();
+    }
+
     public function index(Request $request) {
         $repository = $request->has('search')
             ? $this->repository->search($request->get('search'), null, true)
             : $this->repository;
 
         $data = $request->has('per_page')
-            ? $repository->all()
-            : $repository->paginate($request->per_page);
+            ? $repository->paginate($request->per_page)
+            : $repository->all();
 
         return is_subclass_of($this->resource, JsonResource::class)
             ? $this->resource::collection($data)
@@ -31,8 +36,12 @@ trait RestCoreController
     }
 
     public function select(Request $request, $id = null) {
-        if ($id || $request->id) {
-            $data = $this->repository->findOrFail($id ?? $request->id);
+        if ($id || $request->has('id')) {
+            $data = $this->repository->findOrFail($id ?? $request->get('id'));
+
+            if (is_subclass_of($this->selectResource, JsonResource::class)) {
+                return new $this->selectResource($data);
+            }
 
             return new SelectResource($data);
         }
@@ -42,8 +51,8 @@ trait RestCoreController
             : $this->repository;
 
         $data = $request->has('per_page')
-            ? $repository->all()
-            : $repository->paginate($request->per_page);
+            ? $repository->paginate($request->per_page)
+            : $repository->all();
 
         if (is_subclass_of($this->selectResource, JsonResource::class)) {
             return $this->selectResource::collection($data);
