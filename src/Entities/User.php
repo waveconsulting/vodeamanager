@@ -28,7 +28,7 @@ class User extends Authenticatable
         return $this->hasMany(config('vodeamanager.models.role_user'));
     }
 
-    public function getRoleUserAttribute($date) {
+    public function getRoleUserAttribute($date = null) {
         if (empty($date)) {
             $date = now()->toDateString();
         }
