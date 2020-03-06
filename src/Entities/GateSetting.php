@@ -14,6 +14,8 @@ class GateSetting extends BaseEntity
 
     protected static function boot()
     {
+        parent::boot();
+
         static::creating(function ($data) {
             if (!$data->valid_from) {
                 $data->valid_from = now();
