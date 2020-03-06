@@ -12,6 +12,15 @@ class GateSetting extends BaseEntity
         'valid_from',
     ];
 
+    protected static function boot()
+    {
+        static::creating(function ($data) {
+            if (!$data->valid_from) {
+                $data->valid_from = now();
+            }
+        });
+    }
+
     public function role() {
         return $this->belongsTo(config('vodeamanager.entities.role'));
     }

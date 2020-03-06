@@ -18,7 +18,7 @@ class CreateGateSettingsTable extends Migration
 
             $table->relation('role_id', 'roles');
             $table->relation('user_id', 'users');
-            $table->date('valid_from')->useCurrent();
+            $table->date('valid_from')->nullable();
 
             $table->userTimeStamp();
         });
