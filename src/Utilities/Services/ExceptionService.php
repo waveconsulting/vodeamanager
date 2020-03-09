@@ -18,7 +18,7 @@ class ExceptionService
 
         if (method_exists($e, 'getMessage')) $messages['message'] = $e->getMessage();
 
-        if (Auth::check()) $message['auth'] = Auth::id();
+        if (Auth::check()) $messages['auth'] = Auth::id();
 
         Log::error(json_encode($messages));
     }
