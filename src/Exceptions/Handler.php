@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Vodeamanager\Core\Utilities\Services\ExceptionService;
 
 class Handler extends ExceptionHandler
 {
@@ -80,10 +81,10 @@ class Handler extends ExceptionHandler
         return $this->customApiResponse($exception);
     }
 
-    private function customApiResponse($exception)
+    private function customApiResponse($e)
     {
-        if (method_exists($exception, 'getStatusCode')) {
-            $statusCode = $exception->getStatusCode();
+        if (method_exists($e, 'getStatusCode')) {
+            $statusCode = $e->getStatusCode();
         } else {
             $statusCode = 500;
         }
@@ -104,20 +105,23 @@ class Handler extends ExceptionHandler
                 $response['message'] = 'Method Not Allowed';
                 break;
             case 422:
-                $response['message'] = $exception->original['message'];
-                $response['errors'] = $exception->original['errors'];
+                $response['message'] = $e->original['message'];
+                $response['errors'] = $e->original['errors'];
                 break;
             default:
-                $response['message'] = ($statusCode == 500) ? 'Whoops, looks like something went wrong' : $exception->getMessage();
+                $response['message'] = ($statusCode == 500) ? 'Whoops, looks like something went wrong' : $e->getMessage();
                 break;
         }
 
         if (config('app.debug')) {
-            $response['trace'] = $exception->getTrace();
-            $response['code'] = $exception->getCode();
+            if (method_exists($e, 'getTrace')) $response['trace'] = $e->getTrace();
+
+            if (method_exists($e, 'getCode')) $response['code'] = $e->getCode();
         }
 
         $response['status'] = $statusCode;
+
+        ExceptionService::log($e);
 
         return response()->json($response, $statusCode);
     }
