@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Utilities\Services;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ExceptionService
@@ -16,6 +17,8 @@ class ExceptionService
         if (method_exists($e, 'getLine')) $messages['line'] = $e->getLine();
 
         if (method_exists($e, 'getMessage')) $messages['message'] = $e->getMessage();
+
+        if (Auth::check()) $message['auth'] = Auth::id();
 
         Log::error(json_encode($messages));
     }
