@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class ExceptionService
 {
-    public static function log(\Exception $e) {
+    public static function log($e) {
         $messages = [
             'timestamp' => now()->toDateTime(),
         ];
