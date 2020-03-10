@@ -89,8 +89,7 @@ class User extends Authenticatable
     }
 
     public function authorized($action) {
-
-        return true;
+        return $this->permissions()->where('permissions.name', $action)->exists();
     }
 
 }
