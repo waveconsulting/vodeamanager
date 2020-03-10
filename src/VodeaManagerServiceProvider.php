@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
-use Vodeamanager\Core\Utilities\Services\ExceptionService;
+use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
 use Vodeamanager\Core\Utilities\Services\PermissionService;
 

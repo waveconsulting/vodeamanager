@@ -8,7 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Vodeamanager\Core\Utilities\Services\ExceptionService;
+use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
 class Handler extends ExceptionHandler
 {

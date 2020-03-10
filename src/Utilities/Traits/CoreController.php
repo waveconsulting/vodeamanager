@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Http\Resources\SelectResource;
+use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
 trait CoreController
 {
@@ -130,6 +131,8 @@ trait CoreController
             return redirect()->back()->with('message', 'Data deleted.');
         } catch (\Exception $e) {
             DB::rollBack();
+
+            ExceptionService::log($e);
 
             return response()->json([
                 'error'   => true,
