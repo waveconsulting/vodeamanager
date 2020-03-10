@@ -6,6 +6,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Vodeamanager\Core\Utilities\Services\ExceptionService;
+use Vodeamanager\Core\Utilities\Services\FileService;
+use Vodeamanager\Core\Utilities\Services\PermissionService;
 
 class VodeaManagerServiceProvider extends ServiceProvider
 {
@@ -17,6 +20,8 @@ class VodeaManagerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerHelpers();
+
+        $this->registerFacades();
     }
 
     /**
@@ -125,6 +130,21 @@ class VodeaManagerServiceProvider extends ServiceProvider
         Passport::refreshTokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.refresh_token', 30)));
 
         Passport::personalAccessTokensExpireIn(now()->addMonths(config('vodeamanager.passport.expires.personal_access_token', 6)));
+    }
+
+    protected function registerFacades()
+    {
+        app()->bind('exception.service', function() {
+            return new ExceptionService;
+        });
+
+        app()->bind('file.service', function() {
+            return new FileService;
+        });
+
+        app()->bind('permission.service', function() {
+            return new PermissionService;
+        });
     }
 
 }

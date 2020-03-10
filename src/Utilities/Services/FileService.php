@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class FileService
 {
-    public static function store(Request $request, $key, $disk, $path) {
+    public function store(Request $request, $key, $disk, $path) {
         if ($request->hasFile($key)) {
             $uploaded = [];
 

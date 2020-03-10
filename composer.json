@@ -31,7 +31,12 @@
         "laravel": {
             "providers": [
                 "Vodeamanager\\Core\\VodeaManagerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "ExceptionService": "Vodeamanager\\Core\\Utilities\\Facades\\ExceptionService",
+                "FileService": "Vodeamanager\\Core\\Utilities\\Facades\\FileService",
+                "PermissionService": "Vodeamanager\\Core\\Utilities\\Facades\\PermissionService"
+            }
         }
     }
 }
