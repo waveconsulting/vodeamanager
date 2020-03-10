@@ -66,7 +66,7 @@ class User extends Authenticatable
             if (empty($role)) {
                 return [];
             } else if ($role->is_special) {
-                return config('vodeamanager.models.permission');
+                return config('vodeamanager.models.permission')::query();
             }
 
             $roleChildrenIds = $role->children_ids;
