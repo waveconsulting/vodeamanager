@@ -34,4 +34,22 @@ class Role extends BaseEntity
         return $this->belongsToMany(config('vodeamanager.models.user'), 'role_users')->withTimestamps();
     }
 
+    public function getChildrenIdsAttribute() {
+        $data = [];
+
+        $this->recursiveChildrenGetAttribute($this, $data);
+
+        return $data;
+    }
+
+    public function recursiveChildrenGetAttribute($child, &$data, $key = 'id') {
+        array_push($data, $child[$key]);
+
+        if (count($child->children) > 0) {
+            foreach ($child->children as $child) {
+                $this->recursiveChildrenGetAttribute($child, $data, $key);
+            }
+        }
+    }
+
 }

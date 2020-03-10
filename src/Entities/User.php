@@ -33,7 +33,7 @@ class User extends Authenticatable
             $date = now()->toDateString();
         }
 
-        return $this->roleUsers()->whereDate('role_users.valid_from', $date)
+        return $this->roleUsers()->whereDate('role_users.valid_from', '<=',$date)
             ->orderByDesc('role_users.valid_from')
             ->first();
     }
