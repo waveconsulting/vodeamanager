@@ -141,10 +141,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
         app()->bind('file.service', function() {
             return new FileService;
         });
-
-        app()->bind('permission.service', function() {
-            return new PermissionService;
-        });
     }
 
 }
