@@ -83,9 +83,12 @@ class User extends Authenticatable
             return [];
         }
 
-        return config('vodeamanager.models.permission')::whereHas('gateSetting', function ($query) use ($gateSettingIds) {
-            $query->whereIn('gate_settings.id', $gateSettingIds);
-        });
+        $permissionIds = config('vodeamanager.models.gate_setting_permission')::select('gate_setting_permissions.permission_id')
+            ->whereHas('gateSetting', function ($query) use ($gateSettingIds) {
+                $query->whereIn('gate_settings.id', $gateSettingIds);
+            })->distinct()->pluck('gate_setting_permissions.permission_id')->toArray();
+
+        return config('vodeamanager.models.permission')::whereIn('id', $permissionIds);
     }
 
     public function authorized($action) {
