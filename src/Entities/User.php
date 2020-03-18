@@ -33,7 +33,7 @@ class User extends Authenticatable
             $date = now()->toDateString();
         }
 
-        return $this->roleUsers()->whereDate('role_users.valid_from', '<=',$date)
+        return $this->roleUsers()->whereDate('role_users.valid_from', '<=', $date)
             ->orderByDesc('role_users.valid_from')
             ->first();
     }
@@ -63,13 +63,11 @@ class User extends Authenticatable
         if (count($gateSettingIds) < 1) {
             $role = $this->role;
 
-            if (empty($role)) {
-                return [];
-            } else if ($role->is_special) {
+            if ($role && $role->is_special) {
                 return config('vodeamanager.models.permission')::query();
             }
 
-            $roleChildrenIds = $role->children_ids;
+            $roleChildrenIds = $role ? $role->children_ids : [];
 
             $gateSettingIds = config('vodeamanager.models.gate_setting')::select('gate_settings.id')
                 ->whereIn('gate_settings.role_id', $roleChildrenIds)
@@ -77,10 +75,6 @@ class User extends Authenticatable
                 ->orderByDesc('gate_settings.valid_from')
                 ->pluck('id')
                 ->toArray();
-        }
-
-        if (count($gateSettingIds) < 1) {
-            return [];
         }
 
         $permissionIds = config('vodeamanager.models.gate_setting_permission')::select('gate_setting_permissions.permission_id')
@@ -96,3 +90,4 @@ class User extends Authenticatable
     }
 
 }
+
