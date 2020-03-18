@@ -23,6 +23,7 @@ class FileService
 
                         array_push($uploaded, (object) [
                             'real_name' => $fileName,
+                            'encoded_name' => $encodedName,
                             'path' => "$path/$encodedName",
                             'disk' => $disk,
                         ]);
@@ -36,6 +37,7 @@ class FileService
 
                     array_push($uploaded, (object) [
                         'real_name' => $fileName,
+                        'encoded_name' => $encodedName,
                         'path' => "$path/$encodedName",
                         'disk' => $disk,
                     ]);
