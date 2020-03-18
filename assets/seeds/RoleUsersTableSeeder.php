@@ -21,7 +21,10 @@ class RoleUsersTableSeeder extends Seeder
             $user = config('vodeamanager.models.user')::where('email', $email)->first();
 
             if ($user && $role) {
-                $user->roles()->sync($role);
+                $user->roleUsers()->create([
+                    'role_id' => $role->id,
+                    'valid_from' => now(),
+                ]);
             }
         }
     }
