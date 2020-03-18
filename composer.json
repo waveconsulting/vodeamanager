@@ -12,8 +12,8 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
-        "laravel/framework": "^6.2",
-        "laravel/passport": "^8.3",
+        "laravel/framework": "^5.8|^6.2",
+        "laravel/passport": "^7.5|^8.3",
         "fzaninotto/faker": "^1.4"
     },
     "autoload": {
