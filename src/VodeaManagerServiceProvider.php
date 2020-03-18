@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
+use Vodeamanager\Core\Utilities\Services\RouteService;
 
 class VodeaManagerServiceProvider extends ServiceProvider
 {
@@ -139,6 +140,10 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         app()->bind('file.service', function() {
             return new FileService;
+        });
+
+        app()->bind('route.service', function() {
+            return new RouteService;
         });
     }
 
