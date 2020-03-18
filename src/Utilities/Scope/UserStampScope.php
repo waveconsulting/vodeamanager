@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodeamanager\Core\Utilities;
+namespace Vodeamanager\Core\Utilities\Scope;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

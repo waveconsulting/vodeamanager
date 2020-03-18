@@ -14,33 +14,35 @@ class FileService
             try {
                 $files = $request->file($key);
                 if (is_array($files)) {
-                    foreach ($files as $file) {
+                    foreach (   $files as $file) {
                         $fileName = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
-                        $encodedName = now()->format('Y_m_d_h_i') . '_' . Str::random() . '.' . $extension;
+                        $encodedName = now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
 
                         $file->storeAs($path,$encodedName,['disk' => $disk]);
 
                         array_push($uploaded, (object) [
-                            'file_name' => $fileName,
-                            'path' =>"$path/$encodedName",
+                            'real_name' => $fileName,
+                            'path' => "$path/$encodedName",
+                            'disk' => $disk,
                         ]);
                     }
                 } else {
                     $fileName = $files->getClientOriginalName();
                     $extension = $files->getClientOriginalExtension();
-                    $encodedName = now()->format('Y_m_d_h_i') . '_' . Str::random() . '.' . $extension;
+                    $encodedName = now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
 
                     $files->storeAs($path,$encodedName,['disk' => $disk]);
 
                     array_push($uploaded, (object) [
-                        'file_name' => $fileName,
-                        'path' =>"$path/$encodedName",
+                        'real_name' => $fileName,
+                        'path' => "$path/$encodedName",
+                        'disk' => $disk,
                     ]);
                 }
 
             } catch (\Exception $e) {
-                ExceptionService::log($e);
+                \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
             }
 
             return $uploaded;

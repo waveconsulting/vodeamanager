@@ -34,7 +34,8 @@
             ],
             "aliases": {
                 "ExceptionService": "Vodeamanager\\Core\\Utilities\\Facades\\ExceptionService",
-                "FileService": "Vodeamanager\\Core\\Utilities\\Facades\\FileService"
+                "FileService": "Vodeamanager\\Core\\Utilities\\Facades\\FileService",
+                "RouteService": "Vodeamanager\\Core\\Utilities\\Facades\\RouteService"
             }
         }
     }

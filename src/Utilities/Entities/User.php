@@ -27,12 +27,29 @@ abstract class User extends Authenticatable
         'joins' => [],
     ];
 
+    protected $appends = [
+        'can_update',
+        'can_delete',
+    ];
+
     public function scopeCriteria($query, Request $request) {
-        if ($request->has('order_by') && Schema::hasColumn($this->getTable(), $request->get('order_by'))) {
+        $order = null;
+        $sorted = null;
+
+        if ($request->has('order_by')) {
             $sorted = $request->get('sorted_by') == 'desc' ? 'desc' : 'asc';
-            $query->orderBy($request->get('order_by'), $sorted);
+            $order = $request->get('order_by');
+        } else if (config('vodeamanager.entity.sorting_default.active', false)) {
+            $order = config('vodeamanager.entity.sorting_default.column', 'id');
+            $sorted = config('vodeamanager.entity.sorting_default.order', 'desc') == 'desc' ? 'desc' : 'asc';
         }
+
+        $query->when($order && $sorted && Schema::hasColumn($this->getTable(),$order), function ($query) use ($order, $sorted) {
+            $query->orderBy($order, $sorted);
+        });
     }
+
+    public function scopeFilter($query, Request $request) {}
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {

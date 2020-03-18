@@ -5,6 +5,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Vodeamanager\Core\Http\Resources\DefaultResource;
 use Vodeamanager\Core\Http\Resources\SelectResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
@@ -15,7 +16,6 @@ trait RestCoreController
     protected $resource;
     protected $selectResource;
     protected $policy = false;
-    protected $page;
 
     public function __construct()
     {
@@ -27,7 +27,8 @@ trait RestCoreController
             ? $this->repository->search($request->get('search'), null, true)
             : $this->repository;
 
-        $repository = $repository->criteria($request);
+        $repository = $repository->criteria($request)
+            ->filter($request);
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->per_page)
@@ -35,7 +36,7 @@ trait RestCoreController
 
         return is_subclass_of($this->resource, JsonResource::class)
             ? $this->resource::collection($data)
-            : $data;
+            : DefaultResource::collection($data);
     }
 
     public function select(Request $request, $id = null) {
@@ -67,7 +68,7 @@ trait RestCoreController
     }
 
     public function show(Request $request, $id) {
-        $data = $this->repository->findOrFail($id);
+        $data = $this->repository->find($id);
 
         if ($this->policy) {
             $this->authorize('view', $data);
@@ -75,7 +76,7 @@ trait RestCoreController
 
         return is_subclass_of($this->resource, JsonResource::class)
             ? new $this->resource($data)
-            : $data;
+            : new DefaultResource($data);
     }
 
     public function destroy($id)

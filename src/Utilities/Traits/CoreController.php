@@ -5,6 +5,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Vodeamanager\Core\Http\Resources\DefaultResource;
 use Vodeamanager\Core\Http\Resources\SelectResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
@@ -34,13 +35,16 @@ trait CoreController
                 ? $this->repository->search($request->get('search'), null, true)
                 : $this->repository;
 
-            $repository = $repository->criteria($request);
+            $repository = $repository->criteria($request)
+                ->filter($request);
 
             $data = $request->has('per_page')
                 ? $repository->paginate($request->per_page)
                 : $repository->get();
 
-            $returnData['data'] = $data;
+            $returnData['data'] = is_subclass_of($this->resource, JsonResource::class)
+                ? $this->resource::collection($data)
+                : DefaultResource::collection($data);
         }
 
         return view("$this->view.index", $returnData);
@@ -81,16 +85,22 @@ trait CoreController
             $this->authorize('view', $data);
         }
 
-        if (view()->exists("$this->view.show")) {
-            return view("$this->view.show", [
-                'data' => $data,
-                'page' => $this->page,
-            ]);
+        return view("$this->view.show", [
+            'data' => $data,
+            'page' => $this->page,
+        ]);
+    }
+
+    public function json($id) {
+        $data = $this->repository->findOrFail($id);
+
+        if ($this->policy) {
+            $this->authorize('view', $data);
         }
 
         return is_subclass_of($this->resource, JsonResource::class)
             ? new $this->resource($data)
-            : $data;
+            : new DefaultResource($data);
     }
 
     public function edit($id) {
@@ -98,13 +108,6 @@ trait CoreController
 
         if ($this->policy) {
             $this->authorize('update', $data);
-        }
-
-        if (view()->exists("$this->view.detail")) {
-            return view("$this->view.detail", [
-                'data' => $data,
-                'page' => $this->page,
-            ]);
         }
 
         return view("$this->view.detail",[

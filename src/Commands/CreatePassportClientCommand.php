@@ -6,14 +6,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
-class RefreshCommand extends Command
+class CreatePassportClientCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'refresh';
+    protected $signature = 'create:passport:client';
 
     /**
      * The console command description.
@@ -39,27 +39,23 @@ class RefreshCommand extends Command
      */
     public function handle()
     {
-        try {
-            Artisan::call('migrate:fresh');
-            $this->info('Successfully migrate.');
-        } catch (\Exception $e) {
-            $this->line($e->getMessage());
-
-            return false;
-        }
-
-        try {
-            Artisan::call('db:seed');
-            $this->info('Successfully seed.');
-        } catch (\Exception $e) {
-            $this->line($e->getMessage());
-
-            return false;
-        }
-
         if (config('vodeamanager.passport.register')) {
             try {
-                Artisan::call('create:passport:client');
+                Artisan::call('passport:keys');
+
+                Artisan::call('passport:install');
+
+                DB::table('oauth_clients')->where('id', 2)
+                    ->update([
+                        'secret' => 'ol9FSJh3ypk4FdYUu2pL0wp21UransnXSKi5DaGm'
+                    ]);
+
+                Artisan::call('passport:client', ['--client' => true, '--name' => config('app.name') . ' Clients']);
+
+                DB::table('oauth_clients')->where('id', 3)
+                    ->update([
+                        'secret' => '1Vtcaz199fPLMBS4CXoTor8FaoGZWo2boAWKQGCd'
+                    ]);
 
                 $this->info('Successfully passport install.');
             } catch (\Exception $e) {
