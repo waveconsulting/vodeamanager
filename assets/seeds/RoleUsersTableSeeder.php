@@ -17,15 +17,13 @@ class RoleUsersTableSeeder extends Seeder
         ];
 
         foreach ($users as $email => $role) {
-            $role = config('vodeamanager.models.role')::where('code', $role)->first();
-            $user = config('vodeamanager.models.user')::where('email', $email)->first();
+            $role = config('vodeamanager.models.role')::where('code', $role)->firstOrFail();
+            $user = config('vodeamanager.models.user')::where('email', $email)->firstOrFail();
 
-            if ($user && $role) {
-                $user->roleUsers()->create([
-                    'role_id' => $role->id,
-                    'valid_from' => now(),
-                ]);
-            }
+            $user->roleUsers()->create([
+                'role_id' => $role->id,
+                'valid_from' => now(),
+            ]);
         }
     }
 }
