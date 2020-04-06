@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Illuminate\Support\Carbon;
 use Vodeamanager\Core\Utilities\Entities\User as Authenticatable;
 
 class User extends Authenticatable
@@ -30,7 +31,7 @@ class User extends Authenticatable
 
     public function getRoleUserAttribute($date = null) {
         if (!$date) {
-            $date = now()->toDateString();
+            $date = Carbon::now()->toDateString();
         }
 
         return $this->roleUsers()->whereDate('role_users.valid_from', '<=', $date)
@@ -50,7 +51,7 @@ class User extends Authenticatable
 
     public function permissions($date = null) {
         if (!$date) {
-            $date = now()->toDateString();
+            $date = Carbon::now()->toDateString();
         }
 
         $gateSettingIds = config('vodeamanager.models.gate_setting')::select('gate_settings.id')

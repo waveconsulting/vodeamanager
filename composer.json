@@ -19,10 +19,7 @@
     "autoload": {
         "psr-4": {
             "Vodeamanager\\Core\\": "src/"
-        },
-        "files": [
-            "src/helper.php"
-        ]
+        }
     },
     "extra": {
         "branch-alias": {

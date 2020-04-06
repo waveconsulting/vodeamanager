@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Utilities\Services;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -9,7 +10,7 @@ class ExceptionService
 {
     public function log($e) {
         $messages = [
-            'timestamp' => now()->toDateTime(),
+            'timestamp' => Carbon::now()->toDateTime(),
         ];
 
         if (method_exists($e, 'getFile')) $messages['file'] = $e->getFile();
