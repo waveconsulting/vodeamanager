@@ -13,14 +13,15 @@ class RefreshCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'refresh';
+    protected $signature = 'refresh
+                   {--force : force refresh.}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Refresh all database.';
+    protected $description = 'Refresh all database';
 
     /**
      * Create a new command instance.
@@ -40,7 +41,7 @@ class RefreshCommand extends Command
     public function handle()
     {
         try {
-            Artisan::call('migrate:fresh');
+            Artisan::call('migrate:fresh', ['--force' => $this->option('force')]);
             $this->info('Successfully migrate.');
         } catch (\Exception $e) {
             $this->line($e->getMessage());
@@ -49,7 +50,7 @@ class RefreshCommand extends Command
         }
 
         try {
-            Artisan::call('db:seed');
+            Artisan::call('db:seed', ['--force' => $this->option('force')]);
             $this->info('Successfully seed.');
         } catch (\Exception $e) {
             $this->line($e->getMessage());

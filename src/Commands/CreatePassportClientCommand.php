@@ -20,7 +20,7 @@ class CreatePassportClientCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Refresh all database.';
+    protected $description = 'Refresh all database';
 
     /**
      * Create a new command instance.

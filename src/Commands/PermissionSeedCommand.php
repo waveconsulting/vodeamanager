@@ -19,7 +19,7 @@ class PermissionSeedCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Seed permission.';
+    protected $description = 'Seed permission';
 
     /**
      * Create a new command instance.
