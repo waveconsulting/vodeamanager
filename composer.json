@@ -1,5 +1,5 @@
 {
-    "name": "vodea/app-manager",
+    "name": "vodea/vodeamanager",
     "description": "The package for use tenant management",
     "type": "library",
     "license": "MIT",
