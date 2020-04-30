@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Vodeamanager\Core\Rules\NotPresent;
+use Vodeamanager\Core\Utilities\Traits\EntityRules;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class BaseEntity extends Model
 {
-    use SoftDeletes, UserStamp, Searchable;
+    use SoftDeletes, UserStamp, Searchable, EntityRules;
 
     /**
      * Columns and their priority in search results.
@@ -60,22 +61,6 @@ abstract class BaseEntity extends Model
         return new HasManySyncable(
             $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
         );
-    }
-
-    public function assignNotPresent(array &$rules) {
-        foreach ($this->getFillable() as $field) {
-            if (!array_key_exists($field,$rules)) {
-                $rules[$field] = [ new NotPresent() ];
-            }
-        }
-    }
-
-    public function getDefaultRules() {
-        $rules = [];
-
-        $this->assignNotPresent($rules);
-
-        return $rules;
     }
 
     public function getLabel() {
