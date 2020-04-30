@@ -23,9 +23,9 @@ trait DefaultFormRequest
         $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
-        $model->setRules($this->all(), @$this->id);
+        $model->setValidationRules($this->all(), @$this->id);
 
-        return $model->getRules();
+        return $model->getValidationRules();
     }
 
     public function getMessages() {
@@ -33,9 +33,9 @@ trait DefaultFormRequest
         $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
-        $model->setMessages($this->all(), @$this->id);
+        $model->setValidationMessages($this->all(), @$this->id);
 
-        return $model->getMessages();
+        return $model->getValidationMessages();
     }
 
     public function getAttributes() {
@@ -43,8 +43,8 @@ trait DefaultFormRequest
         $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
-        $model->setProperties($this->all(), @$this->id);
+        $model->setValidationProperties($this->all(), @$this->id);
 
-        return $model->getAttributes();
+        return $model->getValidationPropereties();
     }
 }

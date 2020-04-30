@@ -11,114 +11,174 @@ trait EntityFormRequest
      *
      * @var array
      */
-    protected $rules = [];
+    protected $validationRules = [];
 
     /**
      * Default Messages for Request Form
      *
      * @var array
      */
-    protected $messages = [];
+    protected $validationMessages = [];
 
     /**
      * Default Properties for Request Form
      *
      * @var array
      */
-    protected $properties = [];
+    protected $validationAttributes = [];
 
+    /**
+     * @return array
+     */
     public function getDefaultRules() {
-        $rules = [];
+        $validationRules = [];
 
         foreach ($this->getFillable() as $field) {
-            $rules[$field] = [ new NotPresent() ];
+            $validationRules[$field] = [ new NotPresent() ];
         }
 
-        return $rules;
+        return $validationRules;
     }
 
+    /**
+     * @return void
+     */
     public function assignNotPresent() {
         foreach ($this->getFillable() as $field) {
-            if (!array_key_exists($field,$this->rules)) {
-                $this->rules[$field] = [ new NotPresent() ];
+            if (!array_key_exists($field,$this->validationRules)) {
+                $this->validationRules[$field] = [ new NotPresent() ];
             }
         }
     }
 
-    public function assignChildRules(string $prop, array $nullableFields = []) {
-        $rules = [];
+    /**
+     * @param string $attribute
+     * @param array $nullableFields
+     * @return void
+     */
+    public function assignChildValidationRules(string $attribute, array $nullableFields = []) {
+        $validationRules = [];
 
-        foreach ($this->getRules() as $key => $rule) {
+        foreach ($this->getValidationRules() as $key => $rule) {
             if (in_array($key,$nullableFields)) {
-                $rules[$prop . '.*.' . $key] = ['nullable'];
+                $validationRules[$attribute . '.*.' . $key] = ['nullable'];
             } else {
-                $rules[$prop . '.*.' . $key] = $rule;
+                $validationRules[$attribute . '.*.' . $key] = $rule;
             }
         }
 
-        $this->rules = $rules;
+        $this->validationRules = $validationRules;
     }
 
-    public function assignChildMessages(string $prop) {
-        $messages = [];
+    /**
+     * @param string $attribute
+     * @return void
+     */
+    public function assignChildValidationMessages(string $attribute) {
+        $validationMessages = [];
 
-        foreach ($this->getMessages() as $key => $message) {
-            $messages[$prop . '.*.' . $key] = $message;
+        foreach ($this->getValidationMessages() as $key => $message) {
+            $validationMessages[$attribute . '.*.' . $key] = $message;
         }
 
-        $this->rules = $messages;
+        $this->validationMessages = $validationMessages;
     }
 
-    public function assignChildProperties(string $prop) {
-        $properties = [];
+    /**
+     * @param string $attribute
+     * @return void;
+     */
+    public function assignChildValidationAttributes(string $attribute) {
+        $validationAttributes = [];
 
-        foreach ($this->getAttributes() as $key => $property) {
-            $properties[$prop . '.*.' . $key] = $property;
+        foreach ($this->getValidationAttributes() as $key => $property) {
+            $validationAttributes[$attribute . '.*.' . $key] = $property;
         }
 
-        $this->properties = $properties;
+        $this->validationAttributes = $validationAttributes;
     }
 
-    public function getRules() {
+    /**
+     * @return array
+     * @return void
+     */
+    public function getValidationRules() {
         $this->assignNotPresent();
 
-        return $this->rules;
+        return $this->validationRules;
     }
 
-    public function getMessages() {
-        return $this->messages;
+    /**
+     * @return array
+     */
+    public function getValidationMessages() {
+        return $this->validationMessages;
     }
 
-    public function getAttributes() {
-        return $this->properties;
+    /**
+     * @return array
+     */
+    public function getValidationAttributes() {
+        return $this->validationAttributes;
     }
 
-    public function setRules(array $request = [], $id = null) {}
+    /**
+     * @param array $request
+     * @param null $id
+     * @return void
+     */
+    public function setValidationRules(array $request = [], $id = null) {}
 
-    public function setMessages(array $request = []) {}
+    /**
+     * @param array $request
+     * @return void;
+     */
+    public function setValidationMessages(array $request = []) {}
 
-    public function setProperties(array $request = []) {}
+    /**
+     * @param array $request
+     * @return void;
+     */
+    public function setValidationAttributes(array $request = []) {}
 
-    public function mergeRules(...$rules) {
-        foreach ($rules as $rule) {
-            if (is_array($rule)) {
-                $this->rules = array_merge($this->rules, $rule);
+    /**
+     * @param mixed ...$validationRules
+     * @return void
+     */
+    public function mergeValidationRules(...$validationRules) {
+        if (is_array($validationRules)) {
+            foreach ($validationRules as $validationRule) {
+                if (is_array($validationRule)) {
+                    $this->validationRules = array_merge($this->validationRules, $validationRule);
+                }
             }
         }
     }
 
-    public function mergeMessages(...$messages) {
-        foreach ($messages as $message) {
-            if (is_array($message)) {
-                $this->messages = array_merge($this->messages, $message);
+    /**
+     * @param mixed ...$validationMessages
+     * @return void
+     */
+    public function mergeValidationMessage(...$validationMessages) {
+        if (is_array($validationMessages)) {
+            foreach ($validationMessages as $validationMessage) {
+                if (is_array($validationMessage)) {
+                    $this->validationMessages = array_merge($this->validationMessages, $validationMessage);
+                }
             }
         }
     }
 
-    public function mergeProperties(...$properties) {
-        foreach ($properties as $property) {
-            if (is_array($property)) {
-                $this->properties = array_merge($this->properties, $property);
+    /**
+     * @param mixed ...$validationAttributes
+     * @return void
+     */
+    public function mergeValidationAttributes(...$validationAttributes) {
+        if (is_array($validationAttributes)) {
+            foreach ($validationAttributes as $validationAttribute) {
+                if (is_array($validationAttribute)) {
+                    $this->validationAttributes = array_merge($this->validationAttributes, $validationAttribute);
+                }
             }
         }
     }
