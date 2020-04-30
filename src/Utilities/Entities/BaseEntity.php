@@ -62,12 +62,18 @@ abstract class BaseEntity extends Model
         );
     }
 
+    public function assignNotPresent(array &$rules) {
+        foreach ($this->getFillable() as $field) {
+            if (!array_key_exists($field,$rules)) {
+                $rules[$field] = [ new NotPresent() ];
+            }
+        }
+    }
+
     public function getDefaultRules() {
         $rules = [];
 
-        foreach ($this->getFillable() as $field) {
-            $rules[$field] = [ new NotPresent() ];
-        }
+        $this->assignNotPresent($rules);
 
         return $rules;
     }
