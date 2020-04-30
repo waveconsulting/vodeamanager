@@ -47,8 +47,8 @@ trait DefaultFormRequest
         $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
-        $model->setValidationProperties($this->all(), @$this->id);
+        $model->setValidationAttributes($this->all(), @$this->id);
 
-        return $model->getValidationPropereties();
+        return $model->getValidationAttributes();
     }
 }
