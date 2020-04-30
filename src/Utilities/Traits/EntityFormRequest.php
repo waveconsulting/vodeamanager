@@ -93,7 +93,7 @@ trait EntityFormRequest
         return $this->properties;
     }
 
-    public function setRules(array $request = []) {}
+    public function setRules(array $request = [], $id = null) {}
 
     public function setMessages(array $request = []) {}
 
