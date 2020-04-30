@@ -72,7 +72,7 @@ trait EntityFormRequest
     public function assignChildProperties(string $prop) {
         $properties = [];
 
-        foreach ($this->getProperties() as $key => $property) {
+        foreach ($this->getAttributes() as $key => $property) {
             $properties[$prop . '.*.' . $key] = $property;
         }
 
@@ -89,7 +89,7 @@ trait EntityFormRequest
         return $this->messages;
     }
 
-    public function getProperties() {
+    public function getAttributes() {
         return $this->properties;
     }
 

@@ -14,8 +14,8 @@ trait DefaultFormRequest
         return $this->getMessages();
     }
 
-    public function properties() {
-        return $this->getProperties();
+    public function attributes() {
+        return $this->getAttributes();
     }
 
     public function getRules() {
@@ -38,13 +38,13 @@ trait DefaultFormRequest
         return $model->getMessages();
     }
 
-    public function getProperties() {
+    public function getAttributes() {
         $className = Arr::last(explode('\\',get_class($this)));
         $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
         $model->setProperties($this->all(), @$this->id);
 
-        return $model->getProperties();
+        return $model->getAttributes();
     }
 }
