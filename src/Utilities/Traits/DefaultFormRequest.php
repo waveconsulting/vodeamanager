@@ -4,7 +4,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 
 use Illuminate\Support\Arr;
 
-trait FormRequestDefault
+trait DefaultFormRequest
 {
     public function rules() {
         return $this->getRules();
