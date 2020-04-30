@@ -45,7 +45,7 @@ trait EntityRules
         }
     }
 
-    public function assignChildRules($prop, $nullableFields = []) {
+    public function assignChildRules(string $prop, array $nullableFields = []) {
         $rules = [];
 
         foreach ($this->rules as $key => $rule) {
@@ -59,7 +59,7 @@ trait EntityRules
         $this->rules = $rules;
     }
 
-    public function assignChildMessages($prop) {
+    public function assignChildMessages(string $prop) {
         $messages = [];
 
         foreach ($this->messages as $key => $message) {
@@ -69,7 +69,7 @@ trait EntityRules
         $this->rules = $messages;
     }
 
-    public function assignChildProperties($prop) {
+    public function assignChildProperties(string $prop) {
         $properties = [];
 
         foreach ($this->properties as $key => $property) {
@@ -90,5 +90,11 @@ trait EntityRules
     public function getProperties() {
         return $this->properties;
     }
+
+    public function setRules(array $request = []) {}
+
+    public function setMessages() {}
+
+    public function setProperties() {}
 
 }
