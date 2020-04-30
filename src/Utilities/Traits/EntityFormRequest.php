@@ -4,7 +4,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 
 use Vodeamanager\Core\Rules\NotPresent;
 
-trait EntityRules
+trait EntityFormRequest
 {
     /**
      * Default Rules for Request form
@@ -93,8 +93,8 @@ trait EntityRules
 
     public function setRules(array $request = []) {}
 
-    public function setMessages() {}
+    public function setMessages(array $request = []) {}
 
-    public function setProperties() {}
+    public function setProperties(array $request = []) {}
 
 }

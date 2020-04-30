@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Vodeamanager\Core\Rules\NotPresent;
-use Vodeamanager\Core\Utilities\Traits\EntityRules;
+use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class BaseEntity extends Model
 {
-    use SoftDeletes, UserStamp, Searchable, EntityRules;
+    use SoftDeletes, UserStamp, Searchable, EntityFormRequest;
 
     /**
      * Columns and their priority in search results.
