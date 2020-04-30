@@ -4,7 +4,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 
 use Illuminate\Support\Arr;
 
-trait RequestDefault
+trait DefaultRules
 {
     public function getRules() {
         $className = Arr::last(explode('\\',get_class($this)));
