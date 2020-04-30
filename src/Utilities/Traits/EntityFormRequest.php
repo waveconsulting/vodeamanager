@@ -48,7 +48,7 @@ trait EntityFormRequest
     public function assignChildRules(string $prop, array $nullableFields = []) {
         $rules = [];
 
-        foreach ($this->rules as $key => $rule) {
+        foreach ($this->getRules() as $key => $rule) {
             if (in_array($key,$nullableFields)) {
                 $rules[$prop . '.*.' . $key] = ['nullable'];
             } else {
@@ -62,7 +62,7 @@ trait EntityFormRequest
     public function assignChildMessages(string $prop) {
         $messages = [];
 
-        foreach ($this->messages as $key => $message) {
+        foreach ($this->getMessages() as $key => $message) {
             $messages[$prop . '.*.' . $key] = $message;
         }
 
@@ -72,7 +72,7 @@ trait EntityFormRequest
     public function assignChildProperties(string $prop) {
         $properties = [];
 
-        foreach ($this->properties as $key => $property) {
+        foreach ($this->getProperties() as $key => $property) {
             $properties[$prop . '.*.' . $key] = $property;
         }
 
