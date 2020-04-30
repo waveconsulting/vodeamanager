@@ -6,6 +6,10 @@ use Illuminate\Support\Arr;
 
 trait DefaultFormRequest
 {
+    public function authorize() {
+        return true;
+    }
+
     public function rules() {
         return $this->getRules();
     }
