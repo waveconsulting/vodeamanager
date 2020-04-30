@@ -80,6 +80,8 @@ trait EntityFormRequest
     }
 
     public function getRules() {
+        $this->assignNotPresent();
+
         return $this->rules;
     }
 
