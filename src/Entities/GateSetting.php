@@ -13,6 +13,21 @@ class GateSetting extends BaseEntity
         'valid_from',
     ];
 
+    protected $validationRules = [
+        'role_id' => [
+            'required',
+            'exists:roles,id,deleted_at,NULL',
+        ],
+        'user_id' => [
+            'required',
+            'exists:users,id,deleted_at,NULL',
+        ],
+        'valid_from' => [
+            'required',
+            'date_format:Y-m-d',
+        ],
+    ];
+
     protected static function boot()
     {
         parent::boot();

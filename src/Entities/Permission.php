@@ -12,6 +12,24 @@ class Permission extends BaseEntity
         'method',
     ];
 
+    protected $validationRules = [
+        'name' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+        'controller' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+        'method' => [
+            'required',
+            'string',
+            'max:255',
+        ]
+    ];
+
     public function gateSettingPermissions() {
         return $this->hasMany(config('vodeamanager.models.gate_permission_setting'));
     }

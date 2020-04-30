@@ -21,6 +21,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $validationRules = [
+        'name' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+        'email' => [
+            'required',
+            'email',
+            'unique:users,email',
+        ],
+        'password' => [
+            'required',
+            'string',
+            'max:255',
+        ]
+    ];
+
     public function roles() {
         return $this->belongsToMany(config('vodeamanager.models.role'), 'role_users')->withTimestamps();
     }

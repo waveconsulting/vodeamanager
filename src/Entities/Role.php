@@ -14,6 +14,34 @@ class Role extends BaseEntity
         'is_special',
     ];
 
+    protected $validationRules = [
+        'code' => [
+            'required',
+            'string',
+            'max:24',
+            'unique:roles,code,NULL,id,deleted_at,NULL'
+        ],
+        'name' => [
+            'required',
+            'string',
+            'max:255',
+        ],
+        'description' => [
+            'string',
+            'max:255',
+        ],
+        'parent_id' => [
+            'exists:roles,id,deleted_at,NULL',
+        ],
+        'department_id' => [
+            'required',
+            'exists:departments,id,deleted_at,NULL',
+        ],
+        'is_special' => [
+            'boolean',
+        ],
+    ];
+
     public function parent() {
         return $this->belongsTo(config('vodeamanager.models.role'))->with('parent');
     }
@@ -49,6 +77,18 @@ class Role extends BaseEntity
             foreach ($child->children as $child) {
                 $this->recursiveChildrenGetAttribute($child, $data, $key);
             }
+        }
+    }
+
+    public function setValidationRules(array $request = [], $id = null)
+    {
+        if ($id) {
+            $this->validationRules['code'] = [
+                'required',
+                'string',
+                'max:24',
+                'unique:roles,code,' . $id . ',id,deleted_at,NULL',
+            ];
         }
     }
 

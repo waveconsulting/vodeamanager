@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\HasApiTokens;
 use Vodeamanager\Core\Rules\NotPresent;
+use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable;
+    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable, EntityFormRequest;
     
     /**
      * Columns and their priority in search results.
