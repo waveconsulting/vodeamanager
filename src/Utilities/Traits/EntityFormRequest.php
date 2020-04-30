@@ -99,4 +99,16 @@ trait EntityFormRequest
 
     public function setProperties(array $request = []) {}
 
+    public function mergeRules(array $rules = []) {
+        $this->rules = array_merge($this->rules, $rules);
+    }
+
+    public function mergeMessages(array $messages = []) {
+        $this->messages = array_merge($this->messages, $messages);
+    }
+
+    public function mergeProperties(array $properties = []) {
+        $this->properties = array_merge($this->properties, $properties);
+    }
+
 }
