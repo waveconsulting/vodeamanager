@@ -23,4 +23,13 @@ class ExceptionService
 
         Log::error(json_encode($messages));
     }
+
+    public function responseJson($e) {
+        \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
+
+        return response()->json([
+            'error' => true,
+            'message' => $e->getMessage()
+        ], $e->status ?? 500);
+    }
 }
