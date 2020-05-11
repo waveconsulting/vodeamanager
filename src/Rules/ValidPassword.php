@@ -14,7 +14,8 @@ class ValidPassword implements Rule
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param $password
+     * @param null $id
      */
     public function __construct($password, $id = null)
     {
