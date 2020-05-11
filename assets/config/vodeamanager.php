@@ -28,5 +28,8 @@ return [
         'notification' => Vodeamanager\Core\Entities\Notification::class,
         'notification_message' => Vodeamanager\Core\Entities\NotificationMessage::class,
         'notification_user' => Vodeamanager\Core\Entities\NotificationUser::class,
+    ],
+    'views' => [
+        'role_subordinates' => \Vodeamanager\Core\Entities\Views\RoleSubordinate::class,
     ]
 ];
