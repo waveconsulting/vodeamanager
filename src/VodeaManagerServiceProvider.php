@@ -96,7 +96,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerHelpers()
     {
-        foreach(glob(__DIR__ . '/Helpers/*.php') as $fileHelper){
+        foreach(glob(__DIR__ . '/Utilities/Helpers/*.php') as $fileHelper){
             require_once($fileHelper);
         }
     }
