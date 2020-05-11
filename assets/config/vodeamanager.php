@@ -24,5 +24,9 @@ return [
         'permission' => Vodeamanager\Core\Entities\Permission::class,
         'gate_setting' => Vodeamanager\Core\Entities\GateSetting::class,
         'gate_setting_permission' => Vodeamanager\Core\Entities\GateSettingPermission::class,
+        'notification_type' => Vodeamanager\Core\Entities\NotificationType::class,
+        'notification' => Vodeamanager\Core\Entities\Notification::class,
+        'notification_message' => Vodeamanager\Core\Entities\NotificationMessage::class,
+        'notification_user' => Vodeamanager\Core\Entities\NotificationUser::class,
     ]
 ];
