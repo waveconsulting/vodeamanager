@@ -33,7 +33,7 @@ class RouteService
         $middleware = $options['middleware'] ?? [];
 
         if (empty($controller)) {
-            $controller = str_replace('-', '', ucwords($name, '-')) . 'Controller';
+            $controller = kebab_to_pascal($name) . 'Controller';
         }
 
         if (isset($options['except'])) {
