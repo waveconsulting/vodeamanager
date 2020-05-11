@@ -11,6 +11,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'telephone',
+        'mobile_phone',
     ];
 
     protected $hidden = [
@@ -36,7 +38,15 @@ class User extends Authenticatable
             'required',
             'string',
             'max:255',
-        ]
+        ],
+        'telephone' => [
+            'string',
+            'max:15',
+        ],
+        'mobile_phone' => [
+            'string',
+            'max:15',
+        ],
     ];
 
     public function roles() {
