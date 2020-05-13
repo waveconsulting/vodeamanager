@@ -6,6 +6,8 @@ use Illuminate\Support\Arr;
 
 trait DefaultFormRequest
 {
+    protected $namespaceEntity = 'App\\Entities\\';
+
     public function authorize() {
         return true;
     }
@@ -24,7 +26,7 @@ trait DefaultFormRequest
 
     public function getRules() {
         $className = Arr::last(explode('\\',get_class($this)));
-        $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
+        $nameSpace = $this->namespaceEntity . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
         $model->setValidationRules($this->all(), @$this->id);
@@ -34,7 +36,7 @@ trait DefaultFormRequest
 
     public function getMessages() {
         $className = Arr::last(explode('\\',get_class($this)));
-        $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
+        $nameSpace = $this->namespaceEntity . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
         $model->setValidationMessages($this->all(), @$this->id);
@@ -44,7 +46,7 @@ trait DefaultFormRequest
 
     public function getAttributes() {
         $className = Arr::last(explode('\\',get_class($this)));
-        $nameSpace = "App\\Entities\\" . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
+        $nameSpace = $this->namespaceEntity . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
         $model = app($nameSpace);
 
         $model->setValidationAttributes($this->all(), @$this->id);
