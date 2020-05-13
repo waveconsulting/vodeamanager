@@ -25,8 +25,7 @@ trait DefaultFormRequest
     }
 
     public function getRules() {
-        $className = Arr::last(explode('\\',get_class($this)));
-        $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
+        $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
         $model->setValidationRules($this->all(), @$this->id);
@@ -35,8 +34,7 @@ trait DefaultFormRequest
     }
 
     public function getMessages() {
-        $className = Arr::last(explode('\\',get_class($this)));
-        $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
+        $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
         $model->setValidationMessages($this->all(), @$this->id);
@@ -45,8 +43,7 @@ trait DefaultFormRequest
     }
 
     public function getAttributes() {
-        $className = Arr::last(explode('\\',get_class($this)));
-        $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',$className);
+        $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
         $model->setValidationAttributes($this->all(), @$this->id);
