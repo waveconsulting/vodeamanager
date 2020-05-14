@@ -58,9 +58,7 @@ class User extends Authenticatable
     }
 
     public function getRoleUserAttribute($date = null) {
-        if (!$date) {
-            $date = Carbon::now()->toDateString();
-        }
+        if (!$date) $date = Carbon::now()->toDateString();
 
         return $this->roleUsers()->whereDate('role_users.valid_from', '<=', $date)
             ->orderByDesc('role_users.valid_from')
@@ -78,9 +76,7 @@ class User extends Authenticatable
     }
 
     public function permissions($date = null) {
-        if (!$date) {
-            $date = Carbon::now()->toDateString();
-        }
+        if (!$date) $date = Carbon::now()->toDateString();
 
         $gateSettingIds = config('vodeamanager.models.gate_setting')::select('gate_settings.id')
             ->where('gate_settings.user_id', $this->id)
@@ -92,9 +88,7 @@ class User extends Authenticatable
         if (count($gateSettingIds) < 1) {
             $role = $this->role;
 
-            if ($role && $role->is_special) {
-                return config('vodeamanager.models.permission')::query();
-            }
+            if ($role && $role->is_special) return config('vodeamanager.models.permission')::query();
 
             $roleChildrenIds = $role ? $role->children_ids : [];
 

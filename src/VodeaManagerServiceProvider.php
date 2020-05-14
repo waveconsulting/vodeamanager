@@ -84,11 +84,8 @@ class VodeaManagerServiceProvider extends ServiceProvider
         });
 
         Blueprint::macro('relation', function($column, $table, $nullable = true) {
-            if ($nullable) {
-                $this->unsignedBigInteger($column)->nullable();
-            } else {
-                $this->unsignedBigInteger($column);
-            }
+            if ($nullable) $this->unsignedBigInteger($column)->nullable();
+            else $this->unsignedBigInteger($column);
 
             $this->foreign($column)->on($table)->references('id')->onUpdate('cascade');
         });

@@ -45,9 +45,7 @@ trait EntityFormRequest
      */
     public function assignNotPresent() {
         foreach ($this->getFillable() as $field) {
-            if (!array_key_exists($field,$this->validationRules)) {
-                $this->validationRules[$field] = [ new NotPresent() ];
-            }
+            if (!array_key_exists($field,$this->validationRules)) $this->validationRules[$field] = [ new NotPresent() ];
         }
     }
 
@@ -60,11 +58,8 @@ trait EntityFormRequest
         $validationRules = [];
 
         foreach ($this->getValidationRules() as $key => $rule) {
-            if (in_array($key,$nullableFields)) {
-                $validationRules[$attribute . '.*.' . $key] = ['nullable'];
-            } else {
-                $validationRules[$attribute . '.*.' . $key] = $rule;
-            }
+            if (in_array($key,$nullableFields)) $validationRules[$attribute . '.*.' . $key] = ['nullable'];
+            else $validationRules[$attribute . '.*.' . $key] = $rule;
         }
 
         $this->validationRules = $validationRules;
@@ -148,9 +143,7 @@ trait EntityFormRequest
     public function mergeValidationRules(...$validationRules) {
         if (is_array($validationRules)) {
             foreach ($validationRules as $validationRule) {
-                if (is_array($validationRule)) {
-                    $this->validationRules = array_merge($this->validationRules, $validationRule);
-                }
+                if (is_array($validationRule)) $this->validationRules = array_merge($this->validationRules, $validationRule);
             }
         }
     }
@@ -162,9 +155,7 @@ trait EntityFormRequest
     public function mergeValidationMessage(...$validationMessages) {
         if (is_array($validationMessages)) {
             foreach ($validationMessages as $validationMessage) {
-                if (is_array($validationMessage)) {
-                    $this->validationMessages = array_merge($this->validationMessages, $validationMessage);
-                }
+                if (is_array($validationMessage)) $this->validationMessages = array_merge($this->validationMessages, $validationMessage);
             }
         }
     }
@@ -176,9 +167,7 @@ trait EntityFormRequest
     public function mergeValidationAttributes(...$validationAttributes) {
         if (is_array($validationAttributes)) {
             foreach ($validationAttributes as $validationAttribute) {
-                if (is_array($validationAttribute)) {
-                    $this->validationAttributes = array_merge($this->validationAttributes, $validationAttribute);
-                }
+                if (is_array($validationAttribute)) $this->validationAttributes = array_merge($this->validationAttributes, $validationAttribute);
             }
         }
     }

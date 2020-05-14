@@ -14,9 +14,7 @@ class Restoring
      */
     public function handle(Model $model)
     {
-        if (! $model->isUserStamping()) {
-            return;
-        }
+        if (! $model->isUserStamping()) return;
 
         $model->{$model->getDeletedByColumn()} = null;
     }

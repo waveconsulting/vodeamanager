@@ -67,9 +67,7 @@ trait CoreController
             ? $repository->paginate($request->per_page)
             : $repository->get();
 
-        if (is_subclass_of($this->selectResource, JsonResource::class)) {
-            return $this->selectResource::collection($data);
-        }
+        if (is_subclass_of($this->selectResource, JsonResource::class)) return $this->selectResource::collection($data);
 
         return SelectResource::collection($data);
     }
@@ -81,9 +79,7 @@ trait CoreController
     public function show($id) {
         $data = $this->repository->findOrFail($id);
 
-        if ($this->policy) {
-            $this->authorize('view', $data);
-        }
+        if ($this->policy) $this->authorize('view', $data);
 
         return view("$this->view.show", [
             'data' => $data,
@@ -94,9 +90,7 @@ trait CoreController
     public function json($id) {
         $data = $this->repository->findOrFail($id);
 
-        if ($this->policy) {
-            $this->authorize('view', $data);
-        }
+        if ($this->policy) $this->authorize('view', $data);
 
         return is_subclass_of($this->resource, JsonResource::class)
             ? new $this->resource($data)
@@ -106,9 +100,7 @@ trait CoreController
     public function edit($id) {
         $data = $this->repository->findOrFail($id);
 
-        if ($this->policy) {
-            $this->authorize('update', $data);
-        }
+        if ($this->policy) $this->authorize('update', $data);
 
         return view("$this->view.detail",[
             'data' => $data,
@@ -123,9 +115,7 @@ trait CoreController
 
             $data = $this->repository->findOrFail($id);
 
-            if ($this->policy) {
-                $this->authorize('delete', $data);
-            }
+            if ($this->policy) $this->authorize('delete', $data);
 
             $this->repository->destroy($id);
 
