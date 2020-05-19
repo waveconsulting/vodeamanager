@@ -12,6 +12,7 @@ use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 trait CoreController
 {
     protected $repository;
+    protected $namespace;
     protected $fillable;
     protected $resource;
     protected $selectResource;
@@ -22,7 +23,8 @@ trait CoreController
 
     public function __construct()
     {
-        $this->fillable = $this->repository->getFillable();
+        if (!$this->namespace) $this->namespace = get_class($this->repository);
+        $this->fillable = app($this->namespace)->getFillable();
     }
 
     public function index(Request $request) {
