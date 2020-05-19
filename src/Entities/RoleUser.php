@@ -33,9 +33,7 @@ class RoleUser extends BaseEntity
         parent::boot();
 
         static::creating(function ($data) {
-            if (!$data->valid_from) {
-                $data->valid_from = Carbon::now();
-            }
+            if (!$data->valid_from) $data->valid_from = Carbon::now();
         });
     }
 

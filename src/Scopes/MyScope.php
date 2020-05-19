@@ -15,10 +15,6 @@ class MyScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->when(Auth::check(), function ($query) {
-            $query->where('user_id', Auth::id());
-        }, function ($query) {
-            $query->where('user_id', 0);
-        });
+        $builder->where('user_id', Auth::id());
     }
 }

@@ -15,13 +15,8 @@ class Deleting
      */
     public function handle(Model $model)
     {
-        if (!$model->isUserStamping()) {
-            return;
-        }
-
-        if (is_null($model->{$model->getDeletedByColumn()})) {
-            $model->{$model->getDeletedByColumn()} = Auth::id();
-        }
+        if (!$model->isUserStamping()) return;
+        if (is_null($model->{$model->getDeletedByColumn()})) $model->{$model->getDeletedByColumn()} = Auth::id();
 
         $dispatcher = $model->getEventDispatcher();
 

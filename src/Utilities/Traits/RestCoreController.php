@@ -72,9 +72,7 @@ trait RestCoreController
     public function show(Request $request, $id) {
         $data = $this->repository->find($id);
 
-        if ($this->policy) {
-            $this->authorize('view', $data);
-        }
+        if ($this->policy) $this->authorize('view', $data);
 
         return is_subclass_of($this->resource, JsonResource::class)
             ? new $this->resource($data)
@@ -88,9 +86,7 @@ trait RestCoreController
 
             $data = $this->repository->findOrFail($id);
 
-            if ($this->policy) {
-                $this->authorize('delete', $data);
-            }
+            if ($this->policy) $this->authorize('delete', $data);
 
             $this->repository->destroy($id);
 

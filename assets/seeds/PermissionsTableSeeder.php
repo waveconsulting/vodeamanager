@@ -14,9 +14,7 @@ class PermissionsTableSeeder extends Seeder
         $routes = Route::getRoutes()->getRoutes();
         foreach ($routes as $route) {
             $middleware = $route->gatherMiddleware();
-            if (!in_array('vodeamanager.gate', $middleware) || !$route->getName()) {
-                continue;
-            }
+            if (!in_array('vodeamanager.gate', $middleware) || !$route->getName()) continue;
 
             $permission = [
                 'name' => $route->getName(),
@@ -24,9 +22,7 @@ class PermissionsTableSeeder extends Seeder
                 'method' => $route->getActionMethod(),
             ];
 
-            if (config('vodeamanager.models.permission')::where($permission)->exists()) {
-                continue;
-            }
+            if (config('vodeamanager.models.permission')::where($permission)->exists()) continue;
 
             config('vodeamanager.models.permission')::create($permission);
         }
