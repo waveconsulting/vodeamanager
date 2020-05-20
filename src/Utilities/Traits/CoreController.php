@@ -33,12 +33,10 @@ trait CoreController
         ];
 
         if ($this->indexData) {
-            $repository = $request->has('search')
-                ? $this->repository->search($request->get('search'), null, true)
-                : $this->repository;
-
-            $repository = $repository->criteria($request)
+            $repository = $this->repository->criteria($request)
                 ->filter($request);
+
+            if ($request->has('search')) $repository = $repository->search($request->get('search'), null, true);
 
             $data = $request->has('per_page')
                 ? $repository->paginate($request->per_page)
@@ -53,17 +51,16 @@ trait CoreController
     }
 
     public function select(Request $request, $id = null) {
+        $repository = $this->repository->criteria($request)
+            ->filter($request);
+
         if ($id || $request->has('id')) {
-            $data = $this->repository->findOrFail($id ?? $request->get('id'));
+            $data = $repository->findOrFail($id ?? $request->get('id'));
 
             return new SelectResource($data);
         }
 
-        $repository = $request->has('search')
-            ? $this->repository->search($request->get('search'), null, true)
-            : $this->repository;
-
-        $repository = $repository->criteria($request);
+        if ($request->has('search')) $repository = $repository->search($request->get('search'), null, true);
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->per_page)
@@ -78,8 +75,8 @@ trait CoreController
         return view("$this->view.detail");
     }
 
-    public function show($id) {
-        $data = $this->repository->findOrFail($id);
+    public function show(Request $request, $id) {
+        $data = $this->repository->filter($request)->findOrFail($id);
 
         if ($this->policy) $this->authorize('view', $data);
 
@@ -89,8 +86,8 @@ trait CoreController
         ]);
     }
 
-    public function json($id) {
-        $data = $this->repository->findOrFail($id);
+    public function json(Request $request, $id) {
+        $data = $this->repository->filter($request)->findOrFail($id);
 
         if ($this->policy) $this->authorize('view', $data);
 
@@ -99,8 +96,8 @@ trait CoreController
             : new DefaultResource($data);
     }
 
-    public function edit($id) {
-        $data = $this->repository->findOrFail($id);
+    public function edit(Request $request, $id) {
+        $data = $this->repository->filter($request)->findOrFail($id);
 
         if ($this->policy) $this->authorize('update', $data);
 
@@ -110,12 +107,12 @@ trait CoreController
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         try {
             DB::beginTransaction();
 
-            $data = $this->repository->findOrFail($id);
+            $data = $this->repository->filter($request)->findOrFail($id);
 
             if ($this->policy) $this->authorize('delete', $data);
 
