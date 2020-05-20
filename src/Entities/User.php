@@ -57,22 +57,9 @@ class User extends Authenticatable
         return $this->hasMany(config('vodeamanager.models.role_user'));
     }
 
-    public function getRoleUserAttribute($date = null) {
-        if (!$date) $date = Carbon::now()->toDateString();
-
-        return $this->roleUsers()->whereDate('role_users.valid_from', '<=', $date)
-            ->orderByDesc('role_users.valid_from')
-            ->first();
-    }
-
-    public function getRoleAttribute() {
-        $roleUser = $this->roleUser;
-
-        return $roleUser ? $roleUser->role : null;
-    }
-
-    public function getRoleNameAttribute() {
-        return $this->role ? $this->role->getLabel() : null;
+    public function roleUser() {
+        return $this->roleUsers()->whereDate('role_users.valid_from', '<=', date('Y-m-d'))
+            ->orderByDesc('role_users.valid_from');
     }
 
     public function permissions($date = null) {
@@ -86,7 +73,7 @@ class User extends Authenticatable
             ->toArray();
 
         if (count($gateSettingIds) < 1) {
-            $role = $this->role;
+            $role = $this->userRole()->exists() ? $this->userRole->role : null;
 
             if ($role && $role->is_special) return config('vodeamanager.models.permission')::query();
 
