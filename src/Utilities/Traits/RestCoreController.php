@@ -70,7 +70,7 @@ trait RestCoreController
     }
 
     public function show(Request $request, $id) {
-        $data = $this->repository->find($id);
+        $data = $this->repository->findOrFail($id);
 
         if ($this->policy) $this->authorize('view', $data);
 
