@@ -15,12 +15,6 @@ class Role extends BaseEntity
     ];
 
     protected $validationRules = [
-        'code' => [
-            'required',
-            'string',
-            'max:24',
-            'unique:roles,code,NULL,id,deleted_at,NULL'
-        ],
         'name' => [
             'required',
             'string',
@@ -82,14 +76,12 @@ class Role extends BaseEntity
 
     public function setValidationRules(array $request = [], $id = null)
     {
-        if ($id) {
-            $this->validationRules['code'] = [
-                'required',
-                'string',
-                'max:24',
-                'unique:roles,code,' . $id . ',id,deleted_at,NULL',
-            ];
-        }
+        $this->validationRules['code'] = [
+            'required',
+            'string',
+            'max:24',
+            'unique:roles,code,' . ($id ?? 'NULL') . ',id,deleted_at,NULL',
+        ];
     }
 
 }
