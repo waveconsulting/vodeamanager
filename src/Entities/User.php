@@ -58,7 +58,8 @@ class User extends Authenticatable
     }
 
     public function roleUser() {
-        return $this->roleUsers()->whereDate('role_users.valid_from', '<=', date('Y-m-d'))
+        return $this->hasOne(config('vodeamanager.models.role_user'))
+            ->whereDate('role_users.valid_from', '<=', date('Y-m-d'))
             ->orderByDesc('role_users.valid_from');
     }
 
@@ -73,7 +74,7 @@ class User extends Authenticatable
             ->toArray();
 
         if (count($gateSettingIds) < 1) {
-            $role = $this->userRole()->exists() ? $this->userRole->role : null;
+            $role = $this->roleUser()->exists() ? $this->roleUser->role : null;
 
             if ($role && $role->is_special) return config('vodeamanager.models.permission')::query();
 
