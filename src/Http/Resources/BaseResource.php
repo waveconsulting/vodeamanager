@@ -26,7 +26,7 @@ class BaseResource extends JsonResource
     }
 
     /**
-     * @param $request
+     * @param  Request  $request
      * @return array
      */
     public function resource($request) {
