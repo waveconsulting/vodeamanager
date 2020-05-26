@@ -41,18 +41,20 @@ trait EntityFormRequest
     }
 
     /**
-     * @return void
+     * @return EntityFormRequest
      */
     public function assignNotPresent() {
         foreach ($this->getFillable() as $field) {
             if (!array_key_exists($field,$this->validationRules)) $this->validationRules[$field] = [ new NotPresent() ];
         }
+
+        return $this;
     }
 
     /**
      * @param string $attribute
      * @param array $nullableFields
-     * @return void
+     * @return EntityFormRequest
      */
     public function assignChildValidationRules(string $attribute, array $nullableFields = []) {
         $validationRules = [];
@@ -63,11 +65,13 @@ trait EntityFormRequest
         }
 
         $this->validationRules = $validationRules;
+
+        return $this;
     }
 
     /**
      * @param string $attribute
-     * @return void
+     * @return EntityFormRequest
      */
     public function assignChildValidationMessages(string $attribute) {
         $validationMessages = [];
@@ -77,11 +81,13 @@ trait EntityFormRequest
         }
 
         $this->validationMessages = $validationMessages;
+
+        return $this;
     }
 
     /**
      * @param string $attribute
-     * @return void;
+     * @return EntityFormRequest
      */
     public function assignChildValidationAttributes(string $attribute) {
         $validationAttributes = [];
@@ -91,6 +97,8 @@ trait EntityFormRequest
         }
 
         $this->validationAttributes = $validationAttributes;
+
+        return $this;
     }
 
     /**
@@ -138,7 +146,7 @@ trait EntityFormRequest
 
     /**
      * @param mixed ...$validationRules
-     * @return void
+     * @return EntityFormRequest
      */
     public function mergeValidationRules(...$validationRules) {
         if (is_array($validationRules)) {
@@ -146,11 +154,13 @@ trait EntityFormRequest
                 if (is_array($validationRule)) $this->validationRules = array_merge($this->validationRules, $validationRule);
             }
         }
+
+        return $this;
     }
 
     /**
      * @param mixed ...$validationMessages
-     * @return void
+     * @return EntityFormRequest
      */
     public function mergeValidationMessage(...$validationMessages) {
         if (is_array($validationMessages)) {
@@ -158,11 +168,13 @@ trait EntityFormRequest
                 if (is_array($validationMessage)) $this->validationMessages = array_merge($this->validationMessages, $validationMessage);
             }
         }
+
+        return $this;
     }
 
     /**
      * @param mixed ...$validationAttributes
-     * @return void
+     * @return EntityFormRequest
      */
     public function mergeValidationAttributes(...$validationAttributes) {
         if (is_array($validationAttributes)) {
@@ -170,6 +182,8 @@ trait EntityFormRequest
                 if (is_array($validationAttribute)) $this->validationAttributes = array_merge($this->validationAttributes, $validationAttribute);
             }
         }
+
+        return $this;
     }
 
 }
