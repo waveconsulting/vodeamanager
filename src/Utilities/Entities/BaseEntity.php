@@ -14,6 +14,12 @@ abstract class BaseEntity extends Model
 {
     use SoftDeletes, UserStamp, Searchable, EntityFormRequest;
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     /**
      * Columns and their priority in search results.
      * Columns with higher values are more important.
