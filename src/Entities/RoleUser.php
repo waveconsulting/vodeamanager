@@ -13,6 +13,10 @@ class RoleUser extends BaseEntity
         'valid_from',
     ];
 
+    protected $dates = [
+        'valid_from',
+    ];
+
     protected $validationRules = [
         'role_id' => [
             'required',

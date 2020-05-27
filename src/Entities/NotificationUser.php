@@ -12,6 +12,10 @@ class NotificationUser extends BaseEntity
         'is_read',
     ];
 
+    protected $casts = [
+        'is_read' => 'boolean',
+    ];
+
     public function notification() {
         return $this->belongsTo(config('vodeamanager.models.notification'));
     }

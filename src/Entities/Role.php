@@ -14,6 +14,10 @@ class Role extends BaseEntity
         'is_special',
     ];
 
+    protected $casts = [
+        'is_special' => 'boolean',
+    ];
+
     protected $validationRules = [
         'name' => [
             'required',
