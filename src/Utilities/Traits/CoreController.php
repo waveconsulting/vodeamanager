@@ -20,6 +20,8 @@ trait CoreController
     protected $page;
     protected $policy = false;
     protected $indexData = false;
+    protected $eagerLoadRelationIndex = [];
+    protected $eagerLoadRelationShow = [];
 
     public function __construct()
     {
@@ -33,7 +35,9 @@ trait CoreController
         ];
 
         if ($this->indexData) {
-            $repository = $this->repository->criteria($request)
+            $repository = $this->repository
+                ->with($this->eagerLoadRelationIndex)
+                ->criteria($request)
                 ->filter($request);
 
             if ($request->has('search')) $repository = $repository->search($request->get('search'), null, true);
@@ -76,7 +80,10 @@ trait CoreController
     }
 
     public function show(Request $request, $id) {
-        $data = $this->repository->filter($request)->findOrFail($id);
+        $data = $this->repository
+            ->with($this->eagerLoadRelationShow)
+            ->filter($request)
+            ->findOrFail($id);
 
         if ($this->policy) $this->authorize('view', $data);
 
@@ -87,7 +94,10 @@ trait CoreController
     }
 
     public function json(Request $request, $id) {
-        $data = $this->repository->filter($request)->findOrFail($id);
+        $data = $this->repository
+            ->with($this->eagerLoadRelationShow)
+            ->filter($request)
+            ->findOrFail($id);
 
         if ($this->policy) $this->authorize('view', $data);
 
