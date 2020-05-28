@@ -14,6 +14,4 @@ class Constant
         7 => 'Sunday'
     ];
 
-    const SETTING_TYPE_COMPANY = 'COMPANY';
-
 }
