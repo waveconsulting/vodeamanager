@@ -28,26 +28,20 @@ trait DefaultFormRequest
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
-        $model->setValidationRules($this->all(), @$this->id);
-
-        return $model->getValidationRules();
+        return $model->setValidationRules($this->all(), @$this->id)->getValidationRules();
     }
 
     public function getMessages() {
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
-        $model->setValidationMessages($this->all(), @$this->id);
-
-        return $model->getValidationMessages();
+        return $model->setValidationMessages($this->all(), @$this->id)->getValidationMessages();
     }
 
     public function getAttributes() {
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
-        $model->setValidationAttributes($this->all(), @$this->id);
-
-        return $model->getValidationAttributes();
+        return $model->setValidationAttributes($this->all(), @$this->id)->getValidationAttributes();
     }
 }

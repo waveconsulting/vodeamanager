@@ -86,6 +86,8 @@ class Role extends BaseEntity
             'max:24',
             'unique:roles,code,' . ($id ?? 'NULL') . ',id,deleted_at,NULL',
         ];
+
+        return $this;
     }
 
 }

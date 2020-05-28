@@ -128,21 +128,27 @@ trait EntityFormRequest
     /**
      * @param array $request
      * @param null $id
-     * @return void
+     * @return EntityFormRequest
      */
-    public function setValidationRules(array $request = [], $id = null) {}
+    public function setValidationRules(array $request = [], $id = null) {
+        return $this;
+    }
 
     /**
      * @param array $request
-     * @return void;
+     * @return EntityFormRequest ;
      */
-    public function setValidationMessages(array $request = []) {}
+    public function setValidationMessages(array $request = []) {
+        return $this;
+    }
 
     /**
      * @param array $request
-     * @return void;
+     * @return EntityFormRequest
      */
-    public function setValidationAttributes(array $request = []) {}
+    public function setValidationAttributes(array $request = []) {
+        return $this;
+    }
 
     /**
      * @param mixed ...$validationRules
