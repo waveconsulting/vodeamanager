@@ -21,7 +21,7 @@ class CreateFileLogsTable extends Migration
             $table->double('size')->nullable();
             $table->string('extension')->nullable();
             $table->string('path')->nullable();
-            $table->string('storage')->nullable();
+            $table->string('disk')->nullable();
 
             $table->userTimeStamp();
         });

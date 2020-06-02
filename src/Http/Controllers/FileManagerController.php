@@ -31,13 +31,13 @@ class FileManagerController extends Controller
             $merge = [];
 
             $uploads = FileService::store($request, 'file', $request->get('disk'), $request->get('path'));
-            foreach ($uploads as $name => $path) {
-                $merge['name'] = $path->name;
-                $merge['encoded_name'] = $path->encoded_name;
-                $merge['size'] = $path->size;
-                $merge['extension'] = $path->extension;
-                $merge['path'] = $path->path;
-                $merge['disk'] = $path->disk;
+            foreach ($uploads as $name => $file) {
+                $merge['name'] = $file->name;
+                $merge['encoded_name'] = $file->encoded_name;
+                $merge['size'] = $file->size;
+                $merge['extension'] = $file->extension;
+                $merge['path'] = $file->path;
+                $merge['disk'] = $file->disk;
             }
 
             $request->merge($merge);
