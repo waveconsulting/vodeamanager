@@ -16,6 +16,7 @@ class FileLogResource extends BaseResource
             'extension' => $this->extension,
             'path' => $this->path,
             'disk' => $this->disk,
+            'url' => $this->url,
         ];
     }
 
