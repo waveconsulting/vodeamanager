@@ -29,5 +29,6 @@ return [
         'notification_message' => Vodeamanager\Core\Entities\NotificationMessage::class,
         'notification_user' => Vodeamanager\Core\Entities\NotificationUser::class,
         'setting' => Vodeamanager\Core\Entities\Setting::class,
+        'file_log' => Vodeamanager\Core\Entities\FileLog::class,
     ]
 ];

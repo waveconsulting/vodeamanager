@@ -28,6 +28,14 @@ class RouteService
         self::createRoute($name, $controller, $options);
     }
 
+    public function fileService($withDelete = true) {
+        Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.'], function () {
+            Route::get('/', 'FileManagerController@index')->name('index');
+            Route::post('/store','FileManagerController@store')->name('store');
+
+        });
+    }
+
     private function createRoute($name, string $controller = '', array $options = []) {
         $only = ['index', 'store', 'create', 'show', 'json', 'update', 'edit', 'destroy'];
         $middleware = $options['middleware'] ?? [];
