@@ -5,6 +5,7 @@ namespace Vodeamanager\Core\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Entities\FileLog;
 use Vodeamanager\Core\Http\Requests\FileLogCreateRequest;
+use Vodeamanager\Core\Http\Resources\FileLogResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Facades\FileService;
 use Vodeamanager\Core\Utilities\Traits\RestCoreController;
@@ -18,7 +19,7 @@ class FileManagerController extends Controller
     public function __construct(FileLog $repository)
     {
         $this->repository = $repository;
-        $this->resource = FileLog::class;
+        $this->resource = FileLogResource::class;
 
         $this->__restConstruct();
     }
