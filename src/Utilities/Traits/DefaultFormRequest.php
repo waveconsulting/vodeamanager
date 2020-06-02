@@ -2,8 +2,6 @@
 
 namespace Vodeamanager\Core\Utilities\Traits;
 
-use Illuminate\Support\Arr;
-
 trait DefaultFormRequest
 {
     protected $entityNamespace = 'App\\Entities\\';

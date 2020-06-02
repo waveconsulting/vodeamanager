@@ -8,4 +8,6 @@ use Vodeamanager\Core\Utilities\Traits\DefaultFormRequest;
 class FileLogCreateRequest extends FormRequest
 {
     use DefaultFormRequest;
+
+    protected $entityNamespace = 'Vodeamanager\\Core\\Utilities\\Entities\\BaseEntity';
 }
