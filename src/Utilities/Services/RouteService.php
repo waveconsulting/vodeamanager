@@ -31,7 +31,7 @@ class RouteService
     public function fileService() {
         Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/', 'FileManagerController@index')->name('index');
-            Route::post('/store','FileManagerController@store')->name('store');
+            Route::post('/','FileManagerController@store')->name('store');
 
         });
     }
