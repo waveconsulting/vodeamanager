@@ -36,6 +36,14 @@ class RouteService
         });
     }
 
+    public function notificationService() {
+        Route::group(['prefix' => 'notification', 'as' => 'notification.', 'namespace' => ''], function () {
+            Route::get('/','NotificationController@index')->name('index');
+            Route::post('/read-all', 'NotificationController@readAll')->name('read-all');
+
+        });
+    }
+
     private function createRoute($name, string $controller = '', array $options = []) {
         $only = ['index', 'store', 'create', 'show', 'json', 'update', 'edit', 'destroy'];
         $middleware = $options['middleware'] ?? [];

@@ -7,6 +7,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Vodeamanager\Core\Http\Middleware\Gate;
+use Vodeamanager\Core\Http\Middleware\Notification;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
 use Vodeamanager\Core\Utilities\Services\RouteService;
@@ -39,6 +41,8 @@ class VodeaManagerServiceProvider extends ServiceProvider
         $this->registerEvents();
 
         $this->registerCommands();
+
+        $this->registerMiddleware();
 
         if (config('vodeamanager.passport.register', true)) {
             $this->registerPassport();
@@ -144,6 +148,12 @@ class VodeaManagerServiceProvider extends ServiceProvider
         app()->bind('route.service', function() {
             return new RouteService;
         });
+    }
+
+    private function registerMiddleware()
+    {
+        $this->app['router']->aliasMiddleware('vodeamanager.gate', Gate::class);
+        $this->app['router']->aliasMiddleware('vodeamanager.notification', Notification::class);
     }
 
 }
