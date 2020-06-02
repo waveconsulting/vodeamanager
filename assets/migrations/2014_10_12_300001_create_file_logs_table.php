@@ -16,11 +16,12 @@ class CreateFileLogsTable extends Migration
         Schema::create('file_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('file_name')->nullable();
-            $table->double('file_size')->nullable();
-            $table->string('file_extension')->nullable();
-            $table->string('file_path')->nullable();
-            $table->string('file_storage')->nullable();
+            $table->string('name')->nullable();
+            $table->string('encoded_name')->nullable();
+            $table->double('size')->nullable();
+            $table->string('extension')->nullable();
+            $table->string('path')->nullable();
+            $table->string('storage')->nullable();
 
             $table->userTimeStamp();
         });

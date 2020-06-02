@@ -15,7 +15,7 @@ class FileService
             try {
                 $files = $request->file($key);
                 if (is_array($files)) {
-                    foreach (   $files as $file) {
+                    foreach ($files as $file) {
                         $fileName = $file->getClientOriginalName();
                         $extension = $file->getClientOriginalExtension();
                         $encodedName = Carbon::now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
@@ -23,8 +23,10 @@ class FileService
                         $file->storeAs($path,$encodedName,['disk' => $disk]);
 
                         array_push($uploaded, (object) [
-                            'real_name' => $fileName,
+                            'name' => $fileName,
                             'encoded_name' => $encodedName,
+                            'size' => $file->getSize(),
+                            'extension' => $extension,
                             'path' => "$path/$encodedName",
                             'disk' => $disk,
                         ]);
@@ -37,8 +39,10 @@ class FileService
                     $files->storeAs($path,$encodedName,['disk' => $disk]);
 
                     array_push($uploaded, (object) [
-                        'real_name' => $fileName,
+                        'name' => $fileName,
                         'encoded_name' => $encodedName,
+                        'size' => $files->getSize(),
+                        'extension' => $extension,
                         'path' => "$path/$encodedName",
                         'disk' => $disk,
                     ]);

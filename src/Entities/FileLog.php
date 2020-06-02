@@ -7,11 +7,12 @@ use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 class FileLog extends BaseEntity
 {
     protected $fillable = [
-        'file_name',
-        'file_size',
-        'file_extension',
-        'file_path',
-        'file_storage',
+        'name',
+        'encoded_name',
+        'size',
+        'extension',
+        'path',
+        'disk',
     ];
 
     protected $validationRules = [

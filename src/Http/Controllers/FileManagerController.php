@@ -32,9 +32,12 @@ class FileManagerController extends Controller
 
             $uploads = FileService::store($request, 'file', $request->get('disk'), $request->get('path'));
             foreach ($uploads as $name => $path) {
-                $merge['photo_name'] = $path->file_name;
-                $merge['photo_path'] = 'storage/' . $path->path;
-                $merge['photo_storage'] = 'public';
+                $merge['name'] = $path->name;
+                $merge['encoded_name'] = $path->encoded_name;
+                $merge['size'] = $path->size;
+                $merge['extension'] = $path->extension;
+                $merge['path'] = $path->path;
+                $merge['disk'] = $path->disk;
             }
 
             $request->merge($merge);
