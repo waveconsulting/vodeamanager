@@ -10,11 +10,12 @@ class FileLogResource extends BaseResource
      */
     public function resource($request) {
         return [
-            'file_name' => $this->file_name,
-            'file_size' => $this->file_size,
-            'file_extension' => $this->file_extension,
-            'file_path' => $this->file_path,
-            'file_storage' => $this->file_storage,
+            'name' => $this->name,
+            'encoded_name' => $this->encoded_name,
+            'size' => $this->size,
+            'extension' => $this->extension,
+            'path' => $this->path,
+            'disk' => $this->disk,
         ];
     }
 
