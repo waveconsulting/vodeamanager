@@ -2,7 +2,9 @@
 
 namespace Vodeamanager\Core\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Entities\FileLog;
 use Vodeamanager\Core\Http\Requests\FileLogCreateRequest;
 use Vodeamanager\Core\Http\Resources\FileLogResource;
@@ -55,5 +57,15 @@ class FileManagerController extends Controller
 
             return ExceptionService::responseJson($e);
         }
+    }
+
+    public function download(Request $request, $id) {
+        $fileLog = $this->repository->findOrFail($id);
+
+        if (!Storage::disk($fileLog->disk)->exists($fileLog->path)) {
+            return abort(404);
+        }
+
+        return Storage::disk($fileLog->disk)->download($fileLog->path);
     }
 }

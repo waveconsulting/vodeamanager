@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class FileLog extends BaseEntity
@@ -28,5 +29,9 @@ class FileLog extends BaseEntity
             'string',
         ]
     ];
+
+    public function getUrlAttribute() {
+        return Storage::disk($this->disk)->url($this->path);
+    }
 
 }
