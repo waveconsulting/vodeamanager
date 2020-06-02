@@ -34,8 +34,6 @@ class FileService
                     $extension = $files->getClientOriginalExtension();
                     $encodedName = Carbon::now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
 
-                    $files->storeAs($path,$encodedName,['disk' => $disk]);
-
                     array_push($uploaded, (object) [
                         'name' => $fileName,
                         'encoded_name' => $encodedName,
