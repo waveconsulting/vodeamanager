@@ -29,7 +29,7 @@ class RouteService
     }
 
     public function fileService() {
-        Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.'], function () {
+        Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/', 'FileManagerController@index')->name('index');
             Route::post('/store','FileManagerController@store')->name('store');
 
@@ -37,7 +37,7 @@ class RouteService
     }
 
     public function notificationService() {
-        Route::group(['prefix' => 'notification', 'as' => 'notification.', 'namespace' => ''], function () {
+        Route::group(['prefix' => 'notification', 'as' => 'notification.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/','NotificationController@index')->name('index');
             Route::post('/read-all', 'NotificationController@readAll')->name('read-all');
 
