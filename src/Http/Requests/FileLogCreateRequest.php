@@ -9,5 +9,10 @@ class FileLogCreateRequest extends FormRequest
 {
     use DefaultFormRequest;
 
-    protected $entityNamespace = 'Vodeamanager\\Core\\Utilities\\Entities\\BaseEntity';
+    public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
+    {
+        $this->entityNamespace = 'Vodeamanager\\Core\\Entities\\';
+
+        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
+    }
 }
