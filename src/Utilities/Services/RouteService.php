@@ -28,7 +28,7 @@ class RouteService
         self::createRoute($name, $controller, $options);
     }
 
-    public function fileService($withDelete = true) {
+    public function fileService() {
         Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.'], function () {
             Route::get('/', 'FileManagerController@index')->name('index');
             Route::post('/store','FileManagerController@store')->name('store');
