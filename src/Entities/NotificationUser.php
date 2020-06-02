@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Vodeamanager\Core\Scopes\MyScope;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class NotificationUser extends BaseEntity
@@ -15,6 +16,17 @@ class NotificationUser extends BaseEntity
     protected $casts = [
         'is_read' => 'boolean',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new MyScope());
+    }
+
+    public function scopeNotRead($query) {
+        $query->where('notification_users.is_read', 0);
+    }
 
     public function notification() {
         return $this->belongsTo(config('vodeamanager.models.notification'));

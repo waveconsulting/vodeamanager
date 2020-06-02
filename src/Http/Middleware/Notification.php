@@ -16,9 +16,9 @@ class Notification
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && $request->has('notification_id') && $notification = config('vodeamanger.models.notification_user')
-                ::where('notification_users.notification_id', $request->get('notification_id'))
-                ->where('notification_users.user_id', Auth::id())->first()) {
+        if (Auth::check() && $request->has('notification_id') && $notification = config('vodeamanger.models.notification_user')::notRead()
+                ->where('notification_users.notification_id', $request->get('notification_id'))
+                ->first()) {
             $notification->is_read = 1;
             $notification->save();
         }

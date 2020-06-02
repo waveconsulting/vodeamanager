@@ -2,7 +2,7 @@
 
 namespace Vodeamanager\Core\Utilities\Traits;
 
-use Vodeamanager\Core\Utilities\Scope\UserStampScope;
+use Vodeamanager\Core\Scopes\UserStampScope;
 
 trait UserStamp
 {
