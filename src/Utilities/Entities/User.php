@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
+use \OwenIt\Auditing\Auditable as AudibleTrait;
 use Vodeamanager\Core\Rules\NotPresent;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
@@ -16,7 +17,7 @@ use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class User extends Authenticatable implements Auditable
 {
-    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable, EntityFormRequest;
+    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable, EntityFormRequest, AudibleTrait;
 
     /**
      * Columns and their priority in search results.

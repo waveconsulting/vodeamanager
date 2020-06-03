@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use OwenIt\Auditing\Contracts\Auditable;
+use \OwenIt\Auditing\Auditable as AudibleTrait;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class BaseEntity extends Model implements Auditable
 {
-    use SoftDeletes, UserStamp, Searchable, EntityFormRequest;
+    use SoftDeletes, UserStamp, Searchable, EntityFormRequest, AudibleTrait;
 
     /**
      * Columns and their priority in search results.
