@@ -5,7 +5,7 @@ namespace Vodeamanager\Core\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class Gate
+class Log
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,11 @@ class Gate
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::check()) {
-            return abort(401);
-        }
-
-        $name = class_basename($request->route()->getName());
-        if (!Auth::user()->authorized($name)) {
-            return abort(401);
+        if (Auth::check()) {
+            Auth::user()->userLogs()->create([
+                'action' => $request->route()->getName(),
+                'request' => $request->all(),
+            ]);
         }
 
         return $next($request);
