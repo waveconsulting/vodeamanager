@@ -34,7 +34,7 @@ class FileLog extends BaseEntity
     {
         $this->validationRules['disk'] = [
             'required',
-            'in:' . implode(array_keys(config('filesystems.disks', [])), ',')
+            'in:' . implode(array_keys(config('filesystems.disks', [])), ', ')
         ];
 
         return $this;
@@ -43,7 +43,7 @@ class FileLog extends BaseEntity
     public function setValidationMessages(array $request = [])
     {
         $this->validationMessages['disk.in'] = 'The selected :attribute must be in '
-            . implode(array_keys(config('filesystems.disks', [])), ',');
+            . implode(array_keys(config('filesystems.disks', [])), ', ');
 
         return $this;
     }
