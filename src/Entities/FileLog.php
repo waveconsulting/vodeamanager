@@ -34,7 +34,7 @@ class FileLog extends BaseEntity
     {
         $this->validationRules['disk'] = [
             'required',
-            'in:' . implode(array_keys(config('filesystems.disks', [])), ', ')
+            'in:' . implode(array_keys(config('filesystems.disks', [])), ',')
         ];
 
         return $this;
