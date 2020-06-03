@@ -28,10 +28,14 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
+        LoginActivity::disableAuditing();
+
         LoginActivity::create([
             'user_id'       =>  $event->user->id,
             'user_agent'    =>  Request::header('User-Agent'),
             'ip_address'    =>  Request::ip()
         ]);
+
+        LoginActivity::enableAuditing();
     }
 }

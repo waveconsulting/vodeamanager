@@ -26,10 +26,14 @@ class TokenSuccessfulGenerate
      */
     public function handle(AccessTokenCreated $event)
     {
+        LoginActivity::disableAuditing();
+
         LoginActivity::create([
             'user_id'       =>  $event->userId,
             'user_agent'    =>  Request::header('User-Agent'),
             'ip_address'    =>  Request::ip()
         ]);
+
+        LoginActivity::enableAuditing();
     }
 }
