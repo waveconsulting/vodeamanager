@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\HasApiTokens;
+use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Rules\NotPresent;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
-abstract class User extends Authenticatable
+abstract class User extends Authenticatable implements Auditable
 {
     use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable, EntityFormRequest;
 
