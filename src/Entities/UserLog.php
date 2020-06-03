@@ -8,6 +8,7 @@ class UserLog extends BaseEntity
 {
     protected $fillable = [
         'user_id',
+        'path',
         'action',
         'request',
     ];

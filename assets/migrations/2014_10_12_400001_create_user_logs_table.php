@@ -17,6 +17,7 @@ class CreateUserLogsTable extends Migration
             $table->bigIncrements('id');
 
             $table->relation('user_id', 'users');
+            $table->string('path')->nullable();
             $table->string('action')->nullable();
             $table->text('request')->nullable();
 

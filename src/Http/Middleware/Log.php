@@ -18,6 +18,7 @@ class Log
     {
         if (Auth::check()) {
             Auth::user()->userLogs()->create([
+                'path' => $request->getPathInfo(),
                 'action' => $request->route()->getName(),
                 'request' => $request->all(),
             ]);
