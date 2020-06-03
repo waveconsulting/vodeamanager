@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Vodeamanager\Core\Http\Middleware\Gate;
-use Vodeamanager\Core\Http\Middleware\Log;
 use Vodeamanager\Core\Http\Middleware\Notification;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
@@ -155,7 +154,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
     {
         $this->app['router']->aliasMiddleware('vodeamanager.gate', Gate::class);
         $this->app['router']->aliasMiddleware('vodeamanager.notification', Notification::class);
-        $this->app['router']->aliasMiddleware('vodeamanager.log', Log::class);
     }
 
 }
