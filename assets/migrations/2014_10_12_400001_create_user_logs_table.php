@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFileLogsTable extends Migration
+class CreateUserLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateFileLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_logs', function (Blueprint $table) {
+        Schema::create('user_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->relation('user_id', 'users');
@@ -31,6 +31,6 @@ class CreateFileLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_logs');
+        Schema::dropIfExists('user_logs');
     }
 }
