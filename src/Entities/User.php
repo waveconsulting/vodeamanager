@@ -49,6 +49,10 @@ class User extends Authenticatable
         ],
     ];
 
+    public function userLogs() {
+        return $this->belongsToMany(config('vodeamanager.models.user_log'));
+    }
+
     public function roles() {
         return $this->belongsToMany(config('vodeamanager.models.role'), 'role_users')->withTimestamps();
     }
