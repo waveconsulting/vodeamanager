@@ -2,7 +2,9 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
+use Vodeamanager\Core\Rules\ValidUser;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class GateSetting extends BaseEntity
@@ -18,14 +20,6 @@ class GateSetting extends BaseEntity
     ];
 
     protected $validationRules = [
-        'role_id' => [
-            'required',
-            'exists:roles,id,deleted_at,NULL',
-        ],
-        'user_id' => [
-            'required',
-            'exists:users,id,deleted_at,NULL',
-        ],
         'valid_from' => [
             'required',
             'date_format:Y-m-d',
@@ -55,6 +49,25 @@ class GateSetting extends BaseEntity
 
     public function permissions() {
         return $this->belongsToMany(config('vodeamanager.models.permission'), 'gate_setting_permissions')->withTimestamps();
+    }
+
+    public function setValidationRules(array $request = [], $id = null)
+    {
+        $this->validationRules['role_id'] = [
+            'required',
+            'exists:roles,id,deleted_at,NULL',
+        ];
+
+        if (!Arr::get($request,'role_id')) {
+            $this->validationRules['user_id'] = [ new ValidUser() ];
+        }
+
+        $this->validationRules['permission_ids'] = ['array'];
+
+        $this->validationRules['permission_ids.*'] = [
+            'required',
+            'exists:permissions,id,deleted_at,NULL',
+        ];
     }
 
 }

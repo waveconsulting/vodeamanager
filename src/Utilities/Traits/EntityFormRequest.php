@@ -52,80 +52,6 @@ trait EntityFormRequest
     }
 
     /**
-     * @param string $attribute
-     * @param array $nullableFields
-     * @return EntityFormRequest
-     */
-    public function assignChildValidationRules(string $attribute, array $nullableFields = []) {
-        $validationRules = [];
-
-        foreach ($this->getValidationRules() as $key => $rule) {
-            if (in_array($key,$nullableFields)) $validationRules[$attribute . '.*.' . $key] = ['nullable'];
-            else $validationRules[$attribute . '.*.' . $key] = $rule;
-        }
-
-        $this->validationRules = $validationRules;
-
-        return $this;
-    }
-
-    /**
-     * @param string $attribute
-     * @return EntityFormRequest
-     */
-    public function assignChildValidationMessages(string $attribute) {
-        $validationMessages = [];
-
-        foreach ($this->getValidationMessages() as $key => $message) {
-            $validationMessages[$attribute . '.*.' . $key] = $message;
-        }
-
-        $this->validationMessages = $validationMessages;
-
-        return $this;
-    }
-
-    /**
-     * @param string $attribute
-     * @return EntityFormRequest
-     */
-    public function assignChildValidationAttributes(string $attribute) {
-        $validationAttributes = [];
-
-        foreach ($this->getValidationAttributes() as $key => $property) {
-            $validationAttributes[$attribute . '.*.' . $key] = $property;
-        }
-
-        $this->validationAttributes = $validationAttributes;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     * @return void
-     */
-    public function getValidationRules() {
-        $this->assignNotPresent();
-
-        return $this->validationRules;
-    }
-
-    /**
-     * @return array
-     */
-    public function getValidationMessages() {
-        return $this->validationMessages;
-    }
-
-    /**
-     * @return array
-     */
-    public function getValidationAttributes() {
-        return $this->validationAttributes;
-    }
-
-    /**
      * @param array $request
      * @param null $id
      * @return EntityFormRequest
@@ -151,45 +77,27 @@ trait EntityFormRequest
     }
 
     /**
-     * @param mixed ...$validationRules
-     * @return EntityFormRequest
+     * @return array
+     * @return void
      */
-    public function mergeValidationRules(...$validationRules) {
-        if (is_array($validationRules)) {
-            foreach ($validationRules as $validationRule) {
-                if (is_array($validationRule)) $this->validationRules = array_merge($this->validationRules, $validationRule);
-            }
-        }
+    public function getValidationRules() {
+        $this->assignNotPresent();
 
-        return $this;
+        return $this->validationRules;
     }
 
     /**
-     * @param mixed ...$validationMessages
-     * @return EntityFormRequest
+     * @return array
      */
-    public function mergeValidationMessage(...$validationMessages) {
-        if (is_array($validationMessages)) {
-            foreach ($validationMessages as $validationMessage) {
-                if (is_array($validationMessage)) $this->validationMessages = array_merge($this->validationMessages, $validationMessage);
-            }
-        }
-
-        return $this;
+    public function getValidationMessages() {
+        return $this->validationMessages;
     }
 
     /**
-     * @param mixed ...$validationAttributes
-     * @return EntityFormRequest
+     * @return array
      */
-    public function mergeValidationAttributes(...$validationAttributes) {
-        if (is_array($validationAttributes)) {
-            foreach ($validationAttributes as $validationAttribute) {
-                if (is_array($validationAttribute)) $this->validationAttributes = array_merge($this->validationAttributes, $validationAttribute);
-            }
-        }
-
-        return $this;
+    public function getValidationAttributes() {
+        return $this->validationAttributes;
     }
 
 }

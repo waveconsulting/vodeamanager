@@ -31,10 +31,6 @@ class Role extends BaseEntity
         'parent_id' => [
             'exists:roles,id,deleted_at,NULL',
         ],
-        'department_id' => [
-            'required',
-            'exists:departments,id,deleted_at,NULL',
-        ],
         'is_special' => [
             'boolean',
         ],

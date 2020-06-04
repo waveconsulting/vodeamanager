@@ -44,6 +44,16 @@ class RouteService
         });
     }
 
+    public function numberSettingService() {
+        Route::group(['prefix' => 'number-setting', 'as' => 'number-setting.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
+            Route::get('/','NumberSettingController@index')->name('index');
+            Route::post('/','NumberSettingController@store')->name('store');
+            Route::get('/{id}','NumberSettingController@show')->name('show');
+            Route::put('/{id}','NumberSettingController@update')->name('update');
+            Route::delete('/{id}','NumberSettingController@destroy')->name('destroy');
+        });
+    }
+
     private function createRoute($name, string $controller = '', array $options = []) {
         $only = ['index', 'store', 'create', 'show', 'json', 'update', 'edit', 'destroy'];
         $middleware = $options['middleware'] ?? [];
