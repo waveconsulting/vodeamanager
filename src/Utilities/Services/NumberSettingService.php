@@ -12,14 +12,14 @@ class NumberSettingService
 {
     public function generateNumber($entity, $date = null, $subjectId = null) {
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
-        if (empty($numberSetting) && !$components = $numberSetting->components()->exists()) {
+        if (!$numberSetting || !$numberSetting->numberSettingComponents()->exists()) {
             return $this->generateDefaultNumber($entity);
         }
 
         if(!$date) $date = now();
         else $date = Carbon::parse($date);
 
-        $components = $numberSetting->components()->orderBy('sequence')->get();
+        $components = $numberSetting->numberSettingComponents()->orderBy('sequence')->get();
 
         $prefixDigit = 0;
         $digitBeforeCounter = 0;
@@ -102,6 +102,6 @@ class NumberSettingService
 
     public function generateDefaultNumber($entity) {
         $tableName = Str::plural(Str::snake(Arr::last(explode('\\', $entity))), 2);
-        return (DB::select("show table status like ${$tableName}"))[0]->Auto_increment;
+        return (DB::select("show table status like '{$tableName}'"))[0]->Auto_increment;
     }
 }
