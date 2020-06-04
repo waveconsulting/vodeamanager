@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Vodeamanager\Core\Utilities\Constant;
 
 class NumberSettingService
 {
@@ -26,35 +27,35 @@ class NumberSettingService
         $generatedNumberArray = [];
         $queryNumber = '';
 
-        foreach($components as $component){
-            if(!in_array(null, $generatedNumberArray) && $component->type != 'counter') $digitBeforeCounter += strlen($component->format);
+        foreach($components as $index => $component){
+            if(!in_array(null, $generatedNumberArray) && $component->type != Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER) $digitBeforeCounter += strlen($component->format);
             switch ($component->type) {
-                case 'text':
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_TYPE:
                     array_push($generatedNumberArray, $component->format);
                     $queryNumber .= str_replace('_', '\\_', $component->format);
                     break;
-                case 'year':
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_YEAR:
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
                     if (!$numberSetting->reset_type) $dateText = str_repeat('_', strlen($dateText));
                     $queryNumber .= $dateText;
                     break;
-                case 'month':
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_MONTH:
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
                     if (!$numberSetting->reset_type || $numberSetting->reset_type == 'yearly') $dateText = str_repeat('_', strlen($dateText));
                     $queryNumber .= $dateText;
                     break;
-                case 'day':
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_DAY:
                     $dateText = date($component->format, strtotime($date));
                     array_push($generatedNumberArray, $dateText);
 
                     if (!$numberSetting->reset_type || $numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly') $dateText = str_repeat('_', strlen($dateText));
                     $queryNumber .= $dateText;
                     break;
-                case 'counter':
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER:
                     array_push($generatedNumberArray, null);
                     $queryNumber .= str_repeat('_', $component->format);
                     $prefixDigit = $component->format;
@@ -75,7 +76,7 @@ class NumberSettingService
             ->withTrashed()
             ->orderBy('number')
             ->pluck('number')
-            ->get();
+            ->toArray();
 
         $existingNumbers = array_map(function($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter){
             $counterIndex = array_search(null,$generatedNumberArray);
