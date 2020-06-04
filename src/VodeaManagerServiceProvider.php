@@ -11,6 +11,7 @@ use Vodeamanager\Core\Http\Middleware\Gate;
 use Vodeamanager\Core\Http\Middleware\Notification;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
+use Vodeamanager\Core\Utilities\Services\NumberSettingService;
 use Vodeamanager\Core\Utilities\Services\RouteService;
 
 class VodeaManagerServiceProvider extends ServiceProvider
@@ -147,6 +148,10 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         app()->bind('route.service', function() {
             return new RouteService;
+        });
+
+        app()->bind('number-setting.service', function() {
+            return new NumberSettingService;
         });
     }
 

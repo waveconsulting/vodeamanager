@@ -30,5 +30,7 @@ return [
         'notification_user' => Vodeamanager\Core\Entities\NotificationUser::class,
         'setting' => Vodeamanager\Core\Entities\Setting::class,
         'file_log' => Vodeamanager\Core\Entities\FileLog::class,
+        'number_setting' => Vodeamanager\Core\Entities\NumberSetting::class,
+        'number_setting_component' => Vodeamanager\Core\Entities\NumberSettingComponent::class,
     ]
 ];

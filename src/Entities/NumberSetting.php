@@ -35,7 +35,6 @@ class NumberSetting extends BaseEntity
         ];
 
         $this->validationRules['reset_type'] = [
-            'required',
             'in:' . implode(array_keys(Constant::NUMBER_SETTING_RESET_TYPE_OPTIONS), ',')
         ];
 
