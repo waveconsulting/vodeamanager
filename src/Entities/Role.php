@@ -19,21 +19,10 @@ class Role extends BaseEntity
     ];
 
     protected $validationRules = [
-        'name' => [
-            'required',
-            'string',
-            'max:255',
-        ],
-        'description' => [
-            'string',
-            'max:255',
-        ],
-        'parent_id' => [
-            'exists:roles,id,deleted_at,NULL',
-        ],
-        'is_special' => [
-            'boolean',
-        ],
+        'name' => 'required|string|max:255',
+        'description' => 'string|max:255',
+        'parent_id' => 'exists:roles,id,deleted_at,NULL',
+        'is_special' => 'boolean',
     ];
 
     public function parent() {

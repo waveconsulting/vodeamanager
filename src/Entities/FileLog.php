@@ -17,13 +17,8 @@ class FileLog extends BaseEntity
     ];
 
     protected $validationRules = [
-        'file' => [
-            'required',
-        ],
-        'path' => [
-            'required',
-            'string',
-        ],
+        'file' => 'required',
+        'path' => 'required|string',
     ];
 
     public function getUrlAttribute() {
@@ -42,8 +37,7 @@ class FileLog extends BaseEntity
 
     public function setValidationMessages(array $request = [])
     {
-        $this->validationMessages['disk.in'] = 'The selected :attribute must be in '
-            . implode(array_keys(config('filesystems.disks', [])), ', ');
+        $this->validationMessages['disk.in'] = 'The selected :attribute must be in ' . implode(array_keys(config('filesystems.disks', [])), ', ');
 
         return $this;
     }

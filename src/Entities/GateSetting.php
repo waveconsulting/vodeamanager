@@ -20,10 +20,7 @@ class GateSetting extends BaseEntity
     ];
 
     protected $validationRules = [
-        'valid_from' => [
-            'required',
-            'date_format:Y-m-d',
-        ],
+        'valid_from' => 'required|date_format:Y-m-d',
     ];
 
     protected static function boot()
@@ -53,21 +50,12 @@ class GateSetting extends BaseEntity
 
     public function setValidationRules(array $request = [], $id = null)
     {
-        $this->validationRules['role_id'] = [
-            'required',
-            'exists:roles,id,deleted_at,NULL',
-        ];
+        $this->validationRules['role_id'] = 'required|exists:roles,id,deleted_at,NULL';
 
-        if (!Arr::get($request,'role_id')) {
-            $this->validationRules['user_id'] = [ new ValidUser() ];
-        }
+        if (!Arr::get($request,'role_id')) $this->validationRules['user_id'] = [new ValidUser()];
 
-        $this->validationRules['permission_ids'] = ['array'];
-
-        $this->validationRules['permission_ids.*'] = [
-            'required',
-            'exists:permissions,id,deleted_at,NULL',
-        ];
+        $this->validationRules['permission_ids'] = 'array';
+        $this->validationRules['permission_ids.*'] = 'required|exists:permissions,id,deleted_at,NULL';
     }
 
 }

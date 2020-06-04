@@ -24,29 +24,11 @@ class User extends Authenticatable
     ];
 
     protected $validationRules = [
-        'name' => [
-            'required',
-            'string',
-            'max:255',
-        ],
-        'email' => [
-            'required',
-            'email',
-            'unique:users,email',
-        ],
-        'password' => [
-            'required',
-            'string',
-            'max:255',
-        ],
-        'telephone' => [
-            'string',
-            'max:15',
-        ],
-        'mobile_phone' => [
-            'string',
-            'max:15',
-        ],
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|max:255',
+        'telephone' => 'string|max:15',
+        'mobile_phone' => 'string|max:15',
     ];
 
     public function roles() {

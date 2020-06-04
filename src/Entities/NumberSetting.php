@@ -38,15 +38,8 @@ class NumberSetting extends BaseEntity
             'in:' . implode(array_keys(Constant::NUMBER_SETTING_RESET_TYPE_OPTIONS), ',')
         ];
 
-        $this->validationRules['number_setting_components'] = ['array'];
-
-        $this->validationRules['number_setting_components.*.sequence'] = [
-            'required',
-            'distinct',
-            'integer',
-            'min:1',
-        ];
-
+        $this->validationRules['number_setting_components'] = 'array';
+        $this->validationRules['number_setting_components.*.sequence'] = 'required|distinct|integer|min:1';
         $this->validationRules['number_setting_components.*.type'] = [
             'required',
             'in:' . implode(array_keys(Constant::NUMBER_SETTING_COMPONENT_TYPE_OPTIONS)),
@@ -81,11 +74,8 @@ class NumberSetting extends BaseEntity
 
     public function setValidationMessages(array $request = [])
     {
-        $this->validationMessages['reset_type.in'] = 'The selected :attribute must be in '
-            . implode(array_values(Constant::NUMBER_SETTING_RESET_TYPE_OPTIONS), ', ');
-
-        $this->validationMessages['number_setting_components.*.type.in'] = 'The selected :attribute must be in '
-            . implode(array_values(Constant::NUMBER_SETTING_COMPONENT_TYPE_OPTIONS), ', ');
+        $this->validationMessages['reset_type.in'] = 'The selected :attribute must be in ' . implode(array_values(Constant::NUMBER_SETTING_RESET_TYPE_OPTIONS), ', ');
+        $this->validationMessages['number_setting_components.*.type.in'] = 'The selected :attribute must be in ' . implode(array_values(Constant::NUMBER_SETTING_COMPONENT_TYPE_OPTIONS), ', ');
 
         return $this;
     }
