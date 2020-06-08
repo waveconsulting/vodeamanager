@@ -28,7 +28,7 @@ class ValidUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        return config('vodeamanager.models.user')::where($value)->exists();
+        return config('vodeamanager.models.user')::where('id', $value)->exists();
     }
 
     /**
