@@ -3,19 +3,22 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 
 class ValidEntity implements Rule
 {
+    protected $request;
     protected $message;
 
     /**
      * Create a new rule instance.
      *
-     * @param $val
+     * @param array $request
      * @param string $message
      */
-    public function __construct($message = 'The selected :attribute is invalid.')
+    public function __construct(array $request = [], $message = 'The selected :attribute is invalid.')
     {
+        $this->request = $request;
         $this->message = $message;
     }
 
@@ -28,6 +31,7 @@ class ValidEntity implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (Arr::has($this->request, 'entity')) $value = Arr::get($this->request, 'entity');
         return class_exists($value);
     }
 
