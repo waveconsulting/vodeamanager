@@ -30,6 +30,7 @@ class ValidSubjectIdFromEntity implements Rule
     public function passes($attribute, $value)
     {
         if (!$entity = Arr::get($this->request, 'entity')) return false;
+        if (!class_exists($entity)) return false;
 
         return !!app($entity)::find($value);
     }

@@ -3,8 +3,6 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Arr;
-use Symfony\Component\Mime\Test\Constraint\EmailHeaderSame;
-use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Utilities\Constant;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
@@ -34,7 +32,6 @@ class NumberSetting extends BaseEntity
         $this->validationRules['entity'] = [
             'required',
             'unique:number_settings,entity,' . ($id ?? 'NULL') . ',id,deleted_at,NULL',
-            new ValidEntity(),
         ];
 
         $this->validationRules['reset_type'] = [
