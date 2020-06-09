@@ -4,19 +4,21 @@ namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidEntity implements Rule
+class ValidInConstant implements Rule
 {
+    protected $constant;
     protected $message;
 
     /**
      * Create a new rule instance.
      *
-     * @param $val
-     * @param string $message
+     * @param array $constant
+     * @param string|null $message
      */
-    public function __construct($message = 'The selected :attribute is invalid.')
+    public function __construct(array $constant, string $message = null)
     {
-        $this->message = $message;
+        $this->constant = $constant;
+        $this->message = $message ?? 'The selected :attribute must be in ' . implode(array_values($constant), ', ') . '.';
     }
 
     /**
@@ -28,7 +30,7 @@ class ValidEntity implements Rule
      */
     public function passes($attribute, $value)
     {
-        return class_exists($value);
+        return array_key_exists($value, $this->constant);
     }
 
     /**

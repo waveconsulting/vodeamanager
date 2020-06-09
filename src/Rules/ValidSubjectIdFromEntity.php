@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 class ValidSubjectIdFromEntity implements Rule
 {
     protected $request;
-    protected $message = 'The selected subject is invalid.';
+    protected $message = 'The selected :attribute is invalid.';
 
     /**
      * Create a new rule instance.

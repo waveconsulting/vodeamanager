@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 class ValidUser implements Rule
 {
     protected $request;
-    protected $message = 'The selected user is invalid.';
+    protected $message = 'The selected :attribute is invalid.';
 
     /**
      * Create a new rule instance.

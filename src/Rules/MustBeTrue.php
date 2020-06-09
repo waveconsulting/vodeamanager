@@ -11,7 +11,6 @@ class MustBeTrue implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param $val
      * @param string $message
      */
     public function __construct($message = 'The :attribute must be true.')
