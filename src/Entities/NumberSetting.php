@@ -33,6 +33,7 @@ class NumberSetting extends BaseEntity
     {
         $this->validationRules['entity'] = [
             'required',
+            'unique:number_settings,entity,' . ($id ?? 'NULL') . ',id,deleted_at,NULL',
             new ValidEntity(),
         ];
 
