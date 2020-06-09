@@ -158,9 +158,11 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     private function registerMiddleware()
     {
+        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+        $kernel->pushMiddleware('Fruitcake\Cors\HandleCors');
+
         $this->app['router']->aliasMiddleware('vodeamanager.gate', Gate::class);
         $this->app['router']->aliasMiddleware('vodeamanager.notification', Notification::class);
-        $this->app['router']->pushMiddleware(HandleCors::class);
     }
 
 }
