@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core;
 
+use Fruitcake\Cors\HandleCors;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
@@ -159,6 +160,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
     {
         $this->app['router']->aliasMiddleware('vodeamanager.gate', Gate::class);
         $this->app['router']->aliasMiddleware('vodeamanager.notification', Notification::class);
+        $this->app['router']->pushMiddleware(HandleCors::class);
     }
 
 }
