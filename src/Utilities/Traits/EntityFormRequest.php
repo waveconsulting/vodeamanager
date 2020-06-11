@@ -28,6 +28,13 @@ trait EntityFormRequest
     protected $validationAttributes = [];
 
     /**
+     * Set not present field when update
+     *
+     * @var array
+     */
+    protected $exceptUpdateFields = [];
+
+    /**
      * @return array
      */
     public function getDefaultRules() {

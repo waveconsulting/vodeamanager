@@ -26,7 +26,9 @@ trait DefaultFormRequest
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
-        return $model->setValidationRules($this->all(), @$this->id)->getValidationRules();
+        if (@$this->id) return $model->setValidationRules($this->all(), $this->id)->setExceptUpdateFields()->getValidationRules();
+
+        return $model->setValidationRules($this->all())->getValidationRules();
     }
 
     public function getMessages() {
