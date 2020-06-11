@@ -59,6 +59,17 @@ trait EntityFormRequest
     }
 
     /**
+     * @return EntityFormRequest
+     */
+    public function setExceptUpdateFields() {
+        foreach ($this->exceptUpdateFields as $exceptUpdateField) {
+            $this->validationRules[$exceptUpdateField] = [ new NotPresent() ];
+        }
+
+        return $this;
+    }
+
+    /**
      * @param array $request
      * @param null $id
      * @return EntityFormRequest
