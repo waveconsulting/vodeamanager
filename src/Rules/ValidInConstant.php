@@ -30,6 +30,7 @@ class ValidInConstant implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (!is_string($value)) return false;
         return array_key_exists($value, $this->constant);
     }
 
