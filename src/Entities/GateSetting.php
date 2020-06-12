@@ -52,7 +52,7 @@ class GateSetting extends BaseEntity
     {
         $this->validationRules['role_id'] = 'required|exists:roles,id,deleted_at,NULL';
 
-        if (!Arr::get($request,'role_id')) $this->validationRules['user_id'] = [new ValidUser()];
+        if (!Arr::get($request,'role_id')) $this->validationRules['user_id'] = ['required', new ValidUser()];
 
         $this->validationRules['permission_ids'] = 'array';
         $this->validationRules['permission_ids.*'] = 'required|exists:permissions,id,deleted_at,NULL';
