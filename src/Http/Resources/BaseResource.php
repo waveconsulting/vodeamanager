@@ -22,7 +22,7 @@ class BaseResource extends JsonResource
             'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
         ];
 
-        return array_merge($defaultResources, $this->resource($request));
+        return array_merge($defaultResources, $this->resource($request), $this->relation($request));
     }
 
     /**
@@ -30,6 +30,10 @@ class BaseResource extends JsonResource
      * @return array
      */
     public function resource($request) {
+        return [];
+    }
+
+    public function relation($request) {
         return [];
     }
 }
