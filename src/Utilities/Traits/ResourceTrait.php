@@ -7,12 +7,12 @@ use Vodeamanager\Core\Http\Resources\SelectResource;
 
 trait ResourceTrait
 {
-    protected $resource = DefaultResource::class;
+    protected $indexResource = DefaultResource::class;
     protected $showResource = DefaultResource::class;
     protected $selectResource = SelectResource::class;
 
     public function getResource() {
-        return $this->resource;
+        return $this->indexResource;
     }
 
     public function getShowResource() {
