@@ -5,11 +5,12 @@ namespace Vodeamanager\Core\Utilities\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 
 abstract class BaseView extends Model
 {
-    use Searchable;
+    use Searchable, ResourceTrait;
 
     /**
      * Columns and their priority in search results.
