@@ -14,7 +14,8 @@ trait RestCoreController
     protected $repository;
     protected $namespace;
     protected $fillable;
-    protected $resource;
+    protected $indexResource;
+    protected $showResource;
     protected $selectResource;
     protected $policy = false;
     protected $eagerLoadRelationIndex = [];
@@ -23,6 +24,9 @@ trait RestCoreController
     public function __construct()
     {
         if (!$this->namespace) $this->namespace = get_class($this->repository);
+        if (!$this->indexResource) $this->indexResource = $this->repository->getResource();
+        if (!$this->showResource) $this->showResource = $this->repository->getShowResource();
+        if (!$this->selectResource) $this->selectResource = $this->repository->getSelectResource();
         $this->fillable = app($this->namespace)->getFillable();
     }
 
@@ -38,9 +42,11 @@ trait RestCoreController
             ? $repository->paginate($request->per_page)
             : $repository->get();
 
-        return is_subclass_of($this->resource, JsonResource::class)
-            ? $this->resource::collection($data)
-            : DefaultResource::collection($data);
+        if ($this->indexResource && is_subclass_of($this->indexResource, JsonResource::class)) {
+            return $this->indexResource::collection($data);
+        }
+
+        return DefaultResource::collection($data);
     }
 
     public function select(Request $request, $id = null) {
@@ -63,7 +69,7 @@ trait RestCoreController
             ? $repository->paginate($request->per_page)
             : $repository->get();
 
-        if (is_subclass_of($this->selectResource, JsonResource::class)) {
+        if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) {
             return $this->selectResource::collection($data);
         }
 
@@ -78,9 +84,11 @@ trait RestCoreController
 
         if ($this->policy) $this->authorize('view', $data);
 
-        return is_subclass_of($this->resource, JsonResource::class)
-            ? new $this->resource($data)
-            : new DefaultResource($data);
+        if ($this->showResource && is_subclass_of($this->showResource, JsonResource::class)) {
+            return new $this->showResource($data);
+        }
+
+        return new DefaultResource($data);
     }
 
     public function destroy(Request $request, $id)

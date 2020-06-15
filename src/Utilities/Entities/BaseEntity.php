@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Schema;
 use OwenIt\Auditing\Contracts\Auditable;
 use \OwenIt\Auditing\Auditable as AudibleTrait;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
+use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class BaseEntity extends Model implements Auditable
 {
-    use SoftDeletes, UserStamp, Searchable, EntityFormRequest, AudibleTrait;
+    use SoftDeletes, UserStamp, Searchable, EntityFormRequest, AudibleTrait, ResourceTrait;
 
     /**
      * Columns and their priority in search results.

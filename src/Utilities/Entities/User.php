@@ -12,12 +12,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 use \OwenIt\Auditing\Auditable as AudibleTrait;
 use Vodeamanager\Core\Rules\NotPresent;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
+use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
 use Vodeamanager\Core\Utilities\Traits\Searchable;
 use Vodeamanager\Core\Utilities\Traits\UserStamp;
 
 abstract class User extends Authenticatable implements Auditable
 {
-    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable, EntityFormRequest, AudibleTrait;
+    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, Searchable, EntityFormRequest, AudibleTrait, ResourceTrait;
 
     /**
      * Columns and their priority in search results.
