@@ -18,7 +18,6 @@ class FileLog extends BaseEntity
     ];
 
     protected $validationRules = [
-        'file' => 'required',
         'path' => 'required|string',
     ];
 
@@ -33,13 +32,15 @@ class FileLog extends BaseEntity
             'in:' . implode(array_keys(config('filesystems.disks', [])), ',')
         ];
 
+        $fileRules = ['required'];
+
         $mimes = Arr::get($request, 'mimes', []);
-        if (is_array($mimes) && !empty($mimes)) {
-            $this->validationRules['file'] = [
-                'required',
-                'mimes:' . implode($mimes,','),
-            ];
-        }
+        if (is_array($mimes) && !empty($mimes)) $this->validationRules[] = 'mimes:' . implode($mimes,',');
+
+        $maxSize = Arr::get($request, 'max_size', null);
+        if ($maxSize) $fileRules[] = 'max:' . $maxSize;
+
+        $this->validationRules['file'] = $fileRules;
 
         return $this;
     }
