@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
@@ -31,6 +32,14 @@ class FileLog extends BaseEntity
             'required',
             'in:' . implode(array_keys(config('filesystems.disks', [])), ',')
         ];
+
+        $mimes = Arr::get($request, 'mimes', []);
+        if (is_array($mimes) && !empty($mimes)) {
+            $this->validationRules['file'] = [
+                'required',
+                'mimes:' . implode($mimes,','),
+            ];
+        }
 
         return $this;
     }
