@@ -23,13 +23,13 @@ trait RestCoreController
 
     public function __construct()
     {
-        if (!$this->namespace) $this->namespace = get_class($this->repository);
+        if (is_null($this->namespace)) $this->namespace = get_class($this->repository);
         $repository = app($this->namespace);
 
         $this->fillable = (clone $repository)->getFillable();
-        if (!$this->indexResource) $this->indexResource = (clone $repository)->getResource();
-        if (!$this->showResource) $this->showResource = (clone $repository)->getShowResource();
-        if (!$this->selectResource) $this->selectResource = (clone $repository)->getSelectResource();
+        if (is_null($this->indexResource)) $this->indexResource = (clone $repository)->getResource();
+        if (is_null($this->showResource)) $this->showResource = (clone $repository)->getShowResource();
+        if (is_null($this->selectResource)) $this->selectResource = (clone $repository)->getSelectResource();
     }
 
     public function index(Request $request) {

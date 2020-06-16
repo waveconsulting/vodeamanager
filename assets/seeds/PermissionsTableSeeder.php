@@ -14,7 +14,7 @@ class PermissionsTableSeeder extends Seeder
         $routes = Route::getRoutes()->getRoutes();
         foreach ($routes as $route) {
             $middleware = $route->gatherMiddleware();
-            if (!in_array('vodeamanager.gate', $middleware) || !$route->getName()) continue;
+            if (!in_array('vodeamanager.gate', $middleware) || is_null($route->getName())) continue;
 
             $permission = [
                 'name' => $route->getName(),

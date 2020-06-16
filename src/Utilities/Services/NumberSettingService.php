@@ -13,11 +13,11 @@ class NumberSettingService
 {
     public function generateNumber($entity, $date = null, $subjectId = null) {
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
-        if (!$numberSetting || !$numberSetting->numberSettingComponents()->exists()) {
+        if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) {
             return $this->generateDefaultNumber($entity);
         }
 
-        if(!$date) $date = now();
+        if(is_null($date)) $date = now();
         else $date = Carbon::parse($date);
 
         $components = $numberSetting->numberSettingComponents()->orderBy('sequence')->get();
@@ -38,21 +38,21 @@ class NumberSettingService
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
-                    if (!$numberSetting->reset_type) $dateText = str_repeat('_', strlen($dateText));
+                    if (is_null($numberSetting->reset_type)) $dateText = str_repeat('_', strlen($dateText));
                     $queryNumber .= $dateText;
                     break;
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_MONTH:
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
-                    if (!$numberSetting->reset_type || $numberSetting->reset_type == 'yearly') $dateText = str_repeat('_', strlen($dateText));
+                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly') $dateText = str_repeat('_', strlen($dateText));
                     $queryNumber .= $dateText;
                     break;
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_DAY:
                     $dateText = date($component->format, strtotime($date));
                     array_push($generatedNumberArray, $dateText);
 
-                    if (!$numberSetting->reset_type || $numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly') $dateText = str_repeat('_', strlen($dateText));
+                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly') $dateText = str_repeat('_', strlen($dateText));
                     $queryNumber .= $dateText;
                     break;
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER:
