@@ -16,18 +16,18 @@ class BaseResource extends JsonResource
      */
     public function toArray($request)
     {
-        $defaultResources = [
+        $resources = array_merge([
             'id' => $this->id,
             'creator' => new CreatorResource($this->whenLoaded('creator')),
             'editor' => new EditorResource($this->whenLoaded('editor')),
             'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
-        ];
+        ], $this->resource($request));
 
-        $relations = [];
         foreach (array_keys($this->getRelations()) as $relationName) {
-            $relation = camel_to_snake($relationName);
-            $relations[$relation] = $this->whenLoaded($relationName, function () use ($relationName) {
+            $name = camel_to_snake($relationName);
+            if (array_key_exists($name,$resources)) continue;
 
+            $resources[$name] = $this->whenLoaded($relationName, function () use ($relationName) {
                 $data = $resource = $this->resource->$relationName;
                 if ($data instanceof Collection) {
                     if ($data->isEmpty()) $resource = DefaultResource::class;
@@ -42,7 +42,7 @@ class BaseResource extends JsonResource
             });
         }
 
-        return array_merge($defaultResources, $this->resource($request), $relations);
+        return $resources;
     }
 
     /**
