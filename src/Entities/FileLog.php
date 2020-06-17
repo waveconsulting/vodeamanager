@@ -34,10 +34,10 @@ class FileLog extends BaseEntity
 
         $fileRules = ['required'];
 
-        $mimes = Arr::get($request, 'mimes', []);
+        $mimes = arr_get($request, 'mimes', []);
         if (is_array($mimes) && !empty($mimes)) $fileRules[] = 'mimes:' . implode($mimes,',');
 
-        $maxSize = Arr::get($request, 'max_size', null);
+        $maxSize = arr_get($request, 'max_size', null);
         if ($maxSize) $fileRules[] = 'max:' . $maxSize;
 
         $this->validationRules['file'] = $fileRules;

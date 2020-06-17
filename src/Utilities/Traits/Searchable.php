@@ -163,7 +163,7 @@ trait Searchable
      */
     protected function getJoins()
     {
-        return Arr::get($this->searchable, 'joins', []);
+        return arr_get($this->searchable, 'joins', []);
     }
 
     /**

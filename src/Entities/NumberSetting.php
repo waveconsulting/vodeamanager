@@ -48,7 +48,7 @@ class NumberSetting extends BaseEntity
             new ValidInConstant(Constant::NUMBER_SETTING_COMPONENT_TYPE_OPTIONS),
         ];
 
-        $numberSettingComponents = Arr::get($request, 'number_setting_components', []);
+        $numberSettingComponents = arr_get($request, 'number_setting_components', []);
         if (is_array($numberSettingComponents)) {
             foreach ($numberSettingComponents as $index => $numberSettingComponent) {
                 $rules = ['required'];
