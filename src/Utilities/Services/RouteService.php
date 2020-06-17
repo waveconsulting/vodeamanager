@@ -7,9 +7,7 @@ use Illuminate\Support\Facades\Route;
 class RouteService
 {
     public function apiRoutes(array $resources, array $options = []) {
-        foreach ($resources as $name) {
-            self::apiRoute($name, '', $options);
-        }
+        foreach ($resources as $name) self::apiRoute($name, '', $options);
     }
 
     public function apiRoute($name, string $controller = '', array $options = []) {

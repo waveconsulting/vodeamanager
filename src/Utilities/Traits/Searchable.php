@@ -32,18 +32,13 @@ trait Searchable
 
     public function scopeSearchRestricted(Builder $q, $search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
     {
-        if (!count($this->getColumns())) {
-            return $q;
-        }
+        if (!count($this->getColumns())) return $q;
         
         $query = clone $q;
         $query->select($this->getTable() . '.*');
         $this->makeJoins($query);
 
-        if ($search === false)
-        {
-            return $q;
-        }
+        if ($search === false) return $q;
 
         $search = mb_strtolower(trim($search));
         preg_match_all('/(?:")((?:\\\\.|[^\\\\"])*)(?:")|(\S+)/', $search, $matches);
@@ -56,46 +51,30 @@ trait Searchable
         $this->searchBindings = [];
         $relevanceCount = 0;
 
-        foreach ($this->getColumns() as $column => $relevance)
-        {
+        foreach ($this->getColumns() as $column => $relevance) {
             $relevanceCount += $relevance;
 
-            if (!$entireTextOnly) {
-                $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
-            } else {
-                $queries = [];
-            }
+            if (!$entireTextOnly) $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
+            else $queries = [];
 
-            if ( ($entireText === true && count($words) > 1) || $entireTextOnly === true )
-            {
+            if (($entireText === true && count($words) > 1) || $entireTextOnly === true) {
                 $queries[] = $this->getSearchQuery($column, $relevance, [$search], 50, '', '');
                 $queries[] = $this->getSearchQuery($column, $relevance, [$search], 30, '%', '%');
             }
 
-            foreach ($queries as $select)
-            {
-                if (!empty($select)) {
-                    $selects[] = $select;
-                }
-            }
+            foreach ($queries as $select) if (!empty($select)) $selects[] = $select;
         }
 
         $this->addSelectsToQuery($query, $selects);
 
         // Default the threshold if no value was passed.
-        if (is_null($threshold)) {
-            $threshold = $relevanceCount / count($this->getColumns());
-        }
+        if (is_null($threshold)) $threshold = $relevanceCount / count($this->getColumns());
 
-        if (!empty($selects)) {
-            $this->filterQueryWithRelevance($query, $selects, $threshold);
-        }
+        if (!empty($selects)) $this->filterQueryWithRelevance($query, $selects, $threshold);
 
         $this->makeGroupBy($query);
 
-        if(is_callable($restriction)) {
-            $query = $restriction($query);
-        }
+        if(is_callable($restriction)) $query = $restriction($query);
 
         $this->mergeQueries($query, $q);
 
@@ -123,13 +102,10 @@ trait Searchable
             $driver = $this->getDatabaseDriver();
             $prefix = Config::get("database.connections.$driver.prefix");
             $columns = [];
-            foreach($this->searchable['columns'] as $column => $priority){
-                $columns[$prefix . $column] = $priority;
-            }
+            foreach($this->searchable['columns'] as $column => $priority) $columns[$prefix . $column] = $priority;
+
             return $columns;
-        } else {
-            return DB::connection()->getSchemaBuilder()->getColumnListing($this->table);
-        }
+        } else return DB::connection()->getSchemaBuilder()->getColumnListing($this->table);
     }
 
     /**
@@ -139,9 +115,7 @@ trait Searchable
      */
     protected function getGroupBy()
     {
-        if (array_key_exists('groupBy', $this->searchable)) {
-            return $this->searchable['groupBy'];
-        }
+        if (array_key_exists('groupBy', $this->searchable)) return $this->searchable['groupBy'];
 
         return false;
     }
@@ -176,9 +150,7 @@ trait Searchable
         foreach ($this->getJoins() as $table => $keys) {
             $query->leftJoin($table, function ($join) use ($keys) {
                 $join->on($keys[0], '=', $keys[1]);
-                if (array_key_exists(2, $keys) && array_key_exists(3, $keys)) {
-                    $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
-                }
+                if (array_key_exists(2, $keys) && array_key_exists(3, $keys)) $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
             });
         }
     }
@@ -190,14 +162,10 @@ trait Searchable
      */
     protected function makeGroupBy(Builder $query)
     {
-        if ($groupBy = $this->getGroupBy()) {
-            $query->groupBy($groupBy);
-        } else {
-            if ($this->isSqlsrvDatabase()) {
-                $columns = $this->getTableColumns();
-            } else {
-                $columns = $this->getTable() . '.' .$this->primaryKey;
-            }
+        if ($groupBy = $this->getGroupBy()) $query->groupBy($groupBy);
+        else {
+            if ($this->isSqlsrvDatabase()) $columns = $this->getTableColumns();
+            else $columns = $this->getTable() . '.' .$this->primaryKey;
 
             $query->groupBy($columns);
 
@@ -205,9 +173,7 @@ trait Searchable
 
             foreach ($this->getColumns() as $column => $relevance) {
                 array_map(function ($join) use ($column, $query) {
-                    if (Str::contains($column, $join)) {
-                        $query->groupBy($column);
-                    }
+                    if (Str::contains($column, $join)) $query->groupBy($column);
                 }, $joins);
             }
         }
@@ -231,9 +197,7 @@ trait Searchable
      */
     protected function addSelectsToQuery(Builder $query, array $selects)
     {
-        if (!empty($selects)) {
-            $query->selectRaw('max(' . implode(' + ', $selects) . ') as ' . $this->getRelevanceField(), $this->searchBindings);
-        }
+        if (!empty($selects)) $query->selectRaw('max(' . implode(' + ', $selects) . ') as ' . $this->getRelevanceField(), $this->searchBindings);
     }
 
     /**
@@ -249,11 +213,9 @@ trait Searchable
 
         $relevanceCount=number_format($relevanceCount,2,'.','');
 
-        if ($this->isMysqlDatabase()) {
-            $bindings = [];
-        } else {
-            $bindings = $this->searchBindings;
-        }
+        if ($this->isMysqlDatabase()) $bindings = [];
+        else $bindings = $this->searchBindings;
+
         $query->havingRaw("$comparator >= $relevanceCount", $bindings);
         $query->orderBy($this->getRelevanceField(), 'desc');
 
@@ -305,8 +267,7 @@ trait Searchable
         $like_comparator = $this->isPostgresqlDatabase() ? 'ILIKE' : 'LIKE';
         $cases = [];
 
-        foreach ($words as $word)
-        {
+        foreach ($words as $word) {
             $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevance_multiplier);
             $this->searchBindings[] = $pre_word . $word . $post_word;
         }
@@ -351,17 +312,11 @@ trait Searchable
      */
     protected function mergeQueries(Builder $clone, Builder $original) {
         $tableName = DB::connection($this->connection)->getTablePrefix() . $this->getTable();
-        if ($this->isPostgresqlDatabase()) {
-            $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"));
-        } else {
-            $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
-        }
+        if ($this->isPostgresqlDatabase()) $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"));
+        else $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as `{$tableName}`"));
 
         // First create a new array merging bindings
-        $mergedBindings = array_merge_recursive(
-            $clone->getBindings(),
-            $original->getBindings()
-        );
+        $mergedBindings = array_merge_recursive($clone->getBindings(),$original->getBindings());
 
         // Then apply bindings WITHOUT global scopes which are already included. If not, there is a strange behaviour
         // with some scope's bindings remaning
@@ -375,9 +330,7 @@ trait Searchable
      */
     protected function getRelevanceField()
     {
-        if ($this->relevanceField ?? false) {
-            return $this->relevanceField;
-        }
+        if ($this->relevanceField ?? false) return $this->relevanceField;
 
         // If property $this->relevanceField is not setted, return the default
         return 'relevance';

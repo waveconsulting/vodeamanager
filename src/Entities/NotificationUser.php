@@ -2,11 +2,19 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Vodeamanager\Core\Http\Resources\NotificationUserResource;
 use Vodeamanager\Core\Scopes\MyScope;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class NotificationUser extends BaseEntity
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = NotificationUserResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'notification_id',
         'user_id',

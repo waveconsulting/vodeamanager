@@ -3,10 +3,18 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Carbon;
+use Vodeamanager\Core\Http\Resources\UserResource;
 use Vodeamanager\Core\Utilities\Entities\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = UserResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'name',
         'email',
@@ -55,7 +63,7 @@ class User extends Authenticatable
             ->pluck('id')
             ->toArray();
 
-        if (count($gateSettingIds) < 1) {
+        if (empty($gateSettingIds)) {
             $role = $this->roleUser()->exists() ? $this->roleUser->role : null;
 
             if ($role && $role->is_special) return config('vodeamanager.models.permission')::query();

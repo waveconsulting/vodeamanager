@@ -5,6 +5,8 @@ namespace Vodeamanager\Core\Http\Resources;
 class EditorResource extends BaseResource
 {
     /**
+     * Transform the resource into an array.
+     *
      * @param $request
      * @return array
      */

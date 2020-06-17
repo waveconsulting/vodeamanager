@@ -2,7 +2,7 @@
 
 namespace Vodeamanager\Core\Http\Resources;
 
-class FileLogResource extends BaseResource
+class NotificationTypeResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -13,13 +13,10 @@ class FileLogResource extends BaseResource
     public function resource($request)
     {
         return [
+            'code' => $this->code,
             'name' => $this->name,
-            'encoded_name' => $this->encoded_name,
-            'size' => $this->size,
-            'extension' => $this->extension,
-            'path' => $this->path,
-            'disk' => $this->disk,
-            'url' => $this->url,
+            'icon' => $this->icon,
+            'hex_color' => $this->hex_color,
         ];
     }
 

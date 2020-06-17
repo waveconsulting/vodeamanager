@@ -55,9 +55,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($request->wantsJson()) {
-            return $this->handleApiException($request, $exception);
-        }
+        if ($request->wantsJson()) return $this->handleApiException($request, $exception);
 
         return parent::render($request, $exception);
     }
@@ -66,28 +64,17 @@ class Handler extends ExceptionHandler
     {
         $exception = $this->prepareException($exception);
 
-        if ($exception instanceof HttpResponseException) {
-            $exception = $exception->getResponse();
-        }
-
-        if ($exception instanceof AuthenticationException) {
-            $exception = $this->unauthenticated($request, $exception);
-        }
-
-        if ($exception instanceof ValidationException) {
-            $exception = $this->convertValidationExceptionToResponse($exception, $request);
-        }
+        if ($exception instanceof HttpResponseException) $exception = $exception->getResponse();
+        if ($exception instanceof AuthenticationException) $exception = $this->unauthenticated($request, $exception);
+        if ($exception instanceof ValidationException) $exception = $this->convertValidationExceptionToResponse($exception, $request);
 
         return $this->customApiResponse($exception);
     }
 
     private function customApiResponse($e)
     {
-        if (method_exists($e, 'getStatusCode')) {
-            $statusCode = $e->getStatusCode();
-        } else {
-            $statusCode = 500;
-        }
+        if (method_exists($e, 'getStatusCode')) $statusCode = $e->getStatusCode();
+        else $statusCode = 500;
 
         $response = [];
 
@@ -115,7 +102,6 @@ class Handler extends ExceptionHandler
 
         if (config('app.debug')) {
             if (method_exists($e, 'getTrace')) $response['trace'] = $e->getTrace();
-
             if (method_exists($e, 'getCode')) $response['code'] = $e->getCode();
         }
 

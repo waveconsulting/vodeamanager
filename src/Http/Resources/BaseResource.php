@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Http\Resources;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,7 +23,26 @@ class BaseResource extends JsonResource
             'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
         ];
 
-        return array_merge($defaultResources, $this->resource($request), $this->relation($request));
+        $relations = [];
+        foreach (array_keys($this->getRelations()) as $relationName) {
+            $relation = camel_to_snake($relationName);
+            $relations[$relation] = $this->whenLoaded($relationName, function () use ($relationName) {
+
+                $data = $resource = $this->resource->$relationName;
+                if ($data instanceof Collection) {
+                    if ($data->isEmpty()) $resource = DefaultResource::class;
+                    else $resource = $data[0]->getResource();
+
+                    return $resource::collection($data);
+                }
+                else if (empty($data)) $resource = DefaultResource::class;
+                else $resource = $data->getResource();
+
+                return new $resource($data);
+            });
+        }
+
+        return array_merge($defaultResources, $this->resource($request), $relations);
     }
 
     /**
@@ -30,11 +50,6 @@ class BaseResource extends JsonResource
      * @return array
      */
     public function resource($request)
-    {
-        return [];
-    }
-
-    public function relation($request)
     {
         return [];
     }

@@ -19,8 +19,6 @@ class NumberSettingController extends Controller
     public function __construct(NumberSetting $repository)
     {
         $this->repository = $repository;
-        $this->resource = NumberSettingResource::class;
-
         $this->__restConstruct();
     }
 

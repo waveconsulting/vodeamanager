@@ -5,6 +5,8 @@ namespace Vodeamanager\Core\Http\Resources;
 class NumberSettingResource extends BaseResource
 {
     /**
+     * Transform the resource into an array.
+     *
      * @param $request
      * @return array
      */
@@ -14,7 +16,6 @@ class NumberSettingResource extends BaseResource
             'name' => $this->name,
             'entity' => $this->entity,
             'reset_type' => $this->reset_type,
-            'number_setting_components' => NumberSettingComponentResource::collection($this->whenLoaded('numberSettingComponents')),
         ];
     }
 

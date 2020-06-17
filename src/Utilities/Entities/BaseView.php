@@ -40,7 +40,10 @@ abstract class BaseView extends Model
         });
     }
 
-    public function scopeFilter($query, Request $request) {}
+    public function scopeFilter($query, Request $request)
+    {
+        //
+    }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {

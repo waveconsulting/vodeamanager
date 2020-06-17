@@ -5,7 +5,7 @@ namespace Vodeamanager\Core\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SelectResource extends JsonResource
+class RoleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,11 @@ class SelectResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'text' => $this->getLabel() ?? null,
+            'code' => $this->code,
+            'name' => $this->name,
+            'description' => $this->description,
+            'parent_id' => $this->parent_id,
+            'is_special' => $this->is_special,
         ];
     }
 }

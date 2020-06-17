@@ -14,9 +14,7 @@ class NumberSettingService
     public function generateNumber($entity, $date = null, $subjectId = null)
     {
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
-        if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) {
-            return $this->generateDefaultNumber($entity);
-        }
+        if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) return $this->generateDefaultNumber($entity);
 
         if(is_null($date)) $date = now();
         else $date = Carbon::parse($date);

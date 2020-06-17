@@ -2,7 +2,7 @@
 
 namespace Vodeamanager\Core\Http\Resources;
 
-class FileLogResource extends BaseResource
+class UserResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +14,10 @@ class FileLogResource extends BaseResource
     {
         return [
             'name' => $this->name,
-            'encoded_name' => $this->encoded_name,
-            'size' => $this->size,
-            'extension' => $this->extension,
-            'path' => $this->path,
-            'disk' => $this->disk,
-            'url' => $this->url,
+            'email' => $this->email,
+            'password' => $this->password,
+            'telephone' => $this->telephone,
+            'mobile_phone' => $this->mobile_phone,
         ];
     }
 

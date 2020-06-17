@@ -16,8 +16,10 @@ class CreateNotificationTypesTable extends Migration
         Schema::create('notification_types', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('code');
-            $table->string('name');
+            $table->string('code')->nullable();
+            $table->string('name')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('hex_color')->nullable();
 
             $table->userTimeStamp();
         });

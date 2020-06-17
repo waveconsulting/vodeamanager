@@ -40,9 +40,7 @@ trait EntityFormRequest
     public function getDefaultRules() {
         $validationRules = [];
 
-        foreach ($this->getFillable() as $field) {
-            $validationRules[$field] = [ new NotPresent() ];
-        }
+        foreach ($this->getFillable() as $field) $validationRules[$field] = [ new NotPresent() ];
 
         return $validationRules;
     }
@@ -62,9 +60,7 @@ trait EntityFormRequest
      * @return EntityFormRequest
      */
     public function setExceptUpdateFields() {
-        foreach ($this->exceptUpdateFields as $exceptUpdateField) {
-            $this->validationRules[$exceptUpdateField] = [ new NotPresent() ];
-        }
+        foreach ($this->exceptUpdateFields as $exceptUpdateField) $this->validationRules[$exceptUpdateField] = [ new NotPresent() ];
 
         return $this;
     }

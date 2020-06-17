@@ -3,7 +3,6 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Arr;
 
 class ValidSubjectIdFromEntity implements Rule
 {

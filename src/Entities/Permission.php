@@ -2,10 +2,18 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Vodeamanager\Core\Http\Resources\PermissionResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class Permission extends BaseEntity
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = PermissionResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'name',
         'controller',

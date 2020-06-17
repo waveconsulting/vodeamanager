@@ -2,13 +2,21 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vodeamanager\Core\Http\Resources\GateSettingResource;
 use Vodeamanager\Core\Rules\ValidUser;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class GateSetting extends BaseEntity
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = GateSettingResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'role_id',
         'user_id',
@@ -20,7 +28,10 @@ class GateSetting extends BaseEntity
     ];
 
     protected $validationRules = [
+        'role_id' => 'required_without:user_id|exists:roles,id,deleted_at,NULL',
         'valid_from' => 'required|date_format:Y-m-d',
+        'permission_ids' => 'array',
+        'permission_ids.*' => 'required|exists:permissions,id,deleted_at,NULL',
     ];
 
     protected static function boot()
@@ -32,30 +43,34 @@ class GateSetting extends BaseEntity
         });
     }
 
-    public function role() {
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(config('vodeamanager.entities.role'));
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(config('vodeamanager.entities.user'));
     }
 
-    public function gateSettingPermissions() {
+    public function gateSettingPermissions()
+    {
         return $this->hasMany(config('vodeamanager.models.gate_permission_setting'));
     }
 
-    public function permissions() {
+    public function permissions()
+    {
         return $this->belongsToMany(config('vodeamanager.models.permission'), 'gate_setting_permissions')->withTimestamps();
     }
 
     public function setValidationRules(array $request = [], $id = null)
     {
-        $this->validationRules['role_id'] = 'required|exists:roles,id,deleted_at,NULL';
+        $this->validationRules['user_id'] = [
+            'required_without:role_id',
+            new ValidUser(),
+        ];
 
-        if (!arr_get($request,'role_id')) $this->validationRules['user_id'] = ['required', new ValidUser()];
-
-        $this->validationRules['permission_ids'] = 'array';
-        $this->validationRules['permission_ids.*'] = 'required|exists:permissions,id,deleted_at,NULL';
+        return $this;
     }
 
 }

@@ -51,7 +51,7 @@ abstract class User extends Authenticatable implements Auditable
 
     public function scopeFilter($query, Request $request)
     {
-
+        //
     }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)

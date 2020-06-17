@@ -46,38 +46,22 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         $this->registerMiddleware();
 
-        if (config('vodeamanager.passport.register', true)) {
-            $this->registerPassport();
-        }
-
+        if (config('vodeamanager.passport.register', true)) $this->registerPassport();
     }
 
     protected function registerAssets() {
-        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/vodeamanager.php',
-            'vodeamanager-config');
-
-        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/cors.php',
-            'vodeamanager-config');
+        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/vodeamanager.php','vodeamanager-config');
+        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/cors.php','vodeamanager-config');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$config => config_path('vodeamanager.php')], 'vodeamanager-config');
             $this->publishes([$config => config_path('cors.php')], 'vodeamanager-config');
         }
 
-        $this->publishes(
-            [__DIR__ . '/../assets/migrations' => database_path('migrations')],
-            'vodeamanager-migration'
-        );
+        $this->publishes([__DIR__ . '/../assets/migrations' => database_path('migrations')],'vodeamanager-migration');
+        $this->publishes([__DIR__ . '/../assets/factories' => database_path('factories')],'vodeamanager-factory');
 
-        $this->publishes(
-            [__DIR__ . '/../assets/factories' => database_path('factories')],
-            'vodeamanager-factory'
-        );
-
-        $this->publishes(
-            [__DIR__ . '/../assets/seeds' => database_path('seeds')],
-            'vodeamanager-seed'
-        );
+        $this->publishes([__DIR__ . '/../assets/seeds' => database_path('seeds')],'vodeamanager-seed');
     }
 
     protected function registerSchemas()
@@ -110,15 +94,8 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerEvents()
     {
-        Event::listen(
-            'Illuminate\Auth\Events\Login',
-            'Vodeamanager\Core\Listeners\LogSuccessfulLogin'
-        );
-
-        Event::listen(
-            'Laravel\Passport\Events\AccessTokenCreated',
-            'Vodeamanager\Core\Listeners\TokenSuccessfulGenerate'
-        );
+        Event::listen('Illuminate\Auth\Events\Login','Vodeamanager\Core\Listeners\LogSuccessfulLogin');
+        Event::listen('Laravel\Passport\Events\AccessTokenCreated','Vodeamanager\Core\Listeners\TokenSuccessfulGenerate');
     }
 
     protected function registerCommands()
@@ -130,9 +107,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerPassport()
     {
-        if (!config('vodeamanager.passport.custom_routes', false)) {
-            Passport::routes();
-        }
+        if (!config('vodeamanager.passport.custom_routes', false)) Passport::routes();
 
         Passport::tokensExpireIn(Carbon::now()->addDays(config('vodeamanager.passport.expires.token', 15)));
 

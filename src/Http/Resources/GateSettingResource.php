@@ -2,7 +2,7 @@
 
 namespace Vodeamanager\Core\Http\Resources;
 
-class DestroyerResource extends BaseResource
+class GateSettingResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -13,10 +13,9 @@ class DestroyerResource extends BaseResource
     public function resource($request)
     {
         return [
-            'name' => $this->name,
-            'email' => $this->email,
-            'telephone' => $this->telephone,
-            'mobile_phone' => $this->mobile_phone,
+            'role_id' => $this->role_id,
+            'user_id' => $this->user_id,
+            'valid_from' => $this->valid_from,
         ];
     }
 

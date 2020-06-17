@@ -2,14 +2,23 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Illuminate\Support\Arr;
+use Vodeamanager\Core\Http\Resources\NumberSettingResource;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
+use Vodeamanager\Core\Rules\ValidNumberSettingComponent;
+use Vodeamanager\Core\Rules\ValidUnique;
 use Vodeamanager\Core\Utilities\Constant;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class NumberSetting extends BaseEntity
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = NumberSettingResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'name',
         'entity',
@@ -17,11 +26,8 @@ class NumberSetting extends BaseEntity
     ];
 
     protected $validationRules = [
-        'name' => [
-            'required',
-            'string',
-            'max:255',
-        ],
+        'name' => 'required|string|max:255',
+        'number_setting_components.*.sequence' => 'required|distinct|integer|min:1',
     ];
 
     public function numberSettingComponents() {
@@ -32,7 +38,7 @@ class NumberSetting extends BaseEntity
     {
         $this->validationRules['entity'] = [
             'required',
-            'unique:number_settings,entity,' . ($id ?? 'NULL') . ',id,deleted_at,NULL',
+            new ValidUnique($this, $id),
             new ValidEntity(),
         ];
 
@@ -41,8 +47,13 @@ class NumberSetting extends BaseEntity
             new ValidInConstant(Constant::NUMBER_SETTING_RESET_TYPE_OPTIONS),
         ];
 
-        $this->validationRules['number_setting_components'] = 'array';
-        $this->validationRules['number_setting_components.*.sequence'] = 'required|distinct|integer|min:1';
+        $this->validationRules['number_setting_components'] = [
+            'required',
+            'array',
+            'min:1',
+            new ValidNumberSettingComponent()
+        ];
+
         $this->validationRules['number_setting_components.*.type'] = [
             'required',
             new ValidInConstant(Constant::NUMBER_SETTING_COMPONENT_TYPE_OPTIONS),

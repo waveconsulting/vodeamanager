@@ -6,19 +6,23 @@ trait DefaultFormRequest
 {
     protected $entityNamespace = 'App\\Entities\\';
 
-    public function authorize() {
+    public function authorize()
+    {
         return true;
     }
 
-    public function rules() {
+    public function rules()
+    {
         return $this->getRules();
     }
 
-    public function messages() {
+    public function messages()
+    {
         return $this->getMessages();
     }
 
-    public function attributes() {
+    public function attributes()
+    {
         return $this->getAttributes();
     }
 

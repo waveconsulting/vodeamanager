@@ -50,9 +50,7 @@ trait UserStamp
     {
         static $usingSoftDeletes;
 
-        if (is_null($usingSoftDeletes)) {
-            return $usingSoftDeletes = in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive(get_called_class()));
-        }
+        if (is_null($usingSoftDeletes)) return $usingSoftDeletes = in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses_recursive(get_called_class()));
 
         return $usingSoftDeletes;
     }

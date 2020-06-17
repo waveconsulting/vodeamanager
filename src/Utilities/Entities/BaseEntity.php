@@ -45,7 +45,10 @@ abstract class BaseEntity extends Model implements Auditable
         });
     }
 
-    public function scopeFilter($query, Request $request) {}
+    public function scopeFilter($query, Request $request)
+    {
+        //
+    }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {

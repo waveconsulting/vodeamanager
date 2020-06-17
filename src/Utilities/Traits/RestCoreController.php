@@ -58,9 +58,7 @@ trait RestCoreController
         if ($id || $request->has('id')) {
             $data = $repository->findOrFail($id ?? $request->get('id'));
 
-            if (is_subclass_of($this->selectResource, JsonResource::class)) {
-                return new $this->selectResource($data);
-            }
+            if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) return new $this->selectResource($data);
 
             return new SelectResource($data);
         }

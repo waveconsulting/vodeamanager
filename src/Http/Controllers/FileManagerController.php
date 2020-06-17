@@ -63,10 +63,9 @@ class FileManagerController extends Controller
     public function download(Request $request, $id) {
         $fileLog = $this->repository->findOrFail($id);
 
-        if (!Storage::disk($fileLog->disk)->exists($fileLog->path)) {
-            return abort(404);
-        }
+        $disk = Storage::disk($fileLog->disk);
+        if (!(clone $disk)->exists($fileLog->path)) return abort(404);
 
-        return Storage::disk($fileLog->disk)->download($fileLog->path);
+        return $disk->download($fileLog->path);
     }
 }

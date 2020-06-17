@@ -2,18 +2,20 @@
 
 namespace Vodeamanager\Core\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class NotificationResource extends JsonResource
+class NotificationResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param $request
      * @return array
      */
-    public function toArray($request)
+    public function resource($request)
     {
-        return parent::toArray($request);
+        return [
+            'notification_type_id' => $this->notification_type_id,
+            'data' => $this->data,
+        ];
     }
+
 }

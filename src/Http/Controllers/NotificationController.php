@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Entities\Notification;
 use Vodeamanager\Core\Entities\NotificationUser;
 use Vodeamanager\Core\Http\Requests\FileLogCreateRequest;
-use Vodeamanager\Core\Http\Resources\NotificationResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Traits\RestCoreController;
 
@@ -19,8 +18,6 @@ class NotificationController extends Controller
     public function __construct(Notification $repository)
     {
         $this->repository = $repository;
-        $this->resource = NotificationResource::class;
-
         $this->__restConstruct();
     }
 

@@ -2,13 +2,25 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Vodeamanager\Core\Http\Resources\NotificationResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class Notification extends BaseEntity
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = NotificationResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'notification_type_id',
+        'data',
+    ];
 
+    protected $casts = [
+        'data' => 'object',
     ];
 
     public function notificationType()
@@ -19,11 +31,6 @@ class Notification extends BaseEntity
     public function notificationUsers()
     {
         return $this->hasMany(config('vodeamanager.models.notification_user'));
-    }
-
-    public function notificationMessages()
-    {
-        return $this->hasMany(config('vodeamanager.models.notification_message'));
     }
 
     public function users()

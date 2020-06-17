@@ -2,12 +2,19 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Vodeamanager\Core\Http\Resources\FileLogResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class FileLog extends BaseEntity
 {
+    public function __construct(array $attributes = [])
+    {
+        $this->indexResource = $this->showResource = $this->selectResource = FileLogResource::class;
+
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'name',
         'encoded_name',
@@ -21,7 +28,8 @@ class FileLog extends BaseEntity
         'path' => 'required|string',
     ];
 
-    public function getUrlAttribute() {
+    public function getUrlAttribute()
+    {
         return Storage::disk($this->disk)->url($this->path);
     }
 
