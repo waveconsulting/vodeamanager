@@ -24,7 +24,8 @@ class NotificationController extends Controller
         $this->__restConstruct();
     }
 
-    public function readAll(FileLogCreateRequest $request) {
+    public function readAll(FileLogCreateRequest $request)
+    {
         try {
             DB::beginTransaction();
 

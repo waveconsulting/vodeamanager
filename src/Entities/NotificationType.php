@@ -11,7 +11,8 @@ class NotificationType extends BaseEntity
         'name',
     ];
 
-    public function notifications() {
+    public function notifications()
+    {
         return $this->hasMany(config('vodeamanager.models.notification'));
     }
 

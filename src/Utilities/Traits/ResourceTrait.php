@@ -11,15 +11,18 @@ trait ResourceTrait
     protected $showResource = DefaultResource::class;
     protected $selectResource = SelectResource::class;
 
-    public function getResource() {
+    public function getResource()
+    {
         return $this->indexResource;
     }
 
-    public function getShowResource() {
+    public function getShowResource()
+    {
         return $this->showResource;
     }
 
-    public function getSelectResource() {
+    public function getSelectResource()
+    {
         return $this->selectResource;
     }
 

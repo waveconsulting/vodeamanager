@@ -11,7 +11,8 @@ class NotificationMessage extends BaseEntity
 
     ];
 
-    public function notification() {
+    public function notification()
+    {
         return $this->belongsTo(config('vodeamanager.models.notification'));
     }
 

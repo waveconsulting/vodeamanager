@@ -11,7 +11,8 @@ use Vodeamanager\Core\Utilities\Constant;
 
 class NumberSettingService
 {
-    public function generateNumber($entity, $date = null, $subjectId = null) {
+    public function generateNumber($entity, $date = null, $subjectId = null)
+    {
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
         if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) {
             return $this->generateDefaultNumber($entity);
@@ -101,7 +102,8 @@ class NumberSettingService
         return implode('',$generatedNumberArray);
     }
 
-    public function generateDefaultNumber($entity) {
+    public function generateDefaultNumber($entity)
+    {
         $tableName = Str::plural(Str::snake(Arr::last(explode('\\', $entity))), 2);
         return (DB::select("show table status like '{$tableName}'"))[0]->Auto_increment;
     }

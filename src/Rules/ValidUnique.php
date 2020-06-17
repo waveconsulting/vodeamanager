@@ -14,13 +14,15 @@ class ValidUnique implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param BaseEntity $model
+     * @param $model
      * @param null $id
      */
-    public function __construct(BaseEntity $model, $id = null)
+    public function __construct($model, $id = null)
     {
-        $this->model = $model;
         $this->id = $id;
+        if (is_string($model) && class_exists($model)) $model = app($model);
+        if ($model instanceof BaseEntity) $this->model = $model;
+
     }
 
     /**
@@ -32,9 +34,13 @@ class ValidUnique implements Rule
      */
     public function passes($attribute, $value)
     {
-        return !$this->model->when($this->id, function ($query) {
-            $query->where('id', '!=', $this->id);
-        })->where($attribute, $value)->exists();
+        if (empty($this->model)) return false;
+
+        $query = $this->model->where($attribute, $value)->exists();
+        if ($this->id) $query = $query->where('id', '!=', $this->id);
+
+        return !$query->exists();
+
     }
 
     /**

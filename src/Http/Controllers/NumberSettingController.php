@@ -24,7 +24,8 @@ class NumberSettingController extends Controller
         $this->__restConstruct();
     }
 
-    public function store(NumberSettingCreateRequest $request) {
+    public function store(NumberSettingCreateRequest $request)
+    {
         try {
             DB::beginTransaction();
 
@@ -45,7 +46,8 @@ class NumberSettingController extends Controller
         }
     }
 
-    public function update(NumberSettingUpdateRequest $request, $id) {
+    public function update(NumberSettingUpdateRequest $request, $id)
+    {
         try {
             DB::beginTransaction();
 

@@ -25,27 +25,33 @@ class Role extends BaseEntity
         'is_special' => 'boolean',
     ];
 
-    public function parent() {
+    public function parent()
+    {
         return $this->belongsTo(config('vodeamanager.models.role'))->with('parent');
     }
 
-    public function children() {
+    public function children()
+    {
         return $this->hasMany(config('vodeamanager.models.role'),'parent_id')->with('children');
     }
 
-    public function roleUsers() {
+    public function roleUsers()
+    {
         return $this->hasMany(config('vodeamanager.models.role_user'));
     }
 
-    public function gateSettings() {
+    public function gateSettings()
+    {
         return $this->hasMany(config('vodeamanager.models.gate_setting'));
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(config('vodeamanager.models.user'), 'role_users')->withTimestamps();
     }
 
-    public function getChildrenIdsAttribute() {
+    public function getChildrenIdsAttribute()
+    {
         $data = [];
 
         $this->recursiveChildrenGetAttribute($this, $data);
@@ -53,7 +59,8 @@ class Role extends BaseEntity
         return $data;
     }
 
-    public function recursiveChildrenGetAttribute($child, &$data, $key = 'id') {
+    public function recursiveChildrenGetAttribute($child, &$data, $key = 'id')
+    {
         array_push($data, $child[$key]);
 
         if (count($child->children) > 0) {

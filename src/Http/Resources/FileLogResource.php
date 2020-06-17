@@ -8,7 +8,8 @@ class FileLogResource extends BaseResource
      * @param $request
      * @return array
      */
-    public function resource($request) {
+    public function resource($request)
+    {
         return [
             'name' => $this->name,
             'encoded_name' => $this->encoded_name,

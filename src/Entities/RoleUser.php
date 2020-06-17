@@ -26,11 +26,13 @@ class RoleUser extends BaseEntity
         });
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(config('vodeamanager.models.user'));
     }
 
-    public function role() {
+    public function role()
+    {
         return $this->belongsTo(config('vodeamanager.models.role'));
     }
 

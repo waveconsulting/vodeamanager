@@ -12,4 +12,9 @@ if (!function_exists('arr_has')) {
     }
 }
 
-
+if (!function_exists('arr_key_equal')) {
+    function arr_key_equal(array $array, string $key, $value, $return) {
+        if (is_array($value)) return in_array($value, arr_get($array, $key));
+        return arr_get($array, $key) == $value;
+    }
+}

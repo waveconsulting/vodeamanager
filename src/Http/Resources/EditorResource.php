@@ -8,7 +8,8 @@ class EditorResource extends BaseResource
      * @param $request
      * @return array
      */
-    public function resource($request) {
+    public function resource($request)
+    {
         return [
             'name' => $this->name,
             'email' => $this->email,

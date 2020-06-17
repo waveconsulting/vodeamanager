@@ -26,7 +26,8 @@ class FileManagerController extends Controller
         $this->__restConstruct();
     }
 
-    public function store(FileLogCreateRequest $request) {
+    public function store(FileLogCreateRequest $request)
+    {
         try {
             DB::beginTransaction();
 

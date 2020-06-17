@@ -11,19 +11,23 @@ class Notification extends BaseEntity
 
     ];
 
-    public function notificationType() {
+    public function notificationType()
+    {
         return $this->belongsTo(config('vodeamanager.models.notification_type'));
     }
 
-    public function notificationUsers() {
+    public function notificationUsers()
+    {
         return $this->hasMany(config('vodeamanager.models.notification_user'));
     }
 
-    public function notificationMessages() {
+    public function notificationMessages()
+    {
         return $this->hasMany(config('vodeamanager.models.notification_message'));
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(config('vodeamanager.models.user'), 'notification_users')->withTimestamps();
     }
 

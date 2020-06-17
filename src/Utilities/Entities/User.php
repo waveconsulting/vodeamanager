@@ -31,7 +31,8 @@ abstract class User extends Authenticatable implements Auditable
         'joins' => [],
     ];
 
-    public function scopeCriteria($query, Request $request) {
+    public function scopeCriteria($query, Request $request)
+    {
         $order = null;
         $sorted = null;
 
@@ -48,7 +49,10 @@ abstract class User extends Authenticatable implements Auditable
         });
     }
 
-    public function scopeFilter($query, Request $request) {}
+    public function scopeFilter($query, Request $request)
+    {
+
+    }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
@@ -63,7 +67,8 @@ abstract class User extends Authenticatable implements Auditable
         );
     }
 
-    public function getDefaultRules() {
+    public function getDefaultRules()
+    {
         $rules = [];
 
         foreach ($this->getFillable() as $field) {
@@ -73,17 +78,20 @@ abstract class User extends Authenticatable implements Auditable
         return $rules;
     }
 
-    public function getLabel() {
+    public function getLabel()
+    {
         return $this->name;
     }
 
     // todo: can update by relation
-    public function getCanUpdateAttribute() {
+    public function getCanUpdateAttribute()
+    {
         return true;
     }
 
     // todo: create validation can delete by relation
-    public function getCanDeleteAttribute() {
+    public function getCanDeleteAttribute()
+    {
         return true;
     }
 

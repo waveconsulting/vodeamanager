@@ -29,11 +29,13 @@ class BaseResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
-    public function resource($request) {
+    public function resource($request)
+    {
         return [];
     }
 
-    public function relation($request) {
+    public function relation($request)
+    {
         return [];
     }
 }

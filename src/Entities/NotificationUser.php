@@ -24,15 +24,18 @@ class NotificationUser extends BaseEntity
         static::addGlobalScope(new MyScope());
     }
 
-    public function scopeNotRead($query) {
+    public function scopeNotRead($query)
+    {
         $query->where('notification_users.is_read', 0);
     }
 
-    public function notification() {
+    public function notification()
+    {
         return $this->belongsTo(config('vodeamanager.models.notification'));
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(config('vodeamanager.models.user'));
     }
 
