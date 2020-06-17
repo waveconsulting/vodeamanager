@@ -41,7 +41,7 @@ class User extends Authenticatable
 
     public function roleUser() {
         return $this->hasOne(config('vodeamanager.models.role_user'))
-            ->whereDate('role_users.valid_from', '<=', date('Y-m-d'))
+            ->whereDate('role_users.valid_from', '<=', today())
             ->orderByDesc('role_users.valid_from');
     }
 
