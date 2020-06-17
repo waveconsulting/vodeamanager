@@ -1,7 +1,7 @@
 <?php
 
 if (!function_exists('arr_get')) {
-    function arr_get(array $array, string $key, $default) {
+    function arr_get(array $array, string $key, $default = null) {
         return \Illuminate\Support\Arr::get($array, $key, $default);
     }
 }
