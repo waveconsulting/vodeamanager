@@ -60,11 +60,7 @@ class CreatePassportClientCommand extends Command
                 $this->info('Successfully passport install.');
             } catch (\Exception $e) {
                 $this->line($e->getMessage());
-
-                return false;
             }
         }
-
-        return true;
     }
 }
