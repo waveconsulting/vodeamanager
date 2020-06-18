@@ -35,9 +35,14 @@ class User extends Authenticatable
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|string|max:255',
-        'telephone' => 'string|max:15',
-        'mobile_phone' => 'string|max:15',
+        'telephone' => 'nullable|string|max:15',
+        'mobile_phone' => 'nullable|string|max:15',
+        'photo_id' => 'nullable|exists:file_logs,id,deleted_at,NULL',
     ];
+
+    public function photo() {
+        return $this->belongsTo(config('vodeamanager.models.file_log'),'photo_id');
+    }
 
     public function roles() {
         return $this->belongsToMany(config('vodeamanager.models.role'), 'role_users')->withTimestamps();
