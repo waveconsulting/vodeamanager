@@ -29,7 +29,7 @@ class Role extends BaseEntity
 
     protected $validationRules = [
         'name' => 'required|string|max:255',
-        'description' => 'string|max:255',
+        'description' => 'nullable|string|max:255',
         'parent_id' => 'nullable|exists:roles,id,deleted_at,NULL',
         'is_special' => 'boolean',
     ];

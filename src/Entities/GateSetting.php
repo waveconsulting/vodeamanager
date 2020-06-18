@@ -30,7 +30,7 @@ class GateSetting extends BaseEntity
     protected $validationRules = [
         'role_id' => 'required_without:user_id|exists:roles,id,deleted_at,NULL',
         'valid_from' => 'required|date_format:Y-m-d',
-        'permission_ids' => 'array',
+        'permission_ids' => 'required|array|min:1',
         'permission_ids.*' => 'required|exists:permissions,id,deleted_at,NULL',
     ];
 
