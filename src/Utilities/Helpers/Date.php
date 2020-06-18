@@ -12,7 +12,6 @@ if (!function_exists('tomorrow')) {
     }
 }
 
-
 if (!function_exists('yesterday')) {
     function yesterday($format = 'Y-m-d') {
         return date($format, strtotime('-1 day',strtotime(today())));

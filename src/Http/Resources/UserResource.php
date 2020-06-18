@@ -15,9 +15,9 @@ class UserResource extends BaseResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'password' => $this->password,
             'telephone' => $this->telephone,
             'mobile_phone' => $this->mobile_phone,
+            'photo_id' => $this->photo_id,
         ];
     }
 
