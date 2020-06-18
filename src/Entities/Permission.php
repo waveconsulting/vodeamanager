@@ -9,9 +9,9 @@ class Permission extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = PermissionResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = PermissionResource::class;
     }
 
     protected $fillable = [

@@ -10,9 +10,9 @@ class FileLog extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = FileLogResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = FileLogResource::class;
     }
 
     protected $fillable = [

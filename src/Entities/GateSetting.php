@@ -12,9 +12,9 @@ class GateSetting extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = GateSettingResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = GateSettingResource::class;
     }
 
     protected $fillable = [

@@ -9,9 +9,9 @@ class LoginActivity extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = LoginActivityResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = LoginActivityResource::class;
     }
 
     protected $fillable = [

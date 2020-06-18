@@ -10,9 +10,9 @@ class Role extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = RoleResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = RoleResource::class;
     }
 
     protected $fillable = [

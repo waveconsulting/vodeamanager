@@ -10,9 +10,9 @@ class NotificationUser extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = NotificationUserResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = NotificationUserResource::class;
     }
 
     protected $fillable = [

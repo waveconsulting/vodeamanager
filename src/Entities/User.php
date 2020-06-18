@@ -10,9 +10,9 @@ class User extends Authenticatable
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = UserResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = UserResource::class;
     }
 
     protected $fillable = [

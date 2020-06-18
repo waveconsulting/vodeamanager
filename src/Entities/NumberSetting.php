@@ -14,9 +14,9 @@ class NumberSetting extends BaseEntity
 {
     public function __construct(array $attributes = [])
     {
-        $this->indexResource = $this->showResource = $this->selectResource = NumberSettingResource::class;
-
         parent::__construct($attributes);
+
+        $this->indexResource = $this->showResource = $this->selectResource = NumberSettingResource::class;
     }
 
     protected $fillable = [
