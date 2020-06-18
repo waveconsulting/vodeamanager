@@ -32,7 +32,8 @@ trait RestCoreController
         if (is_null($this->selectResource)) $this->selectResource = (clone $repository)->getSelectResource();
     }
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $repository = $this->repository
             ->with($this->eagerLoadRelationIndex)
             ->criteria($request)
@@ -44,14 +45,13 @@ trait RestCoreController
             ? $repository->paginate($request->per_page)
             : $repository->get();
 
-        if ($this->indexResource && is_subclass_of($this->indexResource, JsonResource::class)) {
-            return $this->indexResource::collection($data);
-        }
+        if ($this->indexResource && is_subclass_of($this->indexResource, JsonResource::class)) return $this->indexResource::collection($data);
 
         return DefaultResource::collection($data);
     }
 
-    public function select(Request $request, $id = null) {
+    public function select(Request $request, $id = null)
+    {
         $repository = $this->repository->criteria($request)
             ->filter($request);
 
@@ -69,14 +69,13 @@ trait RestCoreController
             ? $repository->paginate($request->per_page)
             : $repository->get();
 
-        if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) {
-            return $this->selectResource::collection($data);
-        }
+        if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) return $this->selectResource::collection($data);
 
         return SelectResource::collection($data);
     }
 
-    public function show(Request $request, $id) {
+    public function show(Request $request, $id)
+    {
         $data = $this->repository
             ->with($this->eagerLoadRelationShow)
             ->filter($request)
@@ -84,9 +83,7 @@ trait RestCoreController
 
         if ($this->policy) $this->authorize('view', $data);
 
-        if ($this->showResource && is_subclass_of($this->showResource, JsonResource::class)) {
-            return new $this->showResource($data);
-        }
+        if ($this->showResource && is_subclass_of($this->showResource, JsonResource::class)) return new $this->showResource($data);
 
         return new DefaultResource($data);
     }

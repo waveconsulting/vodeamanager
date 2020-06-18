@@ -26,7 +26,8 @@ trait DefaultFormRequest
         return $this->getAttributes();
     }
 
-    public function getRules() {
+    public function getRules()
+    {
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
@@ -35,14 +36,16 @@ trait DefaultFormRequest
         return $model->setValidationRules($this->all())->getValidationRules();
     }
 
-    public function getMessages() {
+    public function getMessages()
+    {
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 
         return $model->setValidationMessages($this->all(), @$this->id)->getValidationMessages();
     }
 
-    public function getAttributes() {
+    public function getAttributes()
+    {
         $nameSpace = $this->entityNamespace . preg_replace('/(CreateRequest|UpdateRequest)/','',class_basename($this));
         $model = app($nameSpace);
 

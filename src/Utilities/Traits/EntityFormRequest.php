@@ -37,7 +37,8 @@ trait EntityFormRequest
     /**
      * @return array
      */
-    public function getDefaultRules() {
+    public function getDefaultRules()
+    {
         $validationRules = [];
 
         foreach ($this->getFillable() as $field) $validationRules[$field] = [ new NotPresent() ];
@@ -48,7 +49,8 @@ trait EntityFormRequest
     /**
      * @return EntityFormRequest
      */
-    public function assignNotPresent() {
+    public function assignNotPresent()
+    {
         foreach ($this->getFillable() as $field) {
             if (!array_key_exists($field,$this->validationRules)) $this->validationRules[$field] = [ new NotPresent() ];
         }
@@ -59,7 +61,8 @@ trait EntityFormRequest
     /**
      * @return EntityFormRequest
      */
-    public function setExceptUpdateFields() {
+    public function setExceptUpdateFields()
+    {
         foreach ($this->exceptUpdateFields as $exceptUpdateField) $this->validationRules[$exceptUpdateField] = [ new NotPresent() ];
 
         return $this;
@@ -70,7 +73,8 @@ trait EntityFormRequest
      * @param null $id
      * @return EntityFormRequest
      */
-    public function setValidationRules(array $request = [], $id = null) {
+    public function setValidationRules(array $request = [], $id = null)
+    {
         return $this;
     }
 
@@ -78,7 +82,8 @@ trait EntityFormRequest
      * @param array $request
      * @return EntityFormRequest ;
      */
-    public function setValidationMessages(array $request = []) {
+    public function setValidationMessages(array $request = [])
+    {
         return $this;
     }
 
@@ -86,7 +91,8 @@ trait EntityFormRequest
      * @param array $request
      * @return EntityFormRequest
      */
-    public function setValidationAttributes(array $request = []) {
+    public function setValidationAttributes(array $request = [])
+    {
         return $this;
     }
 
@@ -94,7 +100,8 @@ trait EntityFormRequest
      * @return array
      * @return void
      */
-    public function getValidationRules() {
+    public function getValidationRules()
+    {
         $this->assignNotPresent();
 
         return $this->validationRules;
@@ -103,14 +110,16 @@ trait EntityFormRequest
     /**
      * @return array
      */
-    public function getValidationMessages() {
+    public function getValidationMessages()
+    {
         return $this->validationMessages;
     }
 
     /**
      * @return array
      */
-    public function getValidationAttributes() {
+    public function getValidationAttributes()
+    {
         return $this->validationAttributes;
     }
 
