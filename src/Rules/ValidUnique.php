@@ -36,7 +36,7 @@ class ValidUnique implements Rule
     {
         if (empty($this->model)) return false;
 
-        $query = $this->model->where($attribute, $value)->exists();
+        $query = $this->model->where($attribute, $value);
         if ($this->id) $query = $query->where('id', '!=', $this->id);
 
         return !$query->exists();
