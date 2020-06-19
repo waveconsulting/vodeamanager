@@ -54,7 +54,7 @@ class FileManagerController extends Controller
                 'message' => 'Data created.'
             ]);
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
 
             return ExceptionService::responseJson($e);
         }

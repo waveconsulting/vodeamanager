@@ -39,7 +39,7 @@ class NotificationController extends Controller
                 'message' => 'Notification updated.'
             ]);
         } catch (\Exception $e) {
-            DB::rollback();
+            DB::rollBack();
 
             return ExceptionService::responseJson($e);
         }
