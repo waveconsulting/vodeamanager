@@ -18,3 +18,9 @@ if (!function_exists('arr_key_equal')) {
         return arr_get($array, $key) == $value;
     }
 }
+
+if (!function_exists('arr_last')) {
+    function arr_last(array $array, callable $callback = null, $default = null) {
+        return \Illuminate\Support\Arr::last($array, $callback, $default);
+    }
+}
