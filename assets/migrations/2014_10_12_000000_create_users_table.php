@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('telephone')->nullable();
             $table->string('mobile_phone')->nullable();
-            $table->relation('photo_id','file_logs');
+            $table->unsignedBigInteger('photo_id');
             $table->rememberToken();
 
             $table->userTimeStamp();
