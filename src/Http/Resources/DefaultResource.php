@@ -15,10 +15,6 @@ class DefaultResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'user_id' => $this->user_id,
-            'user_agent' => $this->user_agent,
-            'ip_address' => $this->ip_address,
-        ];
+        return parent::toArray($request);
     }
 }
