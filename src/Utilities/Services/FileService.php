@@ -9,10 +9,10 @@ use Illuminate\Support\Str;
 class FileService
 {
     public function store(Request $request, $key, $disk, $path) {
-        if ($request->hasFile($key)) {
+        try {
             $uploaded = [];
 
-            try {
+            if ($request->hasFile($key)) {
                 $files = $request->file($key);
                 if (is_array($files)) {
                     foreach ($files as $file) {
@@ -43,14 +43,13 @@ class FileService
                         'disk' => $disk,
                     ]);
                 }
-
-            } catch (\Exception $e) {
-                \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
             }
 
             return $uploaded;
-        }
+        } catch (\Exception $e) {
+            \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
 
-        return [];
+            return [];
+        }
     }
 }
