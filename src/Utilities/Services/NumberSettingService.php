@@ -14,20 +14,28 @@ class NumberSettingService
     public function generateNumber($entity, $date = null, $subjectId = null)
     {
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
-        if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) return $this->generateDefaultNumber($entity);
+        if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) {
+            $tableName = Str::plural(Str::snake(Arr::last(explode('\\', $entity))), 2);
+            return (DB::select("show table status like '{$tableName}'"))[0]->Auto_increment;
+        }
 
-        if(is_null($date)) $date = now();
-        else $date = Carbon::parse($date);
-
-        $components = $numberSetting->numberSettingComponents()->orderBy('sequence')->get();
+        if (is_null($date)) {
+            $date = Carbon::now();
+        } else {
+            $date = Carbon::parse($date);
+        }
 
         $prefixDigit = 0;
         $digitBeforeCounter = 0;
         $generatedNumberArray = [];
         $queryNumber = '';
 
+        $components = $numberSetting->numberSettingComponents()->orderBy('sequence')->get();
         foreach($components as $index => $component){
-            if(!in_array(null, $generatedNumberArray) && $component->type != Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER) $digitBeforeCounter += strlen($component->format);
+            if (!in_array(null, $generatedNumberArray) && $component->type != Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER) {
+                $digitBeforeCounter += strlen($component->format);
+            }
+
             switch ($component->type) {
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_TYPE:
                     array_push($generatedNumberArray, $component->format);
@@ -37,21 +45,30 @@ class NumberSettingService
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
-                    if (is_null($numberSetting->reset_type)) $dateText = str_repeat('_', strlen($dateText));
+                    if (is_null($numberSetting->reset_type)) {
+                        $dateText = str_repeat('_', strlen($dateText));
+                    }
+
                     $queryNumber .= $dateText;
                     break;
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_MONTH:
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
-                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly') $dateText = str_repeat('_', strlen($dateText));
+                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly') {
+                        $dateText = str_repeat('_', strlen($dateText));
+                    }
+
                     $queryNumber .= $dateText;
                     break;
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_DAY:
                     $dateText = date($component->format, strtotime($date));
                     array_push($generatedNumberArray, $dateText);
 
-                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly') $dateText = str_repeat('_', strlen($dateText));
+                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly') {
+                        $dateText = str_repeat('_', strlen($dateText));
+                    }
+
                     $queryNumber .= $dateText;
                     break;
                 case Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER:
@@ -63,6 +80,7 @@ class NumberSettingService
         }
 
         $dateColumn = Schema::hasColumn(app($entity)->getTable(), 'date') ? 'date' : 'created_at';
+
         $subjectNumbers = app($entity)
             ->where('number', 'like', $queryNumber)
             ->when($numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly',function ($q) use ($dateColumn, $date){
@@ -79,16 +97,20 @@ class NumberSettingService
 
         $existingNumbers = array_map(function($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter){
             $counterIndex = array_search(null,$generatedNumberArray);
-            if ($counterIndex == 0) return intval(substr($subjectNo,0,$prefixDigit));
-            else if ($counterIndex+1 == count($generatedNumberArray)) return intval(substr($subjectNo,$prefixDigit*-1));
+            if ($counterIndex == 0) {
+                return intval(substr($subjectNo,0,$prefixDigit));
+            } else if ($counterIndex+1 == count($generatedNumberArray)) {
+                return intval(substr($subjectNo,$prefixDigit*-1));
+            }
 
             return intval(substr($subjectNo,$digitBeforeCounter,$prefixDigit));
         }, $subjectNumbers);
 
         sort($existingNumbers);
 
-        if (empty($existingNumbers)) $newCounter = 1;
-        else {
+        if (empty($existingNumbers)) {
+            $newCounter = 1;
+        } else {
             $idealNos = range($existingNumbers[0], $existingNumbers[count($existingNumbers)-1]);
             $suggestedNos = array_values(array_diff($idealNos, $existingNumbers));
             $newCounter = empty($suggestedNos) ? ($existingNumbers[(count($existingNumbers)-1)] + 1) : $suggestedNos[0];
@@ -98,11 +120,5 @@ class NumberSettingService
         $generatedNumberArray[array_search(null, $generatedNumberArray)] = $newCounter;
 
         return implode('',$generatedNumberArray);
-    }
-
-    public function generateDefaultNumber($entity)
-    {
-        $tableName = Str::plural(Str::snake(Arr::last(explode('\\', $entity))), 2);
-        return (DB::select("show table status like '{$tableName}'"))[0]->Auto_increment;
     }
 }

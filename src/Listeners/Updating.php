@@ -15,8 +15,12 @@ class Updating
      */
     public function handle(Model $model)
     {
-        if (!$model->isUserStamping() || is_null(Auth::id())) return;
+        if (!$model->isUserStamping() || !Auth::check()) {
+            return;
+        }
 
-        $model->{$model->getUpdatedByColumn()} = Auth::id();
+        if (is_null($model->{$model->getUpdatedByColumn()}) && !is_null($model->getUpdatedByColumn())) {
+            $model->{$model->getUpdatedByColumn()} = Auth::id();
+        }
     }
 }

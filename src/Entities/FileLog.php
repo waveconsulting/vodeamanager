@@ -2,8 +2,10 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Http\Resources\FileLogResource;
+use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class FileLog extends BaseEntity
@@ -37,25 +39,21 @@ class FileLog extends BaseEntity
     {
         $this->validationRules['disk'] = [
             'required',
-            'in:' . implode(array_keys(config('filesystems.disks', [])), ',')
+            new ValidInConstant(array_keys(config('filesystems.disks', []))),
         ];
 
         $fileRules = ['required'];
 
-        $mimes = arr_get($request, 'mimes', []);
-        if (is_array($mimes) && !empty($mimes)) $fileRules[] = 'mimes:' . implode($mimes,',');
+        $mimes = Arr::get($request, 'mimes', []);
+        if (!empty($mimes)) {
+            $fileRules[] = 'mimes:' . (is_array($mimes) ? implode($mimes,',') : $mimes);
+        }
 
-        $maxSize = arr_get($request, 'max_size', null);
-        if ($maxSize) $fileRules[] = 'max:' . $maxSize;
+        if ($maxSize = Arr::get($request, 'max_size', null)) {
+            $fileRules[] = 'max:' . $maxSize;
+        }
 
         $this->validationRules['file'] = $fileRules;
-
-        return $this;
-    }
-
-    public function setValidationMessages(array $request = [])
-    {
-        $this->validationMessages['disk.in'] = 'The selected :attribute must be in ' . implode(array_keys(config('filesystems.disks', [])), ', ');
 
         return $this;
     }

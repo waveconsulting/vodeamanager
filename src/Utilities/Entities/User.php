@@ -31,13 +31,12 @@ abstract class User extends Authenticatable implements Auditable
         'joins' => [],
     ];
 
-    public function scopeCriteria($query, Request $request)
-    {
+    public function scopeCriteria($query, Request $request) {
         $order = null;
         $sorted = null;
 
         if ($request->has('order_by')) {
-            $sorted = $request->get('sorted_by') == 'desc' ? 'desc' : 'asc';
+            $sorted = in_array(strtolower($request->get('sorted_by')), ['desc', 'descending']) ? 'desc' : 'asc';
             $order = $request->get('order_by');
         } else if (config('vodeamanager.entity.sorting_default.active', false)) {
             $order = config('vodeamanager.entity.sorting_default.column', 'id');
@@ -57,9 +56,7 @@ abstract class User extends Authenticatable implements Auditable
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
         $instance = $this->newRelatedInstance($related);
-
         $foreignKey = $foreignKey ?: $this->getForeignKey();
-
         $localKey = $localKey ?: $this->getKeyName();
 
         return new HasManySyncable(

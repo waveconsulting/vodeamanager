@@ -5,6 +5,7 @@ namespace Vodeamanager\Core\Http\Resources;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class BaseResource extends JsonResource
 {
@@ -24,19 +25,26 @@ class BaseResource extends JsonResource
         ], $this->resource($request));
 
         foreach (array_keys($this->getRelations()) as $relationName) {
-            $name = camel_to_snake($relationName);
-            if (array_key_exists($name,$resources)) continue;
+            $name = Str::snake($relationName);
+            if (array_key_exists($name,$resources)) {
+                continue;
+            }
 
             $resources[$name] = $this->whenLoaded($relationName, function () use ($relationName) {
                 $data = $resource = $this->resource->$relationName;
+                $resource = DefaultResource::class;
+
                 if ($data instanceof Collection) {
-                    if ($data->isEmpty()) $resource = DefaultResource::class;
-                    else $resource = $data[0]->getResource();
+                    if ($data->isNotEmpty()) {
+                        $resource = $data[0]->getResource();
+                    }
 
                     return $resource::collection($data);
                 }
-                else if (empty($data)) $resource = DefaultResource::class;
-                else $resource = $data->getResource();
+
+                if (!empty($data)) {
+                    $resource = $data->getResource();
+                }
 
                 return new $resource($data);
             });

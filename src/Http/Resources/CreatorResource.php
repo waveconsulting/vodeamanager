@@ -14,9 +14,6 @@ class CreatorResource extends BaseResource
     {
         return [
             'name' => $this->name,
-            'email' => $this->email,
-            'telephone' => $this->telephone,
-            'mobile_phone' => $this->mobile_phone,
         ];
     }
 

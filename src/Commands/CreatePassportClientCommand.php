@@ -39,28 +39,28 @@ class CreatePassportClientCommand extends Command
      */
     public function handle()
     {
-        if (config('vodeamanager.passport.register')) {
-            try {
-                Artisan::call('passport:keys');
+        try {
+            Artisan::call('passport:keys');
 
-                Artisan::call('passport:install');
+            Artisan::call('passport:install');
 
-                DB::table('oauth_clients')->where('id', 2)
-                    ->update([
-                        'secret' => 'ol9FSJh3ypk4FdYUu2pL0wp21UransnXSKi5DaGm'
-                    ]);
+            DB::table('oauth_clients')->where('id', 2)
+                ->update([
+                    'secret' => 'ol9FSJh3ypk4FdYUu2pL0wp21UransnXSKi5DaGm'
+                ]);
 
-                Artisan::call('passport:client', ['--client' => true, '--name' => config('app.name') . ' Clients']);
+            Artisan::call('passport:client', ['--client' => true, '--name' => config('app.name') . ' Clients']);
 
-                DB::table('oauth_clients')->where('id', 3)
-                    ->update([
-                        'secret' => '1Vtcaz199fPLMBS4CXoTor8FaoGZWo2boAWKQGCd'
-                    ]);
+            DB::table('oauth_clients')->where('id', 3)
+                ->update([
+                    'secret' => '1Vtcaz199fPLMBS4CXoTor8FaoGZWo2boAWKQGCd'
+                ]);
 
-                $this->info('Successfully passport install.');
-            } catch (\Exception $e) {
-                $this->line($e->getMessage());
-            }
+            $this->info('Successfully passport install.');
+        } catch (\Exception $e) {
+            $this->line($e->getMessage());
+
+            return;
         }
     }
 }

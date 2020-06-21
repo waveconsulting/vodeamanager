@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class RoleUsersTableSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class RoleUsersTableSeeder extends Seeder
 
             $user->roleUsers()->create([
                 'role_id' => $role->id,
-                'valid_from' => now(),
+                'valid_from' => Carbon::now(),
             ]);
         }
     }

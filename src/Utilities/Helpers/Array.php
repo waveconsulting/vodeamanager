@@ -1,26 +1,14 @@
 <?php
 
-if (!function_exists('arr_get')) {
-    function arr_get(array $array, string $key, $default = null) {
-        return \Illuminate\Support\Arr::get($array, $key, $default);
-    }
-}
-
-if (!function_exists('arr_has')) {
-    function arr_has(array $array, string $key) {
-        return \Illuminate\Support\Arr::has($array, $key);
-    }
-}
+use Illuminate\Support\Arr;
 
 if (!function_exists('arr_key_equal')) {
     function arr_key_equal(array $array, string $key, $value) {
-        if (is_array($value)) return in_array($value, arr_get($array, $key));
-        return arr_get($array, $key) == $value;
+        if (is_array($value)) {
+            return in_array($value, Arr::get($array, $key));
+        }
+
+        return Arr::get($array, $key) == $value;
     }
 }
 
-if (!function_exists('arr_last')) {
-    function arr_last(array $array, callable $callback = null, $default = null) {
-        return \Illuminate\Support\Arr::last($array, $callback, $default);
-    }
-}

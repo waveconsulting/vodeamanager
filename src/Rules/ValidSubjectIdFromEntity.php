@@ -3,20 +3,23 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 
 class ValidSubjectIdFromEntity implements Rule
 {
     protected $request;
-    protected $message = 'The selected :attribute is invalid.';
+    protected $message;
 
     /**
      * Create a new rule instance.
      *
      * @param array $request
+     * @param string $message
      */
-    public function __construct(array $request = [])
+    public function __construct(array $request = [], string $message = 'The selected :attribute is invalid.')
     {
         $this->request = $request;
+        $this->message = $message;
     }
 
     /**
@@ -28,8 +31,13 @@ class ValidSubjectIdFromEntity implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!$entity = arr_get($this->request, 'entity')) return false;
-        if (!class_exists($entity)) return false;
+        if (!$entity = Arr::get($this->request, 'entity')) {
+            return false;
+        }
+
+        if (!class_exists($entity)) {
+            return false;
+        }
 
         return app($entity)::find($value);
     }

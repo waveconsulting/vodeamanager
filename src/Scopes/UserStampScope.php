@@ -30,19 +30,19 @@ class UserStampScope implements Scope
     public function extend(Builder $builder)
     {
         $builder->macro('updateWithUserstamps', function (Builder $builder, $values) {
-            if (! $builder->getModel()->isUserStamping() || is_null(Auth::id())) return $builder->update($values);
-
-            $values[$builder->getModel()->getUpdatedByColumn()] = Auth::id();
+            if ($builder->getModel()->isUserStamping() && Auth::check()) {
+                $values[$builder->getModel()->getUpdatedByColumn()] = Auth::id();
+            }
 
             return $builder->update($values);
         });
 
         $builder->macro('deleteWithUserstamps', function (Builder $builder) {
-            if (! $builder->getModel()->isUserStamping() || is_null(Auth::id())) return $builder->delete();
-
-            $builder->update([
-                $builder->getModel()->getDeletedByColumn() => Auth::id(),
-            ]);
+            if ($builder->getModel()->isUserStamping() && Auth::check()) {
+                $builder->update([
+                    $builder->getModel()->getDeletedByColumn() => Auth::id(),
+                ]);
+            }
 
             return $builder->delete();
         });

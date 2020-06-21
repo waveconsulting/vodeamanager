@@ -17,7 +17,7 @@ class SelectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'text' => $this->getLabel() ?? null,
+            'text' => $this->getLabel()
         ];
     }
 }

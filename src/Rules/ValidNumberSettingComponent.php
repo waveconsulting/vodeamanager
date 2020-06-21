@@ -8,14 +8,15 @@ use Vodeamanager\Core\Utilities\Constant;
 
 class ValidNumberSettingComponent implements Rule
 {
-    protected $message = 'The :attribute is invalid.';
+    protected $message;
 
     /**
      * Create a new rule instance.
+     * @param string $message
      */
-    public function __construct()
+    public function __construct(string $message = 'The :attribute is invalid.')
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -27,8 +28,9 @@ class ValidNumberSettingComponent implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!is_array($value)) return false;
-        if (empty($value)) return false;
+        if (!is_array($value) || empty($value)) {
+            return false;
+        }
 
         $numberSettingComponents = collect($value);
         if ($numberSettingComponents->where('type', Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER)->count() > 1) {

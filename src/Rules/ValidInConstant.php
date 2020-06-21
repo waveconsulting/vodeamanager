@@ -3,6 +3,7 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 
 class ValidInConstant implements Rule
 {
@@ -18,7 +19,12 @@ class ValidInConstant implements Rule
     public function __construct(array $constant, string $message = null)
     {
         $this->constant = $constant;
-        $this->message = $message ?? 'The selected :attribute must be in ' . implode(array_values($constant), ', ') . '.';
+        if (empty($message)) {
+            $options = Arr::isAssoc($this->constant) ? array_values($constant) : $this->constant;
+            $message = 'The selected :attribute must be in ' . implode($options, ', ') . '.';
+        }
+
+        $this->message = $message;
     }
 
     /**
@@ -30,8 +36,15 @@ class ValidInConstant implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!is_string($value)) return false;
-        return array_key_exists($value, $this->constant);
+        if (!is_string($value)) {
+            return false;
+        }
+
+        if (Arr::isAssoc($this->constant)) {
+            return array_key_exists($value, $this->constant);
+        }
+
+        return in_array($value, $this->constant);
     }
 
     /**

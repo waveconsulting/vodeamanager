@@ -3,6 +3,7 @@
 namespace Vodeamanager\Core\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class Notification
@@ -10,17 +11,25 @@ class Notification
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && $request->has('notification_id') && $notification = config('vodeamanger.models.notification_user')::notRead()
-                ->where('notification_users.notification_id', $request->get('notification_id'))
-                ->first()) {
-            $notification->is_read = 1;
-            $notification->save();
+        if (Auth::check() && $notificationId = $request->get('notification_id')) {
+            if (!is_array($notificationId)) {
+                $notificationId = [$notificationId];
+            }
+
+            $notifications = config('vodeamanger.models.notification_user')::notRead()
+                ->whereIn('notification_users.notification_id', $notificationId)
+                ->get();
+
+            foreach ($notifications as $notification) {
+                $notification->is_read = 1;
+                $notification->save();
+            }
         }
 
         return $next($request);

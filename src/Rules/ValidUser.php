@@ -7,16 +7,18 @@ use Illuminate\Contracts\Validation\Rule;
 class ValidUser implements Rule
 {
     protected $request;
-    protected $message = 'The selected :attribute is invalid.';
+    protected $message;
 
     /**
      * Create a new rule instance.
      *
      * @param array $request
+     * @param string $message
      */
-    public function __construct(array $request = [])
+    public function __construct(array $request = [], string $message = 'The selected :attribute is invalid.')
     {
         $this->request = $request;
+        $this->message = $message;
     }
 
     /**

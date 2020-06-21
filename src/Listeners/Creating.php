@@ -15,8 +15,16 @@ class Creating
      */
     public function handle(Model $model)
     {
-        if (!$model->isUserStamping()) return;
-        if (is_null($model->{$model->getCreatedByColumn()})) $model->{$model->getCreatedByColumn()} = Auth::id();
-        if (is_null($model->{$model->getUpdatedByColumn()}) && ! is_null($model->getUpdatedByColumn())) $model->{$model->getUpdatedByColumn()} = Auth::id();
+        if (!$model->isUserStamping() || !Auth::check()) {
+            return;
+        }
+
+        if (is_null($model->{$model->getCreatedByColumn()}) && !is_null($model->getCreatedByColumn())) {
+            $model->{$model->getCreatedByColumn()} = Auth::id();
+        }
+
+        if (is_null($model->{$model->getUpdatedByColumn()}) && !is_null($model->getUpdatedByColumn())) {
+            $model->{$model->getUpdatedByColumn()} = Auth::id();
+        }
     }
 }

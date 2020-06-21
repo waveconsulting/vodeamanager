@@ -33,9 +33,4 @@ class Notification extends BaseEntity
         return $this->hasMany(config('vodeamanager.models.notification_user'));
     }
 
-    public function users()
-    {
-        return $this->belongsToMany(config('vodeamanager.models.user'), 'notification_users')->withTimestamps();
-    }
-
 }

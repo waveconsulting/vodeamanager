@@ -10,17 +10,20 @@ class ValidPassword implements Rule
 {
     protected $id;
     protected $password;
+    protected $message;
 
     /**
      * Create a new rule instance.
      *
      * @param $password
      * @param null $id
+     * @param string $message
      */
-    public function __construct($password, $id = null)
+    public function __construct($password, $id = null, string $message = 'Password is incorrect.')
     {
         $this->id = $id ?? Auth::id();
         $this->password = $password;
+        $this->message = $message;
     }
 
     /**
@@ -44,6 +47,6 @@ class ValidPassword implements Rule
      */
     public function message()
     {
-        return __('Password is incorrect.');
+        return __($this->message);
     }
 }

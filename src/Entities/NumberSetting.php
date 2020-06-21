@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Entities;
 
+use Illuminate\Support\Arr;
 use Vodeamanager\Core\Http\Resources\NumberSettingResource;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
@@ -30,7 +31,8 @@ class NumberSetting extends BaseEntity
         'number_setting_components.*.sequence' => 'required|distinct|integer|min:1',
     ];
 
-    public function numberSettingComponents() {
+    public function numberSettingComponents()
+    {
         return $this->hasMany(NumberSettingComponent::class);
     }
 
@@ -59,7 +61,7 @@ class NumberSetting extends BaseEntity
             new ValidInConstant(Constant::NUMBER_SETTING_COMPONENT_TYPE_OPTIONS),
         ];
 
-        $numberSettingComponents = arr_get($request, 'number_setting_components', []);
+        $numberSettingComponents = Arr::get($request, 'number_setting_components', []);
         if (is_array($numberSettingComponents)) {
             foreach ($numberSettingComponents as $index => $numberSettingComponent) {
                 $rules = ['required'];

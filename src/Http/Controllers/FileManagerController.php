@@ -21,8 +21,6 @@ class FileManagerController extends Controller
     public function __construct(FileLog $repository)
     {
         $this->repository = $repository;
-        $this->resource = FileLogResource::class;
-
         $this->__restConstruct();
     }
 
@@ -64,7 +62,9 @@ class FileManagerController extends Controller
         $fileLog = $this->repository->findOrFail($id);
 
         $disk = Storage::disk($fileLog->disk);
-        if (!(clone $disk)->exists($fileLog->path)) return abort(404);
+        if (!(clone $disk)->exists($fileLog->path)) {
+            return abort(404);
+        }
 
         return $disk->download($fileLog->path);
     }

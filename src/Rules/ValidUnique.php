@@ -9,20 +9,27 @@ class ValidUnique implements Rule
 {
     protected $id;
     protected $model;
-    protected $message = 'The :attribute has already been taken.';
+    protected $message;
 
     /**
      * Create a new rule instance.
      *
      * @param $model
      * @param null $id
+     * @param string $message
      */
-    public function __construct($model, $id = null)
+    public function __construct($model, $id = null, string $message = 'The :attribute has already been taken.')
     {
-        $this->id = $id;
-        if (is_string($model) && class_exists($model)) $model = app($model);
-        if ($model instanceof BaseEntity) $this->model = $model;
+        if (is_string($model) && class_exists($model)) {
+            $model = app($model);
+        }
 
+        if ($model instanceof BaseEntity) {
+            $this->model = $model;
+        }
+
+        $this->id = $id;
+        $this->message = $message;
     }
 
     /**
@@ -34,10 +41,14 @@ class ValidUnique implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (empty($this->model)) return false;
+        if (empty($this->model)) {
+            return false;
+        }
 
         $query = $this->model->where($attribute, $value);
-        if ($this->id) $query = $query->where('id', '!=', $this->id);
+        if ($this->id) {
+            $query = $query->where('id', '!=', $this->id);
+        }
 
         return !$query->exists();
 

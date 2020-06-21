@@ -10,16 +10,24 @@ class ExceptionService
 {
     public function log($e) {
         $messages = [
-            'timestamp' => Carbon::now()->toDateTime(),
+            'timestamp' => Carbon::now()->toDateString(),
         ];
 
-        if (method_exists($e, 'getFile')) $messages['file'] = $e->getFile();
+        if (method_exists($e, 'getFile')) {
+            $messages['file'] = $e->getFile();
+        }
 
-        if (method_exists($e, 'getLine')) $messages['line'] = $e->getLine();
+        if (method_exists($e, 'getLine')) {
+            $messages['line'] = $e->getLine();
+        }
 
-        if (method_exists($e, 'getMessage')) $messages['message'] = $e->getMessage();
+        if (method_exists($e, 'getMessage')) {
+            $messages['message'] = $e->getMessage();
+        }
 
-        if (Auth::check()) $messages['auth'] = Auth::id();
+        if (Auth::check()) {
+            $messages['auth'] = Auth::id();
+        }
 
         Log::error(json_encode($messages));
     }

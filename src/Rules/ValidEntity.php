@@ -13,7 +13,7 @@ class ValidEntity implements Rule
      *
      * @param string $message
      */
-    public function __construct($message = 'The selected :attribute is invalid.')
+    public function __construct(string $message = 'The selected :attribute is invalid.')
     {
         $this->message = $message;
     }

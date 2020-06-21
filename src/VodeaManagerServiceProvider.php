@@ -109,11 +109,11 @@ class VodeaManagerServiceProvider extends ServiceProvider
     {
         if (!config('vodeamanager.passport.custom_routes', false)) Passport::routes();
 
-        Passport::tokensExpireIn(Carbon::now()->addDays(config('vodeamanager.passport.expires.token', 15)));
+        Passport::tokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.token', 15)));
 
-        Passport::refreshTokensExpireIn(Carbon::now()->addDays(config('vodeamanager.passport.expires.refresh_token', 30)));
+        Passport::refreshTokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.refresh_token', 30)));
 
-        Passport::personalAccessTokensExpireIn(Carbon::now()->addMonths(config('vodeamanager.passport.expires.personal_access_token', 6)));
+        Passport::personalAccessTokensExpireIn(now()->addMonths(config('vodeamanager.passport.expires.personal_access_token', 6)));
     }
 
     protected function registerFacades()

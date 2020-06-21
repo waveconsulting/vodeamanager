@@ -24,19 +24,25 @@ class HasManySyncable extends HasMany
             if (isset($row[$relatedKeyName]) && !empty($row[$relatedKeyName]) && in_array($row[$relatedKeyName], $current)) {
                 $id = $row[$relatedKeyName];
                 $updateRows[$id] = $row;
-            } else $newRows[] = $row;
+            } else {
+                $newRows[] = $row;
+            }
         }
 
         $updateIds = array_keys($updateRows);
         $deleteIds = [];
-        foreach ($current as $currentId) if (!in_array($currentId, $updateIds)) $deleteIds[] = $currentId;
+        foreach ($current as $currentId) {
+            if (!in_array($currentId, $updateIds)) $deleteIds[] = $currentId;
+        }
 
         if ($deleting && count($deleteIds) > 0) {
             $this->getRelated()->destroy($deleteIds);
             $changes['deleted'] = $this->castKeys($deleteIds);
         }
 
-        foreach ($updateRows as $id => $row) $this->getRelated()->where($relatedKeyName, $id)->update($row);
+        foreach ($updateRows as $id => $row) {
+            $this->getRelated()->where($relatedKeyName, $id)->update($row);
+        }
 
         $changes['updated'] = $this->castKeys($updateIds);
 

@@ -43,6 +43,8 @@ class PermissionSeedCommand extends Command
             $this->info('Successfully seed permissions.');
         } catch (\Exception $e) {
             $this->line($e->getMessage());
+
+            return;
         }
     }
 }

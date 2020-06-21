@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
 class Handler extends ExceptionHandler
@@ -34,10 +35,10 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param Exception $exception
      * @return void
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -47,11 +48,11 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Request $request
+     * @param Exception $exception
+     * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function render($request, Exception $exception)
     {
@@ -64,20 +65,29 @@ class Handler extends ExceptionHandler
     {
         $exception = $this->prepareException($exception);
 
-        if ($exception instanceof HttpResponseException) $exception = $exception->getResponse();
-        if ($exception instanceof AuthenticationException) $exception = $this->unauthenticated($request, $exception);
-        if ($exception instanceof ValidationException) $exception = $this->convertValidationExceptionToResponse($exception, $request);
+        if ($exception instanceof HttpResponseException) {
+            $exception = $exception->getResponse();
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            $exception = $this->unauthenticated($request, $exception);
+        }
+
+        if ($exception instanceof ValidationException) {
+            $exception = $this->convertValidationExceptionToResponse($exception, $request);
+        }
 
         return $this->customApiResponse($exception);
     }
 
     private function customApiResponse($e)
     {
-        if (method_exists($e, 'getStatusCode')) $statusCode = $e->getStatusCode();
-        else $statusCode = 500;
+        $statusCode = 500;
+        if (method_exists($e, 'getStatusCode')) {
+            $statusCode = $e->getStatusCode();
+        }
 
         $response = [];
-
         switch ($statusCode) {
             case 401:
                 $response['message'] = 'Unauthorized';
@@ -101,8 +111,13 @@ class Handler extends ExceptionHandler
         }
 
         if (config('app.debug')) {
-            if (method_exists($e, 'getTrace')) $response['trace'] = $e->getTrace();
-            if (method_exists($e, 'getCode')) $response['code'] = $e->getCode();
+            if (method_exists($e, 'getTrace')) {
+                $response['trace'] = $e->getTrace();
+            }
+
+            if (method_exists($e, 'getCode')) {
+                $response['code'] = $e->getCode();
+            }
         }
 
         $response['status'] = $statusCode;

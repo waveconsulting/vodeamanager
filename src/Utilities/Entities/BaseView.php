@@ -28,7 +28,7 @@ abstract class BaseView extends Model
         $sorted = null;
 
         if ($request->has('order_by')) {
-            $sorted = $request->get('sorted_by') == 'desc' ? 'desc' : 'asc';
+            $sorted = in_array(strtolower($request->get('sorted_by')), ['desc', 'descending']) ? 'desc' : 'asc';
             $order = $request->get('order_by');
         } else if (config('vodeamanager.entity.sorting_default.active', false)) {
             $order = config('vodeamanager.entity.sorting_default.column', 'id');
@@ -48,9 +48,7 @@ abstract class BaseView extends Model
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
         $instance = $this->newRelatedInstance($related);
-
         $foreignKey = $foreignKey ?: $this->getForeignKey();
-
         $localKey = $localKey ?: $this->getKeyName();
 
         return new HasManySyncable(

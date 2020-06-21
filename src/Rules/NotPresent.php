@@ -13,7 +13,7 @@ class NotPresent implements Rule
      *
      * @param string $message
      */
-    public function __construct($message = 'The :attribute must not be present.')
+    public function __construct(string $message = 'The :attribute must not be present.')
     {
         $this->message = $message;
     }

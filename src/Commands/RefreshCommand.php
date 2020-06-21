@@ -45,22 +45,29 @@ class RefreshCommand extends Command
             $this->info('Successfully migrate.');
         } catch (\Exception $e) {
             $this->line($e->getMessage());
-        } finally {
+
+            return;
+        }
+
+        try {
+            Artisan::call('db:seed', ['--force' => $this->option('force')]);
+            $this->info('Successfully seed.');
+        } catch (\Exception $e) {
+            $this->line($e->getMessage());
+
+            return;
+        }
+
+        if (config('vodeamanager.passport.register')) {
             try {
-                Artisan::call('db:seed', ['--force' => $this->option('force')]);
-                $this->info('Successfully seed.');
+                Artisan::call('create:passport:client');
+                $this->info('Successfully passport install.');
             } catch (\Exception $e) {
                 $this->line($e->getMessage());
-            } finally {
-                if (config('vodeamanager.passport.register')) {
-                    try {
-                        Artisan::call('create:passport:client');
-                        $this->info('Successfully passport install.');
-                    } catch (\Exception $e) {
-                        $this->line($e->getMessage());
-                    }
-                }
+
+                return;
             }
         }
     }
+
 }

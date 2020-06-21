@@ -2,7 +2,6 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Vodeamanager\Core\Http\Resources\GateSettingResource;
 use Vodeamanager\Core\Rules\ValidUser;
@@ -43,7 +42,7 @@ class GateSetting extends BaseEntity
         });
     }
 
-    public function role(): BelongsTo
+    public function role()
     {
         return $this->belongsTo(config('vodeamanager.entities.role'));
     }
@@ -56,11 +55,6 @@ class GateSetting extends BaseEntity
     public function gateSettingPermissions()
     {
         return $this->hasMany(config('vodeamanager.models.gate_permission_setting'));
-    }
-
-    public function permissions()
-    {
-        return $this->belongsToMany(config('vodeamanager.models.permission'), 'gate_setting_permissions')->withTimestamps();
     }
 
     public function setValidationRules(array $request = [], $id = null)
