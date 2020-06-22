@@ -5,29 +5,12 @@ namespace Vodeamanager\Core\Utilities\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Nicolaslopezj\Searchable\SearchableTrait;
 use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
+use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 
 abstract class BaseView extends Model
 {
-    use SearchableTrait, ResourceTrait;
-
-    /**
-     * Searchable rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-         */
-        'columns' => [],
-        'joins' => [],
-    ];
+    use SearchableCustomTrait, ResourceTrait;
 
     public function scopeCriteria($query, Request $request) {
         $order = null;

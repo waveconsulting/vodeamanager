@@ -49,7 +49,7 @@ trait RestCoreController
             ->criteria($request)
             ->filter($request);
 
-        if ($request->has('search')) {
+        if ($request->has('search') && !empty($repository->getSearchable())) {
             $repository = $repository->search($request->get('search'), null, true);
         }
 
@@ -79,7 +79,7 @@ trait RestCoreController
             return new SelectResource($data);
         }
 
-        if ($request->has('search')) {
+        if ($request->has('search') && !empty($repository->getSearchable())) {
             $repository = $repository->search($request->get('search'), null, true);
         }
 

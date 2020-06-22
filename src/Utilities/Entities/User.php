@@ -8,34 +8,17 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\HasApiTokens;
-use Nicolaslopezj\Searchable\SearchableTrait;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Rules\NotPresent;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
+use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 use Wildside\Userstamps\Userstamps;
 
 abstract class User extends Authenticatable implements Auditable
 {
-    use Notifiable, SoftDeletes, UserStamp, HasApiTokens, SearchableTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
-
-    /**
-     * Searchable rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-         */
-        'columns' => [],
-        'joins' => [],
-    ];
+    use Notifiable, SoftDeletes, Userstamps, HasApiTokens, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
 
     public function scopeCriteria($query, Request $request) {
         $order = null;
