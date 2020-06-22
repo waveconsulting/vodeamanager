@@ -18,7 +18,9 @@
         "langleyfoxall/math_eval": "^2.0",
         "superbalist/laravel-google-cloud-storage": "^2.2",
         "owen-it/laravel-auditing": "^10.0",
-        "fruitcake/laravel-cors": "^2.0"
+        "fruitcake/laravel-cors": "^2.0",
+        "nicolaslopezj/searchable": "1.*",
+        "wildside/userstamps": "^1.1"
     },
     "autoload": {
         "psr-4": {

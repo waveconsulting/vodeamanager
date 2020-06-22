@@ -5,20 +5,26 @@ namespace Vodeamanager\Core\Utilities\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Nicolaslopezj\Searchable\SearchableTrait;
 use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
-use Vodeamanager\Core\Utilities\Traits\Searchable;
 
 abstract class BaseView extends Model
 {
-    use Searchable, ResourceTrait;
+    use SearchableTrait, ResourceTrait;
 
     /**
-     * Columns and their priority in search results.
-     * Columns with higher values are more important.
-     * Columns with equal values have equal importance.
-     ** @var array
+     * Searchable rules.
+     *
+     * @var array
      */
     protected $searchable = [
+        /**
+         * Columns and their priority in search results.
+         * Columns with higher values are more important.
+         * Columns with equal values have equal importance.
+         *
+         * @var array
+         */
         'columns' => [],
         'joins' => [],
     ];

@@ -41,7 +41,9 @@ trait EntityFormRequest
     {
         $validationRules = [];
 
-        foreach ($this->getFillable() as $field) $validationRules[$field] = [ new NotPresent() ];
+        foreach ($this->getFillable() as $field) {
+            $validationRules[$field] = [new NotPresent()];
+        }
 
         return $validationRules;
     }
@@ -52,7 +54,9 @@ trait EntityFormRequest
     public function assignNotPresent()
     {
         foreach ($this->getFillable() as $field) {
-            if (!array_key_exists($field,$this->validationRules)) $this->validationRules[$field] = [ new NotPresent() ];
+            if (!array_key_exists($field,$this->validationRules)) {
+                $this->validationRules[$field] = [new NotPresent()];
+            }
         }
 
         return $this;
@@ -63,7 +67,9 @@ trait EntityFormRequest
      */
     public function setExceptUpdateFields()
     {
-        foreach ($this->exceptUpdateFields as $exceptUpdateField) $this->validationRules[$exceptUpdateField] = [ new NotPresent() ];
+        foreach ($this->exceptUpdateFields as $exceptUpdateField) {
+            $this->validationRules[$exceptUpdateField] = [ new NotPresent() ];
+        }
 
         return $this;
     }

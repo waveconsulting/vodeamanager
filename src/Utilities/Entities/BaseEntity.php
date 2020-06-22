@@ -6,25 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
+use Nicolaslopezj\Searchable\SearchableTrait;
+use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
-use \OwenIt\Auditing\Auditable as AudibleTrait;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
 use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
-use Vodeamanager\Core\Utilities\Traits\Searchable;
-use Vodeamanager\Core\Utilities\Traits\UserStamp;
+use Wildside\Userstamps\Userstamps;
 
 abstract class BaseEntity extends Model implements Auditable
 {
-    use SoftDeletes, UserStamp, Searchable, EntityFormRequest, AudibleTrait, ResourceTrait;
+    use SoftDeletes, Userstamps, SearchableTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
 
     /**
-     * Columns and their priority in search results.
-     * Columns with higher values are more important.
-     * Columns with equal values have equal importance.
-     ** @var array
+     * Searchable rules.
+     *
+     * @var array
      */
     protected $searchable = [
+        /**
+         * Columns and their priority in search results.
+         * Columns with higher values are more important.
+         * Columns with equal values have equal importance.
+         *
+         * @var array
+         */
         'columns' => [],
         'joins' => [],
     ];
