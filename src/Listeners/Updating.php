@@ -19,7 +19,7 @@ class Updating
             return;
         }
 
-        if (is_null($model->{$model->getUpdatedByColumn()}) && !is_null($model->getUpdatedByColumn())) {
+        if (!is_null($model->getUpdatedByColumn())) {
             $model->{$model->getUpdatedByColumn()} = Auth::id();
         }
     }

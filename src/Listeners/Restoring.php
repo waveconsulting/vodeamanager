@@ -15,7 +15,7 @@ class Restoring
      */
     public function handle(Model $model)
     {
-        if (!$model->isUserStamping() || Auth::check()) {
+        if (!$model->isUserStamping() || !Auth::check()) {
             return;
         }
 

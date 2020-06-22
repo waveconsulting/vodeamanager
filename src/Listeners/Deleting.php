@@ -15,11 +15,11 @@ class Deleting
      */
     public function handle(Model $model)
     {
-        if (!$model->isUserStamping() || Auth::check()) {
+        if (!$model->isUserStamping() || !Auth::check()) {
             return;
         }
 
-        if (is_null($model->{$model->getDeletedByColumn()}) && !is_null($model->getDeletedByColumn())) {
+        if (!is_null($model->getDeletedByColumn())) {
             $model->{$model->getDeletedByColumn()} = Auth::id();
         }
 
