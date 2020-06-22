@@ -45,13 +45,15 @@ trait RestCoreController
 
     public function index(Request $request)
     {
-        $repository = $this->repository->with($this->eagerLoadRelationIndex)
+        if ($request->has('search') && !empty($this->repository->getSearchable())) {
+            $repository = $this->repository->search($request->get('search'), null, true);
+        } else {
+            $repository = $this->repository->query();
+        }
+
+        $repository = $repository->with($this->eagerLoadRelationIndex)
             ->criteria($request)
             ->filter($request);
-
-        if ($request->has('search') && !empty($repository->getSearchable())) {
-            $repository = $repository->search($request->get('search'), null, true);
-        }
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->per_page)
@@ -79,9 +81,15 @@ trait RestCoreController
             return new SelectResource($data);
         }
 
-        if ($request->has('search') && !empty($repository->getSearchable())) {
-            $repository = $repository->search($request->get('search'), null, true);
+        if ($request->has('search') && !empty($this->repository->getSearchable())) {
+            $repository = $this->repository->search($request->get('search'), null, true);
+        } else {
+            $repository = $this->repository->query();
         }
+
+        $repository = $repository->with($this->eagerLoadRelationIndex)
+            ->criteria($request)
+            ->filter($request);
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->per_page)
