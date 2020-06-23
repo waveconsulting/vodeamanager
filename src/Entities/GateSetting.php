@@ -57,6 +57,11 @@ class GateSetting extends BaseEntity
         return $this->hasMany(config('vodeamanager.models.gate_permission_setting'));
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany(config('vodeamanager.models.permission'), 'gate_setting_permissions')->withTimestamps();
+    }
+
     public function setValidationRules(array $request = [], $id = null)
     {
         $this->validationRules['user_id'] = [
