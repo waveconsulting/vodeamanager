@@ -14,7 +14,7 @@ class SettingResource extends BaseResource
     {
         return [
             'type' => $this->type,
-            'data' => $this->data,
+            'attributes' => $this->attributes,
         ];
     }
 
