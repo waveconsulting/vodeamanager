@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Http\Resources\DefaultResource;
 use Vodeamanager\Core\Http\Resources\SelectResource;
+use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
 trait RestCoreController
@@ -17,7 +18,7 @@ trait RestCoreController
     protected $indexResource;
     protected $showResource;
     protected $selectResource;
-    protected $policy = false;
+    protected $policies;
     protected $eagerLoadRelationIndex = [];
     protected $eagerLoadRelationShow = [];
 
@@ -108,9 +109,7 @@ trait RestCoreController
             ->filter($request)
             ->findOrFail($id);
 
-        if ($this->policy) {
-            $this->authorize('view', $data);
-        }
+        $this->gate($data, __FUNCTION__);
 
         if ($this->showResource && is_subclass_of($this->showResource, JsonResource::class)) {
             return new $this->showResource($data);
@@ -126,9 +125,7 @@ trait RestCoreController
 
             $data = $this->repository->filter($request)->findOrFail($id);
 
-            if ($this->policy) {
-                $this->authorize('delete', $data);
-            }
+            $this->gate($data, __FUNCTION__);
 
             $this->repository->destroy($id);
 
@@ -147,6 +144,16 @@ trait RestCoreController
                 'error'   => true,
                 'message' => $e->getMessage()
             ]);
+        }
+    }
+
+    private function gate(BaseEntity $data, $policyName) {
+        if (!empty($this->policies)) {
+            if ((is_bool($this->policies) && $this->policies) ||
+                (is_array($this->policies) && in_array($policyName, $this->policies)) ||
+                (is_string($this->policies) && $this->policies == $policyName)) {
+                $this->authorize($policyName, $data);
+            }
         }
     }
 }
