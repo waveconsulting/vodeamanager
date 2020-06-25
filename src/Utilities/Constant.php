@@ -2,16 +2,18 @@
 
 namespace Vodeamanager\Core\Utilities;
 
+use Carbon\Carbon;
+
 class Constant
 {
     const DAYS = [
-        0 => 'Sunday',
-        1 => 'Monday',
-        2 => 'Tuesday',
-        3 => 'Wednesday',
-        4 => 'Thursday',
-        5 => 'Friday',
-        6 => 'Saturday',
+        'SUNDAY' => 'Sunday',
+        'MONDAY' => 'Monday',
+        'TUESDAY' => 'Tuesday',
+        'WEDNESDAY' => 'Wednesday',
+        'THURSDAY' => 'Thursday',
+        'FRIDAY' => 'Friday',
+        'SATURDAY' => 'Saturday',
     ];
 
     const GENDER_TYPE_MALE = 'M';
