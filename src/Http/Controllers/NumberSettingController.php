@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Entities\NumberSetting;
 use Vodeamanager\Core\Http\Requests\NumberSettingCreateRequest;
 use Vodeamanager\Core\Http\Requests\NumberSettingUpdateRequest;
-use Vodeamanager\Core\Http\Resources\NumberSettingResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Traits\RestCoreController;
 

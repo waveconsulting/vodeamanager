@@ -3,18 +3,10 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Carbon;
-use Vodeamanager\Core\Http\Resources\RoleUserResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class RoleUser extends BaseEntity
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = RoleUserResource::class;
-    }
-
     protected $fillable = [
         'role_id',
         'user_id',

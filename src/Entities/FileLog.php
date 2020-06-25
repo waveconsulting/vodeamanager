@@ -4,19 +4,11 @@ namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Vodeamanager\Core\Http\Resources\FileLogResource;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class FileLog extends BaseEntity
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = FileLogResource::class;
-    }
-
     protected $fillable = [
         'name',
         'encoded_name',

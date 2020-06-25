@@ -2,14 +2,13 @@
 
 namespace Vodeamanager\Core\Utilities\Traits;
 
-use Vodeamanager\Core\Http\Resources\DefaultResource;
-use Vodeamanager\Core\Http\Resources\SelectResource;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 
 trait ResourceTrait
 {
-    protected $indexResource = DefaultResource::class;
-    protected $showResource = DefaultResource::class;
-    protected $selectResource = SelectResource::class;
+    protected $indexResource = BaseResource::class;
+    protected $showResource = BaseResource::class;
+    protected $selectResource = BaseResource::class;
 
     public function getResource()
     {

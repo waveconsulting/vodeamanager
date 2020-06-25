@@ -5,8 +5,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
-use Vodeamanager\Core\Http\Resources\DefaultResource;
-use Vodeamanager\Core\Http\Resources\SelectResource;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 
@@ -64,7 +63,7 @@ trait RestCoreController
             return $this->indexResource::collection($data);
         }
 
-        return DefaultResource::collection($data);
+        return BaseResource::collection($data);
     }
 
     public function select(Request $request, $id = null)
@@ -79,7 +78,7 @@ trait RestCoreController
                 return new $this->selectResource($data);
             }
 
-            return new SelectResource($data);
+            return new BaseResource($data);
         }
 
         if ($request->has('search') && !empty($this->repository->getSearchable())) {
@@ -100,7 +99,7 @@ trait RestCoreController
             return $this->selectResource::collection($data);
         }
 
-        return SelectResource::collection($data);
+        return BaseResource::collection($data);
     }
 
     public function show(Request $request, $id)
@@ -115,7 +114,7 @@ trait RestCoreController
             return new $this->showResource($data);
         }
 
-        return new DefaultResource($data);
+        return new BaseResource($data);
     }
 
     public function destroy(Request $request, $id)

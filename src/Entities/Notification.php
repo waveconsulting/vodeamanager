@@ -2,18 +2,10 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Vodeamanager\Core\Http\Resources\NotificationResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class Notification extends BaseEntity
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = NotificationResource::class;
-    }
-
     protected $fillable = [
         'notification_type_id',
         'data',

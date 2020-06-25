@@ -32,7 +32,7 @@ class BaseResource extends JsonResource
 
             $resources[$name] = $this->whenLoaded($relationName, function () use ($relationName) {
                 $data = $resource = $this->resource->$relationName;
-                $resource = DefaultResource::class;
+                $resource = BaseResource::class;
 
                 if ($data instanceof Collection) {
                     if ($data->isNotEmpty()) {
@@ -59,6 +59,13 @@ class BaseResource extends JsonResource
      */
     public function resource($request)
     {
-        return [];
+        $fields = array_diff($this->resource->getFillable(), $this->resource->getHidden());
+
+        $resources = [];
+        foreach ($fields as $field) {
+            $resources[$field] = $this->$field;
+        }
+
+        return $resources;
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Entities\FileLog;
 use Vodeamanager\Core\Http\Requests\FileLogCreateRequest;
-use Vodeamanager\Core\Http\Resources\FileLogResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Facades\FileService;
 use Vodeamanager\Core\Utilities\Traits\RestCoreController;

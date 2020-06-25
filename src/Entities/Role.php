@@ -2,19 +2,11 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Vodeamanager\Core\Http\Resources\RoleResource;
 use Vodeamanager\Core\Rules\ValidUnique;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class Role extends BaseEntity
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = RoleResource::class;
-    }
-
     protected $fillable = [
         'code',
         'name',

@@ -3,18 +3,10 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Carbon;
-use Vodeamanager\Core\Http\Resources\UserResource;
 use Vodeamanager\Core\Utilities\Entities\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = UserResource::class;
-    }
-
     protected $fillable = [
         'name',
         'email',

@@ -3,7 +3,6 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Arr;
-use Vodeamanager\Core\Http\Resources\NumberSettingResource;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Rules\ValidNumberSettingComponent;
@@ -13,13 +12,6 @@ use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class NumberSetting extends BaseEntity
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = NumberSettingResource::class;
-    }
-
     protected $fillable = [
         'name',
         'entity',

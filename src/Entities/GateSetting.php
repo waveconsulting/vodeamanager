@@ -3,19 +3,11 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Carbon;
-use Vodeamanager\Core\Http\Resources\GateSettingResource;
 use Vodeamanager\Core\Rules\ValidUser;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class GateSetting extends BaseEntity
 {
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->indexResource = $this->showResource = $this->selectResource = GateSettingResource::class;
-    }
-
     protected $fillable = [
         'role_id',
         'user_id',
