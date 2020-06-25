@@ -3,6 +3,7 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Arr;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class ValidUnique implements Rule
@@ -44,6 +45,8 @@ class ValidUnique implements Rule
         if (empty($this->model)) {
             return false;
         }
+
+        $attribute = Arr::last(explode('.',$attribute));
 
         $query = $this->model->where($attribute, $value);
         if ($this->id) {
