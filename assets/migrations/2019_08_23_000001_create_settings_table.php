@@ -17,7 +17,7 @@ class CreateSettingsTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('type')->nullable();
-            $table->text('data')->nullable();
+            $table->json('data')->nullable();
 
             $table->userTimeStamp();
         });

@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration
             $table->bigIncrements('id');
 
             $table->relation('notification_type','notification_types');
-            $table->text('data')->nullable();
+            $table->json('data')->nullable();
 
             $table->userTimeStamp();
         });
