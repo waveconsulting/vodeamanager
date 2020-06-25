@@ -3,7 +3,6 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Arr;
 
 class ValidSubjectIdFromEntity implements Rule
 {
@@ -31,7 +30,7 @@ class ValidSubjectIdFromEntity implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!$entity = Arr::get($this->request, 'entity')) {
+        if (!$entity = @$this->request['entity']) {
             return false;
         }
 

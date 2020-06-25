@@ -2,7 +2,6 @@
 
 namespace Vodeamanager\Core\Entities;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
@@ -36,12 +35,12 @@ class FileLog extends BaseEntity
 
         $fileRules = ['required'];
 
-        $mimes = Arr::get($request, 'mimes', []);
+        $mimes = @$request['mimes'] ?? [];
         if (!empty($mimes)) {
             $fileRules[] = 'mimes:' . (is_array($mimes) ? implode($mimes,',') : $mimes);
         }
 
-        if ($maxSize = Arr::get($request, 'max_size', null)) {
+        if ($maxSize = @$request['max_size']) {
             $fileRules[] = 'max:' . $maxSize;
         }
 
