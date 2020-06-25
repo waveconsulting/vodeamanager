@@ -16,11 +16,11 @@ class Setting extends BaseEntity
 
     protected $fillable = [
         'type',
-        'data',
+        'attributes',
     ];
 
     protected $casts = [
-        'data' => 'object',
+        'attributes' => 'object',
     ];
 
 }
