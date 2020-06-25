@@ -16,6 +16,15 @@ class Constant
         'SATURDAY' => 'Saturday',
     ];
 
+    const RELIGIONS = [
+        'BUDDHA' => 'Buddha',
+        'CATHOLIC' => 'Catholic',
+        'CRISTIAN' => 'Christian',
+        'CONFUCIUS' => 'Confucius',
+        'HINDU' => 'Hindu',
+        'ISLAM' => 'Islam',
+    ];
+
     const GENDER_TYPE_MALE = 'M';
     const GENDER_TYPE_FEMALE = 'F';
     const GENDER_TYPE_OTHER = 'O';
