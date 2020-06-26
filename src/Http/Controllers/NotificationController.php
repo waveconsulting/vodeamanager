@@ -18,7 +18,9 @@ class NotificationController extends Controller
                 ->with('notifiable')
                 ->orderByDesc('notifications.created_at');
 
-            if ($request->get('unread')) {
+            if ($request->get('type') == 'read') {
+                $repository = $repository->whereNotNull('read_at');
+            } else if ($request->get('type') == 'unread') {
                 $repository = $repository->whereNull('read_at');
             }
 
