@@ -52,7 +52,9 @@ class User extends Authenticatable
     }
 
     public function permissions($date = null) {
-        if (is_null($date)) $date = Carbon::now()->toDateString();
+        if (is_null($date)) {
+            $date = Carbon::now()->toDateString();
+        }
 
         $gateSettingIds = config('vodeamanager.models.gate_setting')::select('gate_settings.id')
             ->where('gate_settings.user_id', $this->id)
