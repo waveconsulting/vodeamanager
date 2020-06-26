@@ -17,7 +17,7 @@ class Constant
     const RELIGIONS = [
         'BUDDHA' => 'Buddha',
         'CATHOLIC' => 'Catholic',
-        'CRISTIAN' => 'Christian',
+        'CHRISTIAN' => 'Christian',
         'CONFUCIUS' => 'Confucius',
         'HINDU' => 'Hindu',
         'ISLAM' => 'Islam',
