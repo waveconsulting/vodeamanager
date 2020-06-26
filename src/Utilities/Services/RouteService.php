@@ -17,6 +17,7 @@ class RouteService
     public function notificationService() {
         Route::group(['prefix' => 'notification', 'as' => 'notification.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/','NotificationController@index')->name('index');
+            Route::get('/{id}', 'NotificationController@show')->name('show');
             Route::post('/read-all', 'NotificationController@readAll')->name('read-all');
 
         });

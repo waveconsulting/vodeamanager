@@ -18,12 +18,28 @@ class NotificationController extends Controller
                 ->with('notifiable')
                 ->orderByDesc('notifications.created_at');
 
+            if ($request->get('unread')) {
+                $repository = $repository->whereNull('read_at');
+            }
+
             $data = $request->has('per_page')
                 ? $repository->paginate($request->get('per_page'))
                 : $repository->get();
         }
 
         return DefaultResource::collection($data);
+    }
+
+    public function show(Request $Request, $id) {
+        $data = null;
+
+        if (Auth::check()) {
+            $data = Auth::user()->notifications()
+                ->with('notifiable')
+                ->findOrFail($id);
+        }
+
+        return new DefaultResource($data);
     }
 
     public function readAll(Request $request)
