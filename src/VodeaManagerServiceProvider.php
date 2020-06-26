@@ -2,9 +2,7 @@
 
 namespace Vodeamanager\Core;
 
-use Fruitcake\Cors\HandleCors;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;

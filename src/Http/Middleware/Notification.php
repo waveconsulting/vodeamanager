@@ -17,19 +17,18 @@ class Notification
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && $notificationId = $request->get('notification_id')) {
+        if (Auth::check() && $request->has('notif_id')) {
+            $notificationId = $request->get('notif_id');
+
             if (!is_array($notificationId)) {
                 $notificationId = [$notificationId];
             }
 
-            $notifications = config('vodeamanger.models.notification_user')::notRead()
-                ->whereIn('notification_users.notification_id', $notificationId)
-                ->get();
-
-            foreach ($notifications as $notification) {
-                $notification->is_read = 1;
-                $notification->save();
-            }
+            Auth::user()->notifications()
+                ->whereNull('notifications.read_at')
+                ->whereIn('notifications.id', $notificationId)
+                ->get()
+                ->markAsRead();
         }
 
         return $next($request);

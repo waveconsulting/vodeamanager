@@ -2,34 +2,37 @@
 
 namespace Vodeamanager\Core\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Vodeamanager\Core\Entities\Notification;
-use Vodeamanager\Core\Entities\NotificationUser;
-use Vodeamanager\Core\Http\Requests\FileLogCreateRequest;
+use Vodeamanager\Core\Http\Resources\DefaultResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
-use Vodeamanager\Core\Utilities\Traits\RestCoreController;
 
 class NotificationController extends Controller
 {
-    use RestCoreController {
-        RestCoreController::__construct as private __restConstruct;
-    }
-
-    public function __construct(Notification $repository)
+    public function index(Request $request)
     {
-        $this->repository = $repository;
-        $this->__restConstruct();
+        $data = [];
+        if (Auth::check()) {
+            $repository = Auth::user()->notifications()
+                ->with('notifiable')
+                ->orderByDesc('notifications.created_at');
+
+            $data = $request->has('per_page')
+                ? $repository->paginate($request->get('per_page'))
+                : $repository->get();
+        }
+
+        return DefaultResource::collection($data);
     }
 
-    public function readAll(FileLogCreateRequest $request)
+    public function readAll(Request $request)
     {
         try {
             DB::beginTransaction();
 
-            $notificationUsers = NotificationUser::notRead()->get();
-            foreach ($notificationUsers as $notificationUser) {
-                $notificationUser->is_read = 1;
-                $notificationUser->save();
+            if (Auth::check()) {
+                Auth::user()->unreadNotifications->markAsRead();
             }
 
             DB::commit();
