@@ -37,6 +37,8 @@ class NotificationController extends Controller
             $data = Auth::user()->notifications()
                 ->with('notifiable')
                 ->findOrFail($id);
+
+            $data->markAsRead();
         }
 
         return new DefaultResource($data);
