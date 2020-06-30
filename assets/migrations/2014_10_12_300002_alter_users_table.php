@@ -14,7 +14,6 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('photo_id')->after('mobile_phone')->nullable();
             $table->foreign('photo_id')->on('file_logs')->references('id')->onUpdate('cascade');
         });
     }
