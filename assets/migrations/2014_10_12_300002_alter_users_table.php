@@ -27,7 +27,6 @@ class AlterUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['photo_id']);
-            $table->dropColumn('photo_id');
         });
     }
 }
