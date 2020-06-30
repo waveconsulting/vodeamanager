@@ -50,12 +50,12 @@ class VodeaManagerServiceProvider extends ServiceProvider
     }
 
     protected function registerAssets() {
-        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/vodeamanager.php','vodeamanager-config');
-        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/cors.php','cors-config');
+        $this->mergeConfigFrom($configVodeaManager = __DIR__ . '/../assets/config/vodeamanager.php','vodeamanager-config');
+        $this->mergeConfigFrom($configCors = __DIR__ . '/../assets/config/cors.php','vodeamanager-config');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([$config => config_path('vodeamanager.php')], 'vodeamanager-config');
-            $this->publishes([$config => config_path('cors.php')], 'vodeamanager-config');
+            $this->publishes([$configVodeaManager => config_path('vodeamanager.php')], 'vodeamanager-config');
+            $this->publishes([$configCors => config_path('cors.php')], 'vodeamanager-config');
         }
 
         $this->publishes([__DIR__ . '/../assets/migrations' => database_path('migrations')],'vodeamanager-migration');
