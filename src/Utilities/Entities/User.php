@@ -69,13 +69,11 @@ abstract class User extends Authenticatable implements Auditable
         return $this->name;
     }
 
-    // todo: can update by relation
     public function getCanUpdateAttribute()
     {
         return true;
     }
 
-    // todo: create validation can delete by relation
     public function getCanDeleteAttribute()
     {
         return true;
