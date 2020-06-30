@@ -58,7 +58,7 @@ class RefreshCommand extends Command
             return;
         }
 
-        if (config('vodeamanager.passport.register')) {
+        if (config('vodeamanager.passport.register', true)) {
             try {
                 Artisan::call('create:passport:client');
                 $this->info('Successfully passport install.');

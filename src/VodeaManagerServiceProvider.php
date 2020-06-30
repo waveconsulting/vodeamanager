@@ -44,7 +44,9 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         $this->registerMiddleware();
 
-        if (config('vodeamanager.passport.register', true)) $this->registerPassport();
+        if (config('vodeamanager.passport.register', true)) {
+            $this->registerPassport();
+        }
     }
 
     protected function registerAssets() {
@@ -64,21 +66,16 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerSchemas()
     {
-        Blueprint::macro('userTimeStamp', function($created = 'created_by', $updated = 'updated_by', $deleted = 'deleted_by', $table = 'users', $reference = 'id') {
+        Blueprint::macro('userTimeStamp', function($created = 'created_by', $updated = 'updated_by', $deleted = 'deleted_by') {
             $this->timestamps();
             $this->softDeletes();
             $this->unsignedBigInteger($created)->nullable();
-            $this->foreign($created)->references($reference)->on($table)->onUpdate('cascade');
             $this->unsignedBigInteger($updated)->nullable();
-            $this->foreign($updated)->references($reference)->on($table)->onUpdate('cascade');
             $this->unsignedBigInteger($deleted)->nullable();
-            $this->foreign($deleted)->references($reference)->on($table)->onUpdate('cascade');
         });
 
         Blueprint::macro('relation', function($column, $table, $nullable = true) {
-            if ($nullable) $this->unsignedBigInteger($column)->nullable();
-            else $this->unsignedBigInteger($column);
-
+            $this->unsignedBigInteger($column)->nullable($nullable);
             $this->foreign($column)->on($table)->references('id')->onUpdate('cascade');
         });
     }
