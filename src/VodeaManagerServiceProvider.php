@@ -51,7 +51,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerAssets() {
         $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/vodeamanager.php','vodeamanager-config');
-        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/cors.php','vodeamanager-config');
+        $this->mergeConfigFrom($config = __DIR__ . '/../assets/config/cors.php','cors-config');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$config => config_path('vodeamanager.php')], 'vodeamanager-config');
