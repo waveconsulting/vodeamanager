@@ -49,7 +49,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
         }
     }
 
-    protected function registerAssets() {
+    private function registerAssets() {
         $this->mergeConfigFrom($configVodeaManager = __DIR__ . '/../assets/config/vodeamanager.php','vodeamanager-config');
         $this->mergeConfigFrom($configCors = __DIR__ . '/../assets/config/cors.php','vodeamanager-config');
 
@@ -64,7 +64,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
         $this->publishes([__DIR__ . '/../assets/seeds' => database_path('seeds')],'vodeamanager-seed');
     }
 
-    protected function registerSchemas()
+    private function registerSchemas()
     {
         Blueprint::macro('userTimeStamp', function($created = 'created_by', $updated = 'updated_by', $deleted = 'deleted_by') {
             $this->timestamps();
@@ -80,27 +80,27 @@ class VodeaManagerServiceProvider extends ServiceProvider
         });
     }
 
-    protected function registerHelpers()
+    private function registerHelpers()
     {
         foreach(glob(__DIR__ . '/Utilities/Helpers/*.php') as $fileHelper){
             require_once($fileHelper);
         }
     }
 
-    protected function registerEvents()
+    private function registerEvents()
     {
         Event::listen('Illuminate\Auth\Events\Login','Vodeamanager\Core\Listeners\LogSuccessfulLogin');
         Event::listen('Laravel\Passport\Events\AccessTokenCreated','Vodeamanager\Core\Listeners\TokenSuccessfulGenerate');
     }
 
-    protected function registerCommands()
+    private function registerCommands()
     {
         $this->commands('Vodeamanager\Core\Commands\RefreshCommand');
         $this->commands('Vodeamanager\Core\Commands\PermissionSeedCommand');
         $this->commands('Vodeamanager\Core\Commands\CreatePassportClientCommand');
     }
 
-    protected function registerPassport()
+    private function registerPassport()
     {
         if (!config('vodeamanager.passport.custom_routes', false)) {
             Passport::routes();
@@ -113,7 +113,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(config('vodeamanager.passport.expires.personal_access_token', 6)));
     }
 
-    protected function registerFacades()
+    private function registerFacades()
     {
         app()->bind('exception.service', function() {
             return new ExceptionService;
