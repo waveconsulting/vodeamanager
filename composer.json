@@ -1,6 +1,6 @@
 {
     "name": "vodea/vodeamanager",
-    "description": "The package for use tenant management",
+    "description": "The package for vodea management",
     "type": "library",
     "license": "MIT",
     "authors": [
