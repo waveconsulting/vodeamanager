@@ -13,14 +13,14 @@ class CreatePassportClientCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'create:passport:client';
+    protected $signature = 'manager:passport';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Refresh all database';
+    protected $description = 'Create passport client';
 
     /**
      * Create a new command instance.
