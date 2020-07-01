@@ -28,5 +28,6 @@ return [
         'file_log' => Vodeamanager\Core\Entities\FileLog::class,
         'number_setting' => Vodeamanager\Core\Entities\NumberSetting::class,
         'number_setting_component' => Vodeamanager\Core\Entities\NumberSettingComponent::class,
+        'login_activity' => Vodeamanager\Core\Entities\LoginActivity::class,
     ]
 ];
