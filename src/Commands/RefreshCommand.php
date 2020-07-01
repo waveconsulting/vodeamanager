@@ -13,7 +13,7 @@ class RefreshCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'refresh
+    protected $signature = 'manager:refresh
                    {--force : force refresh.}';
 
     /**
