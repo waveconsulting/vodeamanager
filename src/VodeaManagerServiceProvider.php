@@ -60,7 +60,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         $this->publishes([__DIR__ . '/../assets/migrations' => database_path('migrations')],'vodeamanager-migration');
         $this->publishes([__DIR__ . '/../assets/factories' => database_path('factories')],'vodeamanager-factory');
-
         $this->publishes([__DIR__ . '/../assets/seeds' => database_path('seeds')],'vodeamanager-seed');
     }
 
