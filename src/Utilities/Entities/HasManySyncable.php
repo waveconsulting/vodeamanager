@@ -32,7 +32,9 @@ class HasManySyncable extends HasMany
         $updateIds = array_keys($updateRows);
         $deleteIds = [];
         foreach ($current as $currentId) {
-            if (!in_array($currentId, $updateIds)) $deleteIds[] = $currentId;
+            if (!in_array($currentId, $updateIds)) {
+                $deleteIds[] = $currentId;
+            }
         }
 
         if ($deleting && count($deleteIds) > 0) {

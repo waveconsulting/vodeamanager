@@ -102,7 +102,9 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     protected function registerPassport()
     {
-        if (!config('vodeamanager.passport.custom_routes', false)) Passport::routes();
+        if (!config('vodeamanager.passport.custom_routes', false)) {
+            Passport::routes();
+        }
 
         Passport::tokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.token', 15)));
 

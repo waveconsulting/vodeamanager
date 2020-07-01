@@ -30,7 +30,9 @@ class GateSetting extends BaseEntity
         parent::boot();
 
         static::creating(function ($data) {
-            if (is_null($data->valid_from)) $data->valid_from = Carbon::now();
+            if (is_null($data->valid_from)) {
+                $data->valid_from = Carbon::now()->toDateString();
+            }
         });
     }
 
