@@ -51,7 +51,15 @@ trait RestCoreController
             $repository = $this->repository->query();
         }
 
-        $repository = $repository->with($this->eagerLoadRelationIndex)
+        if ($request->has('with')) {
+            $with = $request->get('with');
+            $this->eagerLoadRelationIndex = array_merge(
+                $this->eagerLoadRelationIndex,
+                is_array($with) ? $with : [$with]
+            );
+        }
+
+        $repository = $repository->with(array_unique($this->eagerLoadRelationIndex))
             ->criteria($request)
             ->filter($request);
 
@@ -72,7 +80,15 @@ trait RestCoreController
             ->filter($request);
 
         if ($id || $request->has('id')) {
-            $data = $repository->findOrFail($id ?? $request->get('id'));
+            if ($request->has('with')) {
+                $with = $request->get('with');
+                $this->eagerLoadRelationShow = array_merge(
+                    $this->eagerLoadRelationShow,
+                    is_array($with) ? $with : [$with]
+                );
+            }
+
+            $data = $repository->with(array_unique($this->eagerLoadRelationShow))->findOrFail($id ?? $request->get('id'));
 
             if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) {
                 return new $this->selectResource($data);
@@ -104,7 +120,15 @@ trait RestCoreController
 
     public function show(Request $request, $id)
     {
-        $data = $this->repository->with($this->eagerLoadRelationShow)
+        if ($request->has('with')) {
+            $with = $request->get('with');
+            $this->eagerLoadRelationShow = array_merge(
+                $this->eagerLoadRelationShow,
+                is_array($with) ? $with : [$with]
+            );
+        }
+
+        $data = $this->repository->with(array_unique($this->eagerLoadRelationShow))
             ->filter($request)
             ->findOrFail($id);
 
