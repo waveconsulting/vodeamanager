@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'custom_login_activity' => false,
     'entity' => [
         'sorting_default' => [
             'active' => true,
