@@ -89,7 +89,7 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     private function registerEvents()
     {
-        if (config('vodeamanager.custom_login_activity')) {
+        if (!config('vodeamanager.custom_login_activity', false)) {
             Event::listen('Illuminate\Auth\Events\Login','Vodeamanager\Core\Listeners\LogSuccessfulLogin');
             Event::listen('Laravel\Passport\Events\AccessTokenCreated','Vodeamanager\Core\Listeners\TokenSuccessfulGenerate');
         }
