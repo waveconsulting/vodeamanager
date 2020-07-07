@@ -170,6 +170,40 @@ trait RestCoreController
         }
     }
 
+    public function multipleDestroy(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $id = $request->get('id');
+
+            $data = $this->repository->filter($request)
+                ->whereIn('id', is_array($id) ? $id : [$id])
+                ->get();
+
+            foreach ($data as $d) {
+                $this->gate($d, __FUNCTION__);
+                $d->delete();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data deleted.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            ExceptionService::log($e);
+
+            return response()->json([
+                'error'   => true,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
     private function gate(BaseEntity $data, $policyName) {
         if (!empty($this->policies)) {
             if ((is_bool($this->policies) && $this->policies) ||
