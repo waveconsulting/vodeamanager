@@ -1,13 +1,6 @@
 <?php
 
 return [
-    'entity' => [
-        'sorting_default' => [
-            'active' => true,
-            'column' => 'id',
-            'order' => 'desc',
-        ],
-    ],
     'passport' => [
         'register' => true,
         'custom_routes' => false,

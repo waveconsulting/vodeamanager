@@ -24,9 +24,6 @@ abstract class BaseEntity extends Model implements Auditable
         if ($request->has('order_by')) {
             $sorted = in_array(strtolower($request->get('sorted_by')), ['desc', 'descending']) ? 'desc' : 'asc';
             $order = $request->get('order_by');
-        } else if (config('vodeamanager.entity.sorting_default.active', false)) {
-            $order = config('vodeamanager.entity.sorting_default.column', 'id');
-            $sorted = config('vodeamanager.entity.sorting_default.order', 'desc') == 'desc' ? 'desc' : 'asc';
         }
 
         $query->when($order && $sorted && Schema::hasColumn($this->getTable(),$order), function ($query) use ($order, $sorted) {
