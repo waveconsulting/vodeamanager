@@ -19,6 +19,7 @@ return [
         'gate_setting_permission' => Vodeamanager\Core\Entities\GateSettingPermission::class,
         'setting' => Vodeamanager\Core\Entities\Setting::class,
         'file_log' => Vodeamanager\Core\Entities\FileLog::class,
+        'file_log_use' => Vodeamanager\Core\Entities\FileLogUse::class,
         'number_setting' => Vodeamanager\Core\Entities\NumberSetting::class,
         'number_setting_component' => Vodeamanager\Core\Entities\NumberSettingComponent::class,
         'login_activity' => Vodeamanager\Core\Entities\LoginActivity::class,

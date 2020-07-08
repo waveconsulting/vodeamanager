@@ -26,6 +26,11 @@ class FileLog extends BaseEntity
         'path' => 'required|string',
     ];
 
+    public function fileLogUses()
+    {
+        return $this->hasMany(config('vodeamanager.models.file_log_use'));
+    }
+
     public function getUrlAttribute()
     {
         return Storage::disk($this->disk)->url($this->path);
