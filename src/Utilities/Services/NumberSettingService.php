@@ -37,7 +37,7 @@ class NumberSettingService
             }
 
             switch ($component->type) {
-                case Constant::NUMBER_SETTING_COMPONENT_TYPE_TYPE:
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_TEXT:
                     array_push($generatedNumberArray, $component->format);
                     $queryNumber .= str_replace('_', '\\_', $component->format);
                     break;
