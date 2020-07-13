@@ -4,7 +4,6 @@ namespace Vodeamanager\Core\Listeners;
 
 use Illuminate\Support\Facades\Request;
 use Laravel\Passport\Events\AccessTokenCreated;
-use Vodeamanager\Core\Entities\LoginActivity;
 
 class TokenSuccessfulGenerate
 {
