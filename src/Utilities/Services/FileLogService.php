@@ -6,7 +6,7 @@ use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class FileLogService
 {
-    public function fileLogUse(BaseEntity $model, string $relationName) {
+    public function logUse(BaseEntity $model, string $relationName) {
         if ($attachment = $model->$relationName) {
             $attachment->fileLogUses()->create([
                 'entity' => get_class($model),
