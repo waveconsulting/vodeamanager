@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Vodeamanager\Core\Http\Middleware\Gate;
 use Vodeamanager\Core\Http\Middleware\Notification;
-use Vodeamanager\Core\Utilities\Facades\FileLogService;
+use Vodeamanager\Core\Utilities\Services\FileLogService;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
 use Vodeamanager\Core\Utilities\Services\NumberSettingService;
