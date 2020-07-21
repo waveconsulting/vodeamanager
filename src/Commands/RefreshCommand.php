@@ -48,15 +48,6 @@ class RefreshCommand extends Command
             return;
         }
 
-        try {
-            Artisan::call('db:seed', ['--force' => $this->option('force')]);
-            $this->info('Successfully seed.');
-        } catch (\Exception $e) {
-            $this->line($e->getMessage());
-
-            return;
-        }
-
         if (config('vodeamanager.passport.register', true)) {
             try {
                 Artisan::call('manager:passport');
@@ -66,6 +57,15 @@ class RefreshCommand extends Command
 
                 return;
             }
+        }
+
+        try {
+            Artisan::call('db:seed', ['--force' => $this->option('force')]);
+            $this->info('Successfully seed.');
+        } catch (\Exception $e) {
+            $this->line($e->getMessage());
+
+            return;
         }
     }
 
