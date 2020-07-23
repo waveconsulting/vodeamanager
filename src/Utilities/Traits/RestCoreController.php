@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
+use Vodeamanager\Core\Utilities\Facades\ResourceService;
 
 trait RestCoreController
 {
@@ -67,11 +68,7 @@ trait RestCoreController
             ? $repository->paginate($request->get('per_page'))
             : $repository->get();
 
-        if ($this->indexResource && is_subclass_of($this->indexResource, JsonResource::class)) {
-            return $this->indexResource::collection($data);
-        }
-
-        return BaseResource::collection($data);
+        return ResourceService::jsonCollection($this->indexResource,$data);
     }
 
     public function select(Request $request, $id = null)
@@ -90,11 +87,7 @@ trait RestCoreController
 
             $data = $repository->with(array_unique($this->eagerLoadRelationShow))->findOrFail($id ?? $request->get('id'));
 
-            if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) {
-                return new $this->selectResource($data);
-            }
-
-            return new BaseResource($data);
+            return ResourceService::jsonResource($this->selectResource,$data);
         }
 
         if ($request->has('search') && !empty($this->repository->getSearchable())) {
@@ -115,7 +108,7 @@ trait RestCoreController
             return $this->selectResource::collection($data);
         }
 
-        return BaseResource::collection($data);
+        return ResourceService::jsonCollection($this->selectResource,$data);
     }
 
     public function show(Request $request, $id)
@@ -134,11 +127,7 @@ trait RestCoreController
 
         $this->gate($data, __FUNCTION__);
 
-        if ($this->showResource && is_subclass_of($this->showResource, JsonResource::class)) {
-            return new $this->showResource($data);
-        }
-
-        return new BaseResource($data);
+        return ResourceService::jsonResource($this->showResource,$data);
     }
 
     public function destroy(Request $request, $id)

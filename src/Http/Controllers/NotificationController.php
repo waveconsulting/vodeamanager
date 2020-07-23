@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Vodeamanager\Core\Http\Resources\DefaultResource;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
+use Vodeamanager\Core\Utilities\Facades\ResourceService;
 
 class NotificationController extends Controller
 {
@@ -29,7 +30,7 @@ class NotificationController extends Controller
                 : $repository->get();
         }
 
-        return DefaultResource::collection($data);
+        return ResourceService::jsonCollection(DefaultResource::class,$data);
     }
 
     public function show(Request $Request, $id) {
@@ -43,7 +44,7 @@ class NotificationController extends Controller
             $data->markAsRead();
         }
 
-        return new DefaultResource($data);
+        return ResourceService::jsonResource(DefaultResource::class,$data);
     }
 
     public function readAll(Request $request)

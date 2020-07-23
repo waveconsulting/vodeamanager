@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void notificationService()
  * @method static void numberSettingService()
  *
- * @see \Vodeamanager\Core\Utilities\Services\NumberSettingService
+ * @see \Vodeamanager\Core\Utilities\Services\RouteService
  */
 class RouteService extends Facade
 {

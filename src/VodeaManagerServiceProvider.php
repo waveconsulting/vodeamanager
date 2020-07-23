@@ -12,6 +12,7 @@ use Vodeamanager\Core\Utilities\Services\FileLogService;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
 use Vodeamanager\Core\Utilities\Services\NumberSettingService;
+use Vodeamanager\Core\Utilities\Services\ResourceService;
 use Vodeamanager\Core\Utilities\Services\RouteService;
 
 class VodeaManagerServiceProvider extends ServiceProvider
@@ -134,6 +135,10 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         app()->bind('number-setting.service', function() {
             return new NumberSettingService;
+        });
+
+        app()->bind('resource.service', function() {
+            return new ResourceService;
         });
     }
 
