@@ -11,7 +11,15 @@ use Vodeamanager\Core\Utilities\Constant;
 
 class NumberSettingService
 {
-    public function generateNumber($entity, $date = null, $subjectId = null)
+    /**
+     * Number generator transaction
+     *
+     * @param string $entity
+     * @param null $date
+     * @param null $subjectId
+     * @return string
+     */
+    public function generateNumber(string $entity, $date = null, $subjectId = null)
     {
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
         if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) {

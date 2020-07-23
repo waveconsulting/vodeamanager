@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 class RouteService
 {
+    /**
+     * Register route file service
+     *
+     * @return void
+     */
     public function fileService() {
         Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/', 'FileManagerController@index')->name('index');
@@ -14,6 +19,11 @@ class RouteService
         });
     }
 
+    /**
+     * Register route notification service
+     *
+     * @return void
+     */
     public function notificationService() {
         Route::group(['prefix' => 'notification', 'as' => 'notification.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/','NotificationController@index')->name('index');
@@ -23,6 +33,11 @@ class RouteService
         });
     }
 
+    /**
+     * Register route number setting service
+     *
+     * @return void
+     */
     public function numberSettingService() {
         Route::group(['prefix' => 'number-setting', 'as' => 'number-setting.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
             Route::get('/','NumberSettingController@index')->name('index');

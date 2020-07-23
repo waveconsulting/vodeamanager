@@ -8,7 +8,16 @@ use Illuminate\Support\Str;
 
 class FileService
 {
-    public function store(Request $request, $key, $disk, $path) {
+    /**
+     * File service for handle store to storage
+     *
+     * @param Request $request
+     * @param string $key
+     * @param string $disk
+     * @param string $path
+     * @return array
+     */
+    public function store(Request $request, string $key, string $disk, string $path) {
         try {
             $uploaded = [];
 
