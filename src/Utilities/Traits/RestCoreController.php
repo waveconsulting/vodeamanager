@@ -104,10 +104,6 @@ trait RestCoreController
             ? $repository->paginate($request->get('per_page'))
             : $repository->get();
 
-        if ($this->selectResource && is_subclass_of($this->selectResource, JsonResource::class)) {
-            return $this->selectResource::collection($data);
-        }
-
         return ResourceService::jsonCollection($this->selectResource,$data);
     }
 
