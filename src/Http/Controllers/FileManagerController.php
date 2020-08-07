@@ -31,6 +31,11 @@ class FileManagerController extends Controller
             $merge = [];
 
             $uploads = FileService::store($request, 'file', $request->get('disk'), $request->get('path'));
+
+            if (empty($uploads)) {
+                throw new \Exception('Whoops, Error when uploading to storage.');
+            }
+
             foreach ($uploads as $name => $file) {
                 $merge['name'] = $file->name;
                 $merge['encoded_name'] = $file->encoded_name;
