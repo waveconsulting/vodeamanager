@@ -14,10 +14,6 @@ class GateSetting extends BaseEntity
         'valid_from',
     ];
 
-    protected $dates = [
-        'valid_from',
-    ];
-
     protected $validationRules = [
         'role_id' => 'required_without:user_id|exists:roles,id,deleted_at,NULL',
         'valid_from' => 'required|date_format:Y-m-d',
