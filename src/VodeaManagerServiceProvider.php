@@ -71,13 +71,13 @@ class VodeaManagerServiceProvider extends ServiceProvider
         Blueprint::macro('userTimeStamp', function($created = 'created_by', $updated = 'updated_by', $deleted = 'deleted_by') {
             $this->timestamps();
             $this->softDeletes();
-            $this->unsignedBigInteger($created)->nullable();
-            $this->unsignedBigInteger($updated)->nullable();
-            $this->unsignedBigInteger($deleted)->nullable();
+            $this->unsignedBigInteger($created)->nullable()->index();
+            $this->unsignedBigInteger($updated)->nullable()->index();
+            $this->unsignedBigInteger($deleted)->nullable()->index();
         });
 
         Blueprint::macro('relation', function($column, $table, $nullable = true) {
-            $this->unsignedBigInteger($column)->nullable($nullable);
+            $this->unsignedBigInteger($column)->nullable($nullable)->index();
             $this->foreign($column)->on($table)->references('id')->onUpdate('cascade');
         });
     }

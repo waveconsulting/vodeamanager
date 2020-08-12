@@ -18,7 +18,7 @@ class CreateFileLogUsesTable extends Migration
 
             $table->relation('file_log_id', 'file_logs');
             $table->string('entity')->nullable();
-            $table->unsignedBigInteger('subject_id')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable()->index();
 
             $table->userTimeStamp();
         });
