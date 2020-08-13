@@ -62,6 +62,11 @@ class FileManagerController extends Controller
         }
     }
 
+    public function storeFromURI(Request $request)
+    {
+        //todo: upload from uri
+    }
+
     public function download(Request $request, $id) {
         $fileLog = $this->repository->findOrFail($id);
 
