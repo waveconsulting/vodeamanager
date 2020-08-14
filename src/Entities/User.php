@@ -26,7 +26,6 @@ class User extends Authenticatable
 
     protected $validationRules = [
         'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
         'password' => 'required|string|max:255',
         'telephone' => 'nullable|string|max:15',
         'mobile_phone' => 'nullable|string|max:15',
@@ -96,5 +95,11 @@ class User extends Authenticatable
         return $this->permissions()->where('permissions.name', $action)->exists();
     }
 
+    public function setValidationRules(array $request = [], $id = null)
+    {
+        $this->validationRules['email'] ='required|email|unique:users,email,' . ($id ?? 'NULL') . ',id';
+
+        return $this;
+    }
 }
 

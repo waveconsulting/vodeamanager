@@ -2,11 +2,11 @@
 
 namespace Vodeamanager\Core\Utilities\Facades;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Facade;
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 /**
- * @method static void logUse(BaseEntity $model, string $relationName)
+ * @method static void logUse(Model $model, string $relationName)
  *
  * @see \Vodeamanager\Core\Utilities\Services\MediaService
  */
