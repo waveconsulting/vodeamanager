@@ -11,11 +11,10 @@ class RouteService
      *
      * @return void
      */
-    public function fileService() {
-        Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
-            Route::get('/', 'FileManagerController@index')->name('index');
-            Route::post('/','FileManagerController@store')->name('store');
-
+    public function mediaService() {
+        Route::group(['prefix' => 'media', 'as' => 'media.', 'namespace' => '\Vodeamanager\Core\Http\Controllers'], function () {
+            Route::get('/', 'MediaController@index')->name('index');
+            Route::post('/','MediaController@store')->name('store');
         });
     }
 
@@ -29,7 +28,6 @@ class RouteService
             Route::get('/','NotificationController@index')->name('index');
             Route::get('/{id}', 'NotificationController@show')->name('show');
             Route::post('/read-all', 'NotificationController@readAll')->name('read-all');
-
         });
     }
 

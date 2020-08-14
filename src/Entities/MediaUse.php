@@ -4,17 +4,17 @@ namespace Vodeamanager\Core\Entities;
 
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
-class FileLogUse extends BaseEntity
+class MediaUse extends BaseEntity
 {
     protected $fillable = [
-        'file_log_id',
+        'media_id',
         'entity',
         'subject_id',
     ];
 
-    public function fileLog()
+    public function media()
     {
-        return $this->belongsTo(config('vodeamanager.models.file_log'));
+        return $this->belongsTo(config('vodeamanager.models.media'));
     }
 
     public function subject()

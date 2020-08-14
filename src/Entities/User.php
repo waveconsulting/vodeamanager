@@ -30,11 +30,11 @@ class User extends Authenticatable
         'password' => 'required|string|max:255',
         'telephone' => 'nullable|string|max:15',
         'mobile_phone' => 'nullable|string|max:15',
-        'photo_id' => 'nullable|exists:file_logs,id,deleted_at,NULL',
+        'photo_id' => 'nullable|exists:media,id,deleted_at,NULL',
     ];
 
     public function photo() {
-        return $this->belongsTo(config('vodeamanager.models.file_log'),'photo_id');
+        return $this->belongsTo(config('vodeamanager.models.media'),'photo_id');
     }
 
     public function roles() {

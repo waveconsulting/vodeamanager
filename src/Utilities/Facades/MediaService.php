@@ -8,12 +8,12 @@ use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 /**
  * @method static void logUse(BaseEntity $model, string $relationName)
  *
- * @see \Vodeamanager\Core\Utilities\Services\FileLogService
+ * @see \Vodeamanager\Core\Utilities\Services\MediaService
  */
-class FileLogService extends Facade
+class MediaService extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'file_log.service';
+        return 'media.service';
     }
 }

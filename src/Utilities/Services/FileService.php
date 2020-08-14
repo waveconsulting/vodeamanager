@@ -23,32 +23,21 @@ class FileService
 
             if ($request->hasFile($key)) {
                 $files = $request->file($key);
-                if (is_array($files)) {
-                    foreach ($files as $file) {
-                        $fileName = $file->getClientOriginalName();
-                        $extension = $file->getClientOriginalExtension();
-                        $encodedName = Carbon::now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
+                if (!is_array($files)) {
+                    $files = [$files];
+                }
 
-                        array_push($uploaded, (object) [
-                            'name' => $fileName,
-                            'encoded_name' => $encodedName,
-                            'size' => $file->getSize(),
-                            'extension' => $extension,
-                            'path' => $file->storeAs($path,$encodedName,['disk' => $disk]),
-                            'disk' => $disk,
-                        ]);
-                    }
-                } else {
-                    $fileName = $files->getClientOriginalName();
-                    $extension = $files->getClientOriginalExtension();
+                foreach ($files as $file) {
+                    $fileName = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
                     $encodedName = Carbon::now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
 
                     array_push($uploaded, (object) [
                         'name' => $fileName,
                         'encoded_name' => $encodedName,
-                        'size' => $files->getSize(),
+                        'size' => $file->getSize(),
                         'extension' => $extension,
-                        'path' => $files->storeAs($path,$encodedName,['disk' => $disk]),
+                        'path' => $file->storeAs($path,$encodedName,['disk' => $disk]),
                         'disk' => $disk,
                     ]);
                 }

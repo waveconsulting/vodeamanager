@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFileLogUsesTable extends Migration
+class CreateMediaUsesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateFileLogUsesTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_log_uses', function (Blueprint $table) {
+        Schema::create('media_uses', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->relation('file_log_id', 'file_logs');
+            $table->relation('media_id', 'media');
             $table->string('entity')->nullable();
             $table->unsignedBigInteger('subject_id')->nullable()->index();
 
@@ -31,6 +31,6 @@ class CreateFileLogUsesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_log_uses');
+        Schema::dropIfExists('media_uses');
     }
 }

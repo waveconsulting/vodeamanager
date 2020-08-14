@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Vodeamanager\Core\Http\Middleware\Gate;
 use Vodeamanager\Core\Http\Middleware\Notification;
-use Vodeamanager\Core\Utilities\Services\FileLogService;
+use Vodeamanager\Core\Utilities\Services\MediaService;
 use Vodeamanager\Core\Utilities\Services\ExceptionService;
 use Vodeamanager\Core\Utilities\Services\FileService;
 use Vodeamanager\Core\Utilities\Services\NumberSettingService;
@@ -125,8 +125,8 @@ class VodeaManagerServiceProvider extends ServiceProvider
             return new FileService;
         });
 
-        app()->bind('file_log.service', function() {
-            return new FileLogService;
+        app()->bind('media.service', function() {
+            return new MediaService;
         });
 
         app()->bind('route.service', function() {

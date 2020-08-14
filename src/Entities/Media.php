@@ -3,15 +3,15 @@
 namespace Vodeamanager\Core\Entities;
 
 use Illuminate\Support\Facades\Storage;
-use Vodeamanager\Core\Http\Resources\FileLogResource;
+use Vodeamanager\Core\Http\Resources\MediaResource;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
-class FileLog extends BaseEntity
+class Media extends BaseEntity
 {
-    protected $indexResource = FileLogResource::class;
-    protected $showResource = FileLogResource::class;
-    protected $selectResource = FileLogResource::class;
+    protected $indexResource = MediaResource::class;
+    protected $showResource = MediaResource::class;
+    protected $selectResource = MediaResource::class;
 
     protected $fillable = [
         'name',
@@ -26,9 +26,9 @@ class FileLog extends BaseEntity
         'path' => 'required|string',
     ];
 
-    public function fileLogUses()
+    public function mediaUses()
     {
-        return $this->hasMany(config('vodeamanager.models.file_log_use'));
+        return $this->hasMany(config('vodeamanager.models.media_use'));
     }
 
     public function getUrlAttribute()

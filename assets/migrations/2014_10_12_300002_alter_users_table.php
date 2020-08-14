@@ -14,7 +14,7 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('photo_id')->on('file_logs')->references('id')->onUpdate('cascade');
+            $table->foreign('photo_id')->on('media')->references('id')->onUpdate('cascade');
         });
     }
 

@@ -5,7 +5,7 @@ namespace Vodeamanager\Core\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Vodeamanager\Core\Utilities\Traits\DefaultFormRequest;
 
-class FileLogCreateRequest extends FormRequest
+class MediaCreateRequest extends FormRequest
 {
     use DefaultFormRequest;
 
