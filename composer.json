@@ -30,7 +30,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "master-dev",
+            "dev-v1": "1.0.x-dev"
         },
         "laravel": {
             "providers": [
@@ -39,6 +40,9 @@
             "aliases": {
                 "ExceptionService": "Vodeamanager\\Core\\Utilities\\Facades\\ExceptionService",
                 "FileService": "Vodeamanager\\Core\\Utilities\\Facades\\FileService",
+                "MediaService": "Vodeamanager\\Core\\Utilities\\Facades\\MediaService",
+                "NumberSettingService": "Vodeamanager\\Core\\Utilities\\Facades\\NumberSettingService",
+                "ResourceService": "Vodeamanager\\Core\\Utilities\\Facades\\ResourceService",
                 "RouteService": "Vodeamanager\\Core\\Utilities\\Facades\\RouteService"
             }
         }
