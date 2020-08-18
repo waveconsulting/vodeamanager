@@ -2,9 +2,11 @@
 
 namespace Vodeamanager\Core\Utilities\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Vodeamanager\Core\Http\Resources\BaseResource;
+use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Facades\ResourceService;
 
@@ -187,7 +189,7 @@ trait RestCoreController
         }
     }
 
-    private function gate(Model $data, $policyName) {
+    private function gate(BaseEntity $data, $policyName) {
         if (!empty($this->policies)) {
             if ((is_bool($this->policies) && $this->policies) ||
                 (is_array($this->policies) && in_array($policyName, $this->policies)) ||
