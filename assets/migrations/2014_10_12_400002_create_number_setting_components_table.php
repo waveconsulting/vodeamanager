@@ -16,10 +16,10 @@ class CreateNumberSettingComponentsTable extends Migration
         Schema::create('number_setting_components', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->relation('number_setting_id', 'number_settings', false);
-            $table->unsignedInteger('sequence');
-            $table->string('type');
-            $table->string('format');
+            $table->relation('number_setting_id', 'number_settings');
+            $table->unsignedInteger('sequence')->nullable();
+            $table->string('type')->nullable();
+            $table->string('format')->nullable();
 
             $table->userTimeStamp();
         });

@@ -16,9 +16,9 @@ class CreateMediaUsesTable extends Migration
         Schema::create('media_uses', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->relation('media_id', 'media', false);
-            $table->string('entity');
-            $table->unsignedBigInteger('subject_id')->index();
+            $table->relation('media_id', 'media');
+            $table->string('entity')->nullable();
+            $table->unsignedBigInteger('subject_id')->nullable()->index();
 
             $table->userTimeStamp();
         });

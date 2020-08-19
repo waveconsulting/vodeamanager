@@ -16,9 +16,9 @@ class CreateGateSettingsTable extends Migration
         Schema::create('gate_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->relation('role_id', 'roles', false);
-            $table->relation('user_id', 'users', false);
-            $table->date('valid_from');
+            $table->relation('role_id', 'roles');
+            $table->relation('user_id', 'users');
+            $table->date('valid_from')->nullable();
 
             $table->userTimeStamp();
         });
