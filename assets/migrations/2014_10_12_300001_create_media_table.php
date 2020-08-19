@@ -16,12 +16,12 @@ class CreateMediaTable extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name')->nullable();
-            $table->string('encoded_name')->nullable();
-            $table->double('size')->nullable();
-            $table->string('extension')->nullable();
-            $table->string('path')->nullable();
-            $table->string('disk')->nullable();
+            $table->string('name');
+            $table->string('encoded_name');
+            $table->double('size');
+            $table->string('extension');
+            $table->string('path');
+            $table->string('disk');
 
             $table->userTimeStamp();
         });

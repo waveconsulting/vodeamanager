@@ -16,9 +16,9 @@ class CreateLoginActivitiesTable extends Migration
         Schema::create('login_activities', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->relation('user_id', 'users');
-            $table->string('user_agent')->nullable();
-            $table->string('ip_address')->nullable();
+            $table->relation('user_id', 'users', false);
+            $table->string('user_agent');
+            $table->string('ip_address');
 
             $table->userTimeStamp();
         });

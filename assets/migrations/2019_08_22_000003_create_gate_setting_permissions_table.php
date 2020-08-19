@@ -16,8 +16,8 @@ class CreateGateSettingPermissionsTable extends Migration
         Schema::create('gate_setting_permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->relation('gate_setting_id', 'gate_settings');
-            $table->relation('permission_id', 'permissions');
+            $table->relation('gate_setting_id', 'gate_settings', false);
+            $table->relation('permission_id', 'permissions', false);
 
             $table->userTimeStamp();
         });

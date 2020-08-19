@@ -16,9 +16,9 @@ class CreateNumberSettingsTable extends Migration
         Schema::create('number_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('name')->nullable();
-            $table->string('entity')->nullable();
-            $table->string('reset_type')->nullable();
+            $table->string('name');
+            $table->string('entity');
+            $table->string('reset_type');
 
             $table->userTimeStamp();
         });
