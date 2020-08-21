@@ -12,6 +12,7 @@ class ResourceService
      * @param $resource
      * @param $data
      * @param array $additional
+     *
      * @return AnonymousResourceCollection
      */
     public function jsonCollection($resource, $data, $additional = [])
@@ -27,6 +28,7 @@ class ResourceService
      * @param $resource
      * @param $data
      * @param array $additional
+     *
      * @return BaseResource
      */
     public function jsonResource($resource, $data, $additional = [])

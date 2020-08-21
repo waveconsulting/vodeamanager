@@ -15,6 +15,7 @@ class FileService
      * @param string $key
      * @param string $disk
      * @param string $path
+     *
      * @return array
      */
     public function store(Request $request, string $key, string $disk, string $path) {
