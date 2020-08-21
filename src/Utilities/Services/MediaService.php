@@ -11,17 +11,23 @@ class MediaService
      *
      * @param Model $model
      * @param string $relationName
+     *
+     * @return void
      */
     public function logUse(Model $model, string $relationName) {
-        if ($attachment = $model->$relationName) {
-            $logUse = [
-                'entity' => get_class($model),
-                'subject_id' => $model->id
-            ];
+        try {
+            if ($attachment = $model->$relationName) {
+                $logUse = [
+                    'entity' => get_class($model),
+                    'subject_id' => $model->id
+                ];
 
-            if (!$attachment->mediaUses()->where($logUse)->exists()) {
-                $attachment->mediaUses()->create($logUse);
+                if (!$attachment->mediaUses()->where($logUse)->exists()) {
+                    $attachment->mediaUses()->create($logUse);
+                }
             }
+        } catch (\Exception $e) {
+            \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
         }
     }
 }
