@@ -2,9 +2,11 @@
 
 namespace Vodeamanager\Core\Utilities\Services;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Throwable;
 
 class FileService
 {
@@ -15,7 +17,9 @@ class FileService
      * @param string $key
      * @param string $disk
      * @param string $path
+     *
      * @return array
+     * @throws Throwable
      */
     public function store(Request $request, string $key, string $disk, string $path) {
         try {
@@ -44,10 +48,12 @@ class FileService
             }
 
             return $uploaded;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
 
             return [];
+        } catch (Throwable $e) {
+            throw $e;
         }
     }
 }
