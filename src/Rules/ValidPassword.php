@@ -19,7 +19,7 @@ class ValidPassword implements Rule
      * @param null $id
      * @param string $message
      */
-    public function __construct($password, $id = null, string $message = 'Password is incorrect.')
+    public function __construct($password = null, $id = null, string $message = 'Password is incorrect.')
     {
         $this->id = $id ?? Auth::id();
         $this->password = $password;
@@ -37,7 +37,7 @@ class ValidPassword implements Rule
     {
         $user = config('vodeamanager.models.user')::find($this->id);
 
-        return Hash::check($this->password, $user->password);
+        return Hash::check($this->password ?? $value, $user->password);
     }
 
     /**
