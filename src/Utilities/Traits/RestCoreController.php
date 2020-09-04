@@ -19,6 +19,7 @@ trait RestCoreController
     protected $policies;
     protected $eagerLoadRelationIndex = [];
     protected $eagerLoadRelationShow = [];
+    protected $eagerLoadRelationSelect = [];
 
     public function __construct()
     {
@@ -71,32 +72,29 @@ trait RestCoreController
 
     public function select(Request $request, $id = null)
     {
-        $repository = $this->repository->criteria($request)
+        if ($request->has('with')) {
+            $with = $request->get('with');
+            $this->eagerLoadRelationSelect = array_merge(
+                $this->eagerLoadRelationSelect,
+                is_array($with) ? $with : [$with]
+            );
+        }
+
+        $repository = (clone $this->repository)
+            ->with(array_unique($this->eagerLoadRelationSelect))
             ->filter($request);
 
         if ($id || $request->has('id')) {
-            if ($request->has('with')) {
-                $with = $request->get('with');
-                $this->eagerLoadRelationShow = array_merge(
-                    $this->eagerLoadRelationShow,
-                    is_array($with) ? $with : [$with]
-                );
-            }
-
-            $data = $repository->with(array_unique($this->eagerLoadRelationShow))->findOrFail($id ?? $request->get('id'));
+            $data = $repository->findOrFail($id ?? $request->get('id'));
 
             return ResourceService::jsonResource($this->selectResource,$data);
         }
 
-        if ($request->has('search') && !empty($this->repository->getSearchable())) {
-            $repository = $this->repository->search($request->get('search'), null, true);
-        } else {
-            $repository = $this->repository->query();
-        }
+        $repository = $repository->criteria($request);
 
-        $repository = $repository->with($this->eagerLoadRelationIndex)
-            ->criteria($request)
-            ->filter($request);
+        if ($request->has('search') && !empty($this->repository->getSearchable())) {
+            $repository = $repository->search($request->get('search'), null, true);
+        }
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->get('per_page'))
@@ -134,40 +132,6 @@ trait RestCoreController
             $this->gate($data, __FUNCTION__);
 
             $this->repository->destroy($id);
-
-            DB::commit();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Data deleted.'
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            ExceptionService::log($e);
-
-            return response()->json([
-                'error'   => true,
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
-
-    public function multipleDestroy(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-
-            $id = $request->get('id');
-
-            $data = $this->repository->filter($request)
-                ->whereIn('id', is_array($id) ? $id : [$id])
-                ->get();
-
-            foreach ($data as $d) {
-                $this->gate($d, __FUNCTION__);
-                $d->delete();
-            }
 
             DB::commit();
 
