@@ -13,29 +13,16 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            [
-                'name' => 'Administrator',
-                'email' => 'admin@vodea.id',
-                'password' => bcrypt('codes239'),
-            ],
-            [
-                'name' => 'user',
-                'email' => 'user@vodea.id',
-                'password' => bcrypt('codes239'),
-            ],
-        ];
+        factory(config('vodeamanager.models.user'))->create([
+            'name' => 'Administrator',
+            'email' => 'admin@vodea.id',
+            'password' => bcrypt('codes239'),
+        ]);
 
-        foreach ($users as $index => $user) {
-            if ($index != 0) {
-                $user['created_by'] = 1;
-                $user['updated_by'] = 1;
-            }
-
-            $user['email_verified_at'] = Carbon::now();
-            $user['remember_token'] = Str::random(10);
-
-            config('vodeamanager.models.user')::create($user);
-        }
+        factory(config('vodeamanager.models.user'))->create([
+            'name' => 'user',
+            'email' => 'user@vodea.id',
+            'password' => bcrypt('codes239'),
+        ]);
     }
 }
