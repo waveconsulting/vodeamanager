@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('create_from_date')) {
+if (!function_exists('round_date')) {
     /**
      * @param $year
      * @param $month
@@ -9,7 +9,7 @@ if (!function_exists('create_from_date')) {
      *
      * @return string
      */
-    function create_from_date($year, $month, $day, $roundType = 'ceil') {
+    function round_date($year, $month, $day, $roundType = 'ceil') {
         $date = new DateTime("$year-$month-01");
         if ($day > 28 && $day > $date->format('t')) {
             if ($roundType == 'floor') {
