@@ -45,20 +45,14 @@ class VodeaManagerServiceProvider extends ServiceProvider
         $this->registerCommands();
 
         $this->registerMiddleware();
-
-        if (config('vodeamanager.passport.register', true)) {
-            $this->registerPassport();
-        }
     }
 
     private function registerAssets()
     {
         $this->mergeConfigFrom($configVodeaManager = __DIR__ . '/../assets/config/vodeamanager.php','vodeamanager-config');
-        $this->mergeConfigFrom($configCors = __DIR__ . '/../assets/config/cors.php','vodeamanager-config');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([$configVodeaManager => config_path('vodeamanager.php')], 'vodeamanager-config');
-            $this->publishes([$configCors => config_path('cors.php')], 'vodeamanager-config');
         }
 
         $this->publishes([__DIR__ . '/../assets/migrations' => database_path('migrations')],'vodeamanager-migration');
@@ -99,20 +93,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
     {
         $this->commands('Vodeamanager\Core\Commands\RefreshCommand');
         $this->commands('Vodeamanager\Core\Commands\PermissionSeedCommand');
-        $this->commands('Vodeamanager\Core\Commands\CreatePassportClientCommand');
-    }
-
-    private function registerPassport()
-    {
-        if (!config('vodeamanager.passport.custom_routes', false)) {
-            Passport::routes();
-        }
-
-        Passport::tokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.token', 15)));
-
-        Passport::refreshTokensExpireIn(now()->addDays(config('vodeamanager.passport.expires.refresh_token', 30)));
-
-        Passport::personalAccessTokensExpireIn(now()->addMonths(config('vodeamanager.passport.expires.personal_access_token', 6)));
     }
 
     private function registerFacades()
@@ -144,9 +124,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
     private function registerMiddleware()
     {
-        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-        $kernel->pushMiddleware('Fruitcake\Cors\HandleCors');
-
         $this->app['router']->aliasMiddleware('vodeamanager.gate', Gate::class);
         $this->app['router']->aliasMiddleware('vodeamanager.notification', Notification::class);
     }

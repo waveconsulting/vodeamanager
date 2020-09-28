@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodeamanager\Core\Entities;
+namespace Vodeamanager\Core\Models;
 
 use Illuminate\Support\Carbon;
 use Vodeamanager\Core\Utilities\Entities\User as Authenticatable;

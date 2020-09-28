@@ -5,7 +5,7 @@ namespace Vodeamanager\Core\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Vodeamanager\Core\Entities\Media;
+use Vodeamanager\Core\Models\Media;
 use Vodeamanager\Core\Http\Requests\MediaCreateRequest;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Facades\FileService;

@@ -38,7 +38,7 @@ class ValidSubjectIdFromEntity implements Rule
             return false;
         }
 
-        return app($entity)::find($value);
+        return $entity::find($value);
     }
 
     /**
@@ -48,6 +48,6 @@ class ValidSubjectIdFromEntity implements Rule
      */
     public function message()
     {
-        return __($this->message);
+        return __($this->message)($this->message);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodeamanager\Core\Entities;
+namespace Vodeamanager\Core\Models;
 
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
@@ -14,7 +14,7 @@ class NumberSettingComponent extends BaseEntity
     ];
 
     public function numberSetting() {
-        return $this->belongsTo(NumberSetting::class);
+        return $this->belongsTo(config('vodeamanager.models.number_setting'));
     }
 
 }

@@ -3,7 +3,6 @@
 namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Hash;
 use Vodeamanager\Core\Utilities\Constant;
 
 class ValidNumberSettingComponent implements Rule

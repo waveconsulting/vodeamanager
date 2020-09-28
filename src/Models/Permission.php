@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodeamanager\Core\Entities;
+namespace Vodeamanager\Core\Models;
 
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 

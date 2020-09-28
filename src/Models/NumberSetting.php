@@ -1,7 +1,8 @@
 <?php
 
-namespace Vodeamanager\Core\Entities;
+namespace Vodeamanager\Core\Models;
 
+use League\Flysystem\Config;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Rules\ValidNumberSettingComponent;
@@ -24,7 +25,7 @@ class NumberSetting extends BaseEntity
 
     public function numberSettingComponents()
     {
-        return $this->hasMany(NumberSettingComponent::class);
+        return $this->hasMany(config('vodeamanager.models.number_setting_component'));
     }
 
     public function setValidationRules(array $request = [], $id = null)

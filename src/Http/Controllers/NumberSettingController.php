@@ -3,7 +3,7 @@
 namespace Vodeamanager\Core\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-use Vodeamanager\Core\Entities\NumberSetting;
+use Vodeamanager\Core\Models\NumberSetting;
 use Vodeamanager\Core\Http\Requests\NumberSettingCreateRequest;
 use Vodeamanager\Core\Http\Requests\NumberSettingUpdateRequest;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;

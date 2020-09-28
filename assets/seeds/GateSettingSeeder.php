@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-class GateSettingsTableSeeder extends Seeder
+class GateSettingSeeder extends Seeder
 {
     /**
      * Run the database seeds.

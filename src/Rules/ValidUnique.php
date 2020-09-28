@@ -2,6 +2,8 @@
 
 namespace Vodeamanager\Core\Rules;
 
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Arr;
 use Vodeamanager\Core\Utilities\Entities\BaseEntity;
@@ -18,11 +20,12 @@ class ValidUnique implements Rule
      * @param $model
      * @param null $id
      * @param string $message
+     * @throws BindingResolutionException
      */
     public function __construct($model, $id = null, string $message = 'The :attribute has already been taken.')
     {
         if (is_string($model) && class_exists($model)) {
-            $model = app($model);
+            $model = Container::getInstance()->make($model);
         }
 
         if ($model instanceof BaseEntity) {
@@ -64,6 +67,6 @@ class ValidUnique implements Rule
      */
     public function message()
     {
-        return __($this->message);
+        return __($this->message)($this->message);
     }
 }

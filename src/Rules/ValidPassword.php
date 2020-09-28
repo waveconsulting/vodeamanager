@@ -47,6 +47,6 @@ class ValidPassword implements Rule
      */
     public function message()
     {
-        return __($this->message);
+        return __($this->message)($this->message);
     }
 }
