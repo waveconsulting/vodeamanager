@@ -7,7 +7,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Schema;
-use Laravel\Passport\HasApiTokens;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Rules\NotPresent;
@@ -18,7 +17,7 @@ use Wildside\Userstamps\Userstamps;
 
 abstract class User extends Authenticatable implements Auditable
 {
-    use Notifiable, SoftDeletes, Userstamps, HasApiTokens, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
+    use Notifiable, SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
 
     public function scopeCriteria($query, Request $request) {
         $order = null;
