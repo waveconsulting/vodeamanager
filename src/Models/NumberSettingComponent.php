@@ -2,15 +2,10 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable as AudibleTrait;
-use OwenIt\Auditing\Contracts\Auditable;
-use Vodeamanager\Core\Utilities\Traits\BaseEntity;
+use Vodeamanager\Core\Utilities\Models\BaseModel;
 
-class NumberSettingComponent extends Model implements Auditable
+class NumberSettingComponent extends BaseModel
 {
-    use BaseEntity, AudibleTrait;
-
     protected $fillable = [
         'number_setting_id',
         'sequence',

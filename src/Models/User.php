@@ -2,17 +2,11 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Illuminate\Notifications\Notifiable;
-use OwenIt\Auditing\Auditable as AudibleTrait;
-use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Support\Carbon;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Vodeamanager\Core\Utilities\Traits\BaseEntity;
+use Vodeamanager\Core\Utilities\Models\User as Authenticatable;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable
 {
-    use Notifiable, BaseEntity, AudibleTrait;
-
     protected $fillable = [
         'name',
         'email',

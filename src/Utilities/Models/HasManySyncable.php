@@ -1,6 +1,6 @@
 <?php
 
-namespace Vodeamanager\Core\Utilities\Entities;
+namespace Vodeamanager\Core\Utilities\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 

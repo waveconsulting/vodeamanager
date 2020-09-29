@@ -2,17 +2,12 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use OwenIt\Auditing\Auditable as AudibleTrait;
-use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Rules\ValidUser;
-use Vodeamanager\Core\Utilities\Traits\BaseEntity;
+use Vodeamanager\Core\Utilities\Models\BaseModel;
 
-class GateSetting extends Model implements Auditable
+class GateSetting extends BaseModel
 {
-    use BaseEntity, AudibleTrait;
-    
     protected $fillable = [
         'role_id',
         'user_id',

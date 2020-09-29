@@ -1,12 +1,14 @@
 <?php
 
-namespace Vodeamanager\Core\Utilities\Traits;
+namespace Vodeamanager\Core\Utilities\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Vodeamanager\Core\Utilities\Entities\HasManySyncable;
+use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
+use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 
-trait BaseView
+abstract class BaseView extends Model
 {
     use SearchableCustomTrait, ResourceTrait;
 
@@ -15,7 +17,7 @@ trait BaseView
             $sorted = in_array(strtolower($request->get('sorted_by')), ['desc', 'descending']) ? 'desc' : 'asc';
             $order = $request->get('order_by');
 
-            $query->when($order && $sorted && Schema::hasColumn($this->getTable(),$order), function ($query) use ($order, $sorted) {
+            $query->when(Schema::hasColumn($this->getTable(),$order), function ($query) use ($order, $sorted) {
                 $query->orderBy($order, $sorted);
             });
         }
@@ -36,4 +38,5 @@ trait BaseView
             $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
         );
     }
+
 }

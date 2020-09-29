@@ -2,20 +2,15 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Auditable as AudibleTrait;
-use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Rules\ValidNumberSettingComponent;
 use Vodeamanager\Core\Rules\ValidUnique;
 use Vodeamanager\Core\Utilities\Constant;
-use Vodeamanager\Core\Utilities\Traits\BaseEntity;
+use Vodeamanager\Core\Utilities\Models\BaseModel;
 
-class NumberSetting extends Model implements Auditable
+class NumberSetting extends BaseModel
 {
-    use BaseEntity, AudibleTrait;
-
     protected $fillable = [
         'name',
         'entity',

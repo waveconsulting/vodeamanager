@@ -1,23 +1,28 @@
 <?php
 
-namespace Vodeamanager\Core\Utilities\Traits;
+namespace Vodeamanager\Core\Utilities\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Vodeamanager\Core\Utilities\Entities\HasManySyncable;
+use OwenIt\Auditing\Auditable as AudibleTrait;
+use OwenIt\Auditing\Contracts\Auditable;
+use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
+use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
+use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 use Wildside\Userstamps\Userstamps;
 
-trait BaseEntity
+abstract class BaseModel extends Model implements Auditable
 {
-    use SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, ResourceTrait;
+    use SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
 
     public function scopeCriteria($query, Request $request) {
         if ($request->has('order_by')) {
             $sorted = in_array(strtolower($request->get('sorted_by')), ['desc', 'descending']) ? 'desc' : 'asc';
             $order = $request->get('order_by');
 
-            $query->when($order && $sorted && Schema::hasColumn($this->getTable(),$order), function ($query) use ($order, $sorted) {
+            $query->when(Schema::hasColumn($this->getTable(),$order), function ($query) use ($order, $sorted) {
                 $query->orderBy($order, $sorted);
             });
         }
@@ -50,4 +55,5 @@ trait BaseEntity
     public function getCanDeleteAttribute() {
         return true;
     }
+
 }
