@@ -2,11 +2,14 @@
 
 namespace Vodeamanager\Core\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Vodeamanager\Core\Rules\ValidUnique;
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class Role extends BaseEntity
+class Role extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'code',
         'name',

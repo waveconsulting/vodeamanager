@@ -2,13 +2,16 @@
 
 namespace Vodeamanager\Core\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Vodeamanager\Core\Http\Resources\MediaResource;
 use Vodeamanager\Core\Rules\ValidInConstant;
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class Media extends BaseEntity
+class Media extends Model
 {
+    use BaseEntity;
+
     protected $indexResource = MediaResource::class;
     protected $showResource = MediaResource::class;
     protected $selectResource = MediaResource::class;

@@ -2,10 +2,13 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Illuminate\Database\Eloquent\Model;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class MediaUse extends BaseEntity
+class MediaUse extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'media_id',
         'entity',

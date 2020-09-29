@@ -2,10 +2,13 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Illuminate\Database\Eloquent\Model;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class GateSettingPermission extends BaseEntity
+class GateSettingPermission extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'gate_setting_id',
         'permission_id',

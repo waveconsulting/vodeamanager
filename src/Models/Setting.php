@@ -2,10 +2,13 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Illuminate\Database\Eloquent\Model;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class Setting extends BaseEntity
+class Setting extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'type',
         'attributes',

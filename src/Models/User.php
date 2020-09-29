@@ -2,11 +2,15 @@
 
 namespace Vodeamanager\Core\Models;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Vodeamanager\Core\Utilities\Entities\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
 class User extends Authenticatable
 {
+    use Notifiable, BaseEntity;
+
     protected $fillable = [
         'name',
         'email',

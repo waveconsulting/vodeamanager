@@ -2,10 +2,13 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Illuminate\Database\Eloquent\Model;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class NumberSettingComponent extends BaseEntity
+class NumberSettingComponent extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'number_setting_id',
         'sequence',

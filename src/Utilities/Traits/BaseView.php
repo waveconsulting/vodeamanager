@@ -1,14 +1,12 @@
 <?php
 
-namespace Vodeamanager\Core\Utilities\Entities;
+namespace Vodeamanager\Core\Utilities\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
-use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
+use Vodeamanager\Core\Utilities\Entities\HasManySyncable;
 
-abstract class BaseView extends Model
+trait BaseView
 {
     use SearchableCustomTrait, ResourceTrait;
 
@@ -41,5 +39,4 @@ abstract class BaseView extends Model
             $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
         );
     }
-
 }

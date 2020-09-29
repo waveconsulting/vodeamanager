@@ -1,21 +1,15 @@
 <?php
 
-namespace Vodeamanager\Core\Utilities\Entities;
+namespace Vodeamanager\Core\Utilities\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use OwenIt\Auditing\Auditable as AudibleTrait;
-use OwenIt\Auditing\Contracts\Auditable;
-use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
-use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
-use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
-use Wildside\Userstamps\Userstamps;
+use Vodeamanager\Core\Utilities\Entities\HasManySyncable;
 
-abstract class BaseEntity extends Model implements Auditable
+trait BaseEntity
 {
-    use SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
+    use SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, ResourceTrait;
 
     public function scopeCriteria($query, Request $request) {
         $order = null;
@@ -58,5 +52,4 @@ abstract class BaseEntity extends Model implements Auditable
     public function getCanDeleteAttribute() {
         return true;
     }
-
 }

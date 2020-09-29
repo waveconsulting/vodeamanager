@@ -2,16 +2,19 @@
 
 namespace Vodeamanager\Core\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use League\Flysystem\Config;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Rules\ValidNumberSettingComponent;
 use Vodeamanager\Core\Rules\ValidUnique;
 use Vodeamanager\Core\Utilities\Constant;
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class NumberSetting extends BaseEntity
+class NumberSetting extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'name',
         'entity',

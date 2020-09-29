@@ -2,11 +2,14 @@
 
 namespace Vodeamanager\Core\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class RoleUser extends BaseEntity
+class RoleUser extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'role_id',
         'user_id',

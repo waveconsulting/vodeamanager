@@ -2,10 +2,13 @@
 
 namespace Vodeamanager\Core\Models;
 
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
+use Illuminate\Database\Eloquent\Model;
+use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class LoginActivity extends BaseEntity
+class LoginActivity extends Model
 {
+    use BaseEntity;
+
     protected $fillable = [
         'user_id',
         'user_agent',
