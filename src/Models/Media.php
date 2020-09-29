@@ -4,13 +4,15 @@ namespace Vodeamanager\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use OwenIt\Auditing\Auditable as AudibleTrait;
+use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Http\Resources\MediaResource;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class Media extends Model
+class Media extends Model implements Auditable
 {
-    use BaseEntity;
+    use BaseEntity, AudibleTrait;
 
     protected $indexResource = MediaResource::class;
     protected $showResource = MediaResource::class;

@@ -5,8 +5,8 @@ namespace Vodeamanager\Core\Rules;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Vodeamanager\Core\Utilities\Entities\BaseEntity;
 
 class ValidUnique implements Rule
 {
@@ -28,7 +28,7 @@ class ValidUnique implements Rule
             $model = Container::getInstance()->make($model);
         }
 
-        if ($model instanceof BaseEntity) {
+        if ($model instanceof Model) {
             $this->model = $model;
         }
 

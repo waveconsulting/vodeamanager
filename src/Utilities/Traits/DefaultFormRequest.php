@@ -4,7 +4,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 
 trait DefaultFormRequest
 {
-    protected $entityNamespace = 'App\\Entities\\';
+    protected $entityNamespace = 'App\\Models\\';
 
     public function authorize()
     {

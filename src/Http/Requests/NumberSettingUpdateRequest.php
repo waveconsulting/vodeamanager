@@ -11,7 +11,7 @@ class NumberSettingUpdateRequest extends FormRequest
 
     public function __construct(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
     {
-        $this->entityNamespace = 'Vodeamanager\\Core\\Entities\\';
+        $this->entityNamespace = 'Vodeamanager\\Core\\Models\\';
 
         parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
     }

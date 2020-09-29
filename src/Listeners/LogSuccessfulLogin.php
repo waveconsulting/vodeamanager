@@ -25,14 +25,10 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        config('vodeamanager.models.login_activity')::disableAuditing();
-
         config('vodeamanager.models.login_activity')::create([
             'user_id'       =>  $event->user->id,
             'user_agent'    =>  Request::header('User-Agent'),
             'ip_address'    =>  Request::ip()
         ]);
-
-        config('vodeamanager.models.login_activity')::enableAuditing();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Vodeamanager\Core\Utilities\Services;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class MediaService
@@ -13,6 +14,7 @@ class MediaService
      * @param string $relationName
      *
      * @return void
+     * @throws Exception
      */
     public function logUse(Model $model, string $relationName) {
         try {
@@ -26,8 +28,8 @@ class MediaService
                     $attachment->mediaUses()->create($logUse);
                 }
             }
-        } catch (\Exception $e) {
-            \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
+        } catch (Exception $e) {
+            throw $e;
         }
     }
 }

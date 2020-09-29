@@ -1,12 +1,12 @@
 <?php
 
-namespace Vodeamanager\Core\Http\Controllers;
+namespace Vodeamanager\Core\Utilities\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Vodeamanager\Core\Utilities\Facades\ResourceService;
 
-class AccountController extends Controller
+trait AccountControllerTrait
 {
     protected $lazyLoadingRelationAccount = [];
 
@@ -28,7 +28,7 @@ class AccountController extends Controller
 
     public function revoke(Request $request)
     {
-        $request->user()->token()->revoke();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'success' => true,

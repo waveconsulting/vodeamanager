@@ -3,7 +3,8 @@
 namespace Vodeamanager\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use League\Flysystem\Config;
+use OwenIt\Auditing\Auditable as AudibleTrait;
+use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Rules\ValidEntity;
 use Vodeamanager\Core\Rules\ValidInConstant;
 use Vodeamanager\Core\Rules\ValidNumberSettingComponent;
@@ -11,9 +12,9 @@ use Vodeamanager\Core\Rules\ValidUnique;
 use Vodeamanager\Core\Utilities\Constant;
 use Vodeamanager\Core\Utilities\Traits\BaseEntity;
 
-class NumberSetting extends Model
+class NumberSetting extends Model implements Auditable
 {
-    use BaseEntity;
+    use BaseEntity, AudibleTrait;
 
     protected $fillable = [
         'name',
