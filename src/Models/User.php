@@ -101,5 +101,10 @@ class User extends Authenticatable
 
         return $this;
     }
+
+    public function getPermissionsAttribute()
+    {
+        return $this->permissions()->pluck('permissions.name')->toArray();
+    }
 }
 
