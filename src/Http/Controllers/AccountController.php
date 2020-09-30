@@ -28,7 +28,7 @@ class AccountController extends Controller
 
     public function revoke(Request $request)
     {
-        $request->user()->token()->revoke();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'success' => true,
