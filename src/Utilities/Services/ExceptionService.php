@@ -3,6 +3,7 @@
 namespace Vodeamanager\Core\Utilities\Services;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -52,5 +53,19 @@ class ExceptionService
             'error' => true,
             'message' => $e->getMessage()
         ], $e->status ?? 500);
+    }
+
+    /**
+     * Handler response from exception and save to log
+     *
+     * @param $e
+     * @return RedirectResponse
+     */
+    public function response($e) {
+        \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
+
+        return redirect()->back()->withErrors([
+            'message' => $e->getMessage()
+        ]);
     }
 }
