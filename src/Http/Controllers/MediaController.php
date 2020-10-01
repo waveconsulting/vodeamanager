@@ -51,14 +51,22 @@ class MediaController extends Controller
 
             DB::commit();
 
-            return ($this->show($request, $data->id))->additional([
-                'success' => true,
-                'message' => 'Data created.'
-            ]);
+            if ($request->wantsJson()) {
+                return ($this->show($request, $data->id))->additional([
+                    'success' => true,
+                    'message' => 'Data created.'
+                ]);
+            }
+
+            return redirect()->back();
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return ExceptionService::responseJson($e);
+            if ($request->wantsJson()) {
+                return ExceptionService::responseJson($e);
+            }
+
+            return ExceptionService::response($e);
         }
     }
 
