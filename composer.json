@@ -2,7 +2,6 @@
     "name": "vodea/vodeamanager",
     "description": "The package for manager Laravel Framework",
     "type": "library",
-    "license": "MIT",
     "authors": [
         {
             "name": "Yudi Hertanto",
