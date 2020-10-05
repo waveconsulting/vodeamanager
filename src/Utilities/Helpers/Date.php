@@ -25,7 +25,7 @@ if (!function_exists('round_date')) {
     }
 }
 
-if (!function_exists('dateTimeConverter')) {
+if (!function_exists('date_time_converter')) {
     /**
      * here you can customize how the function interprets input data and how it should return the result
      * example: you can add 'y'    => 'year'
@@ -35,14 +35,14 @@ if (!function_exists('dateTimeConverter')) {
      * key, can be also a string
      * example              'us'  => 'microsecond'
      *
-     * @param $inputs
+     * @param string $time
      * @return array
      * @throws Exception
      */
-    function date_time_converter($inputs) {
-        $dateTimeIndex = ['d' => 'day', 'h' => 'hour', 'm' => 'minutes'];
+    function date_time_converter(string $time) {
+        $dateTimeIndex = ['w' => 'week', 'd' => 'day', 'h' => 'hour', 'm' => 'minute'];
         $pattern = "#(([0-9]+)([a-z]+))#";
-        $r = preg_match_all($pattern, $inputs, $matches);
+        $r = preg_match_all($pattern, $time, $matches);
 
         if ($r === FALSE) {
             throw new Exception('can not parse input data');
@@ -57,7 +57,7 @@ if (!function_exists('dateTimeConverter')) {
         $result = array();
         for ($i=0 ; $i<count ($dates) ; $i++) {
             if(!array_key_exists($dates[$i], $dateTimeIndex)) {
-                throw new Exception ("dateTimeIndex is not configured properly, please add this index : [" . $dates[$i] . "]");
+                throw new Exception ("date time index is not configured properly, please add this index : [" . $dates[$i] . "]");
             }
 
             $result[$dateTimeIndex[$dates[$i]]] = (int)$dateI[$i];
