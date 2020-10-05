@@ -99,6 +99,10 @@ class User extends Authenticatable
     {
         $this->validationRules['email'] ='required|email|unique:users,email,' . ($id ?? 'NULL') . ',id';
 
+        if (!is_null($id)) {
+            unset($this->validationRules['password']);
+        }
+
         return $this;
     }
 
