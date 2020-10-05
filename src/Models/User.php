@@ -26,7 +26,7 @@ class User extends Authenticatable
 
     protected $validationRules = [
         'name' => 'required|string|max:255',
-        'password' => 'required|string|max:255',
+        'password' => 'required|string|min:8|max:32',
         'telephone' => 'nullable|string|max:15',
         'mobile_phone' => 'nullable|string|max:15',
         'photo_id' => 'nullable|exists:media,id,deleted_at,NULL',
