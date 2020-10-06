@@ -5,7 +5,7 @@ namespace Vodeamanager\Core\Utilities\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static void fileService()
+ * @method static void mediaService()
  * @method static void notificationService()
  * @method static void numberSettingService()
  *
