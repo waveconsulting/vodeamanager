@@ -42,8 +42,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
 
         $this->registerEvents();
 
-        $this->registerCommands();
-
         $this->registerMiddleware();
     }
 
@@ -86,12 +84,6 @@ class VodeaManagerServiceProvider extends ServiceProvider
     private function registerEvents()
     {
         Event::listen('Illuminate\Auth\Events\Login','Vodeamanager\Core\Listeners\LogSuccessfulLogin');
-    }
-
-    private function registerCommands()
-    {
-        $this->commands('Vodeamanager\Core\Commands\RefreshCommand');
-        $this->commands('Vodeamanager\Core\Commands\PermissionSeedCommand');
     }
 
     private function registerFacades()
