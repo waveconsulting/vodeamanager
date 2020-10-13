@@ -61,7 +61,8 @@ trait RestCoreController
 
         $repository = $repository->with(array_unique($this->eagerLoadRelationIndex))
             ->criteria($request)
-            ->filter($request);
+            ->filter($request)
+            ->subQuery($request);
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->get('per_page'))
@@ -82,7 +83,8 @@ trait RestCoreController
 
         $repository = (clone $this->repository)
             ->with(array_unique($this->eagerLoadRelationSelect))
-            ->filter($request);
+            ->filter($request)
+            ->subQuery($request);
 
         if ($id || $request->has('id')) {
             $data = $repository->findOrFail($id ?? $request->get('id'));
@@ -115,6 +117,7 @@ trait RestCoreController
 
         $data = $this->repository->with(array_unique($this->eagerLoadRelationShow))
             ->filter($request)
+            ->subQuery($request)
             ->findOrFail($id);
 
         $this->gate($data, __FUNCTION__);
