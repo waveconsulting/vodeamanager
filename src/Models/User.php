@@ -92,7 +92,11 @@ class User extends Authenticatable
     }
 
     public function authorized($action) {
-        return $this->permissions()->where('permissions.name', $action)->exists();
+        if (!is_array($action)) {
+            $action = [$action];
+        }
+
+        return $this->permissions()->whereIn('permissions.name', $action)->exists();
     }
 
     public function setValidationRules(array $request = [], $id = null)
