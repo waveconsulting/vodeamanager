@@ -21,6 +21,10 @@ class HasManySyncable extends HasMany
         $updateRows = [];
         $newRows = [];
         foreach ($data as $row) {
+            if (is_object($row)) {
+                $row = (array) $row;
+            }
+
             if (isset($row[$relatedKeyName]) && !empty($row[$relatedKeyName]) && in_array($row[$relatedKeyName], $current)) {
                 $id = $row[$relatedKeyName];
                 $updateRows[$id] = $row;
