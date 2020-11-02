@@ -5,7 +5,6 @@ namespace Vodeamanager\Core;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Passport\Passport;
 use Vodeamanager\Core\Http\Middleware\Gate;
 use Vodeamanager\Core\Http\Middleware\Notification;
 use Vodeamanager\Core\Utilities\Services\MediaService;
