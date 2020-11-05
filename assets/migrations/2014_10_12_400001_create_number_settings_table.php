@@ -14,7 +14,7 @@ class CreateNumberSettingsTable extends Migration
     public function up()
     {
         Schema::create('number_settings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
 
             $table->string('name');
             $table->string('entity');

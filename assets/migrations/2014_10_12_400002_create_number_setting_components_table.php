@@ -14,7 +14,7 @@ class CreateNumberSettingComponentsTable extends Migration
     public function up()
     {
         Schema::create('number_setting_components', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
 
             $table->relation('number_setting_id', 'number_settings', false);
             $table->unsignedInteger('sequence');
