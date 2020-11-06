@@ -14,7 +14,7 @@ class CreateLoginActivitiesTable extends Migration
     public function up()
     {
         Schema::create('login_activities', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
 
             $table->relation('user_id', 'users', false);
             $table->string('user_agent');

@@ -14,7 +14,7 @@ class CreateMediaUsesTable extends Migration
     public function up()
     {
         Schema::create('media_uses', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
 
             $table->relation('media_id', 'media', false);
             $table->string('entity');
