@@ -34,12 +34,12 @@ class GateSetting extends BaseModel
 
     public function role()
     {
-        return $this->belongsTo(config('vodeamanager.entities.role'));
+        return $this->belongsTo(config('vodeamanager.models.role'));
     }
 
     public function user()
     {
-        return $this->belongsTo(config('vodeamanager.entities.user'));
+        return $this->belongsTo(config('vodeamanager.models.user'));
     }
 
     public function gateSettingPermissions()
