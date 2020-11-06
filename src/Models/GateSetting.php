@@ -44,7 +44,7 @@ class GateSetting extends BaseModel
 
     public function gateSettingPermissions()
     {
-        return $this->hasMany(config('vodeamanager.models.gate_permission_setting'));
+        return $this->hasMany(config('vodeamanager.models.gate_setting_permission'));
     }
 
     public function permissions()
