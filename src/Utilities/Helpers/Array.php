@@ -17,3 +17,18 @@ if (!function_exists('arr_key_equal')) {
     }
 }
 
+if (!function_exists('arr_strict')) {
+    /**
+     * @param $value
+     *
+     * @return array
+     */
+    function arr_strict($value) {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        return [$value];
+    }
+}
+
