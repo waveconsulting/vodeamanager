@@ -21,7 +21,7 @@ class ValidInConstant implements Rule
         $this->constant = $constant;
         if (empty($message)) {
             $options = Arr::isAssoc($this->constant) ? array_values($constant) : $this->constant;
-            $message = 'The selected :attribute must be in ' . implode($options, ', ') . '.';
+            $message = 'The selected :attribute must be in ' . implode(', ', $options) . '.';
         }
 
         $this->message = $message;
