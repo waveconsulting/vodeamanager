@@ -45,7 +45,7 @@ trait RestCoreController
 
     public function index(Request $request)
     {
-        if ($request->has('search') && $this->repository->isUseSearchable()) {
+        if ($request->has('search') && $this->repository->isWithSearchable()) {
             $repository = $this->repository->search($request->get('search'), null, true);
         } else {
             $repository = $this->repository->query();
@@ -86,7 +86,7 @@ trait RestCoreController
 
         $repository = $repository->criteria($request);
 
-        if ($request->has('search') && $this->repository->isUseSearchable()) {
+        if ($request->has('search') && $this->repository->isWithSearchable()) {
             $repository = $repository->search($request->get('search'), null, true);
         }
 
