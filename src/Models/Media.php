@@ -47,7 +47,7 @@ class Media extends BaseModel
 
         $mimes = @$request['mimes'] ?? [];
         if (!empty($mimes)) {
-            $fileRules[] = 'mimes:' . (is_array($mimes) ? implode($mimes,',') : $mimes);
+            $fileRules[] = 'mimes:' . (is_array($mimes) ? implode(',',$mimes) : $mimes);
         }
 
         if ($maxSize = @$request['max_size']) {
