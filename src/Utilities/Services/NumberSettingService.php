@@ -28,11 +28,7 @@ class NumberSettingService
             return (DB::select("show table status like '{$tableName}'"))[0]->Auto_increment;
         }
 
-        if (is_null($date)) {
-            $date = Carbon::now();
-        } else {
-            $date = Carbon::parse($date);
-        }
+        $date = is_null($date) ? Carbon::now() : Carbon::parse($date);
 
         $prefixDigit = 0;
         $digitBeforeCounter = 0;
@@ -92,9 +88,9 @@ class NumberSettingService
 
         $subjectNumbers = app($entity)
             ->where('number', 'like', $queryNumber)
-            ->when($numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly',function ($q) use ($dateColumn, $date){
+            ->when($numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly', function ($q) use ($dateColumn, $date){
                 $q->whereYear($dateColumn, $date->format('Y'));
-            })->when($numberSetting->reset_type == 'monthly',function ($q) use ($dateColumn, $date){
+            })->when($numberSetting->reset_type == 'monthly', function ($q) use ($dateColumn, $date){
                 $q->whereMonth($dateColumn, $date->format('m'));
             })->when($subjectId, function($q) use ($subjectId){
                 $q->where('id', '!=',$subjectId);

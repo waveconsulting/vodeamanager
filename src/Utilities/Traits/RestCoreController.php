@@ -28,41 +28,37 @@ trait RestCoreController
         }
 
         $repository = app($this->namespace);
-        $this->fillable = (clone $repository)->getFillable();
+        $this->fillable = $repository->getFillable();
 
         if (is_null($this->indexResource)) {
-            $this->indexResource = (clone $repository)->getResource();
+            $this->indexResource = $repository->getResource();
         }
 
         if (is_null($this->showResource)) {
-            $this->showResource = (clone $repository)->getShowResource();
+            $this->showResource = $repository->getShowResource();
         }
 
         if (is_null($this->selectResource)) {
-            $this->selectResource = (clone $repository)->getSelectResource();
+            $this->selectResource = $repository->getSelectResource();
         }
     }
 
     public function index(Request $request)
     {
-        if ($request->has('search') && !empty($this->repository->getSearchable())) {
+        if ($request->has('search') && $this->repository->isUseSearchable()) {
             $repository = $this->repository->search($request->get('search'), null, true);
         } else {
             $repository = $this->repository->query();
         }
 
         if ($request->has('with')) {
-            $with = $request->get('with');
-            $this->eagerLoadRelationIndex = array_merge(
-                $this->eagerLoadRelationIndex,
-                is_array($with) ? $with : [$with]
-            );
+            $this->eagerLoadRelationIndex = array_merge($this->eagerLoadRelationIndex, arr_strict($request->get('with')));
         }
 
         $repository = $repository->with(array_unique($this->eagerLoadRelationIndex))
             ->criteria($request)
             ->filter($request)
-            ->subQuery($request);
+            ->subQueryIndex($request);
 
         $data = $request->has('per_page')
             ? $repository->paginate($request->get('per_page'))
@@ -74,17 +70,13 @@ trait RestCoreController
     public function select(Request $request, $id = null)
     {
         if ($request->has('with')) {
-            $with = $request->get('with');
-            $this->eagerLoadRelationSelect = array_merge(
-                $this->eagerLoadRelationSelect,
-                is_array($with) ? $with : [$with]
-            );
+            $this->eagerLoadRelationSelect = array_merge($this->eagerLoadRelationSelect, arr_strict($request->get('with')));
         }
 
         $repository = (clone $this->repository)
             ->with(array_unique($this->eagerLoadRelationSelect))
             ->filter($request)
-            ->subQuery($request);
+            ->subQuerySelect($request);
 
         if ($id || $request->has('id')) {
             $data = $repository->findOrFail($id ?? $request->get('id'));
@@ -94,7 +86,7 @@ trait RestCoreController
 
         $repository = $repository->criteria($request);
 
-        if ($request->has('search') && !empty($this->repository->getSearchable())) {
+        if ($request->has('search') && $this->repository->isUseSearchable()) {
             $repository = $repository->search($request->get('search'), null, true);
         }
 
@@ -108,16 +100,12 @@ trait RestCoreController
     public function show(Request $request, $id)
     {
         if ($request->has('with')) {
-            $with = $request->get('with');
-            $this->eagerLoadRelationShow = array_merge(
-                $this->eagerLoadRelationShow,
-                is_array($with) ? $with : [$with]
-            );
+            $this->eagerLoadRelationShow = array_merge($this->eagerLoadRelationShow, arr_strict($request->get('with')));
         }
 
         $data = $this->repository->with(array_unique($this->eagerLoadRelationShow))
             ->filter($request)
-            ->subQuery($request)
+            ->subQueryShow($request)
             ->findOrFail($id);
 
         $this->gate($data, __FUNCTION__);

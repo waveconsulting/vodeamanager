@@ -4,7 +4,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 
 use Vodeamanager\Core\Http\Resources\BaseResource;
 
-trait ResourceTrait
+trait WithResource
 {
     protected $indexResource = BaseResource::class;
     protected $showResource = BaseResource::class;

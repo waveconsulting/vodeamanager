@@ -4,7 +4,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 
 use Vodeamanager\Core\Rules\NotPresent;
 
-trait EntityFormRequest
+trait WithModelValidation
 {
     /**
      * Default Rules for Request form
@@ -49,7 +49,7 @@ trait EntityFormRequest
     }
 
     /**
-     * @return EntityFormRequest
+     * @return WithModelValidation
      */
     public function assignNotPresent()
     {
@@ -63,7 +63,7 @@ trait EntityFormRequest
     }
 
     /**
-     * @return EntityFormRequest
+     * @return WithModelValidation
      */
     public function setExceptUpdateFields()
     {
@@ -77,7 +77,7 @@ trait EntityFormRequest
     /**
      * @param array $request
      * @param null $id
-     * @return EntityFormRequest
+     * @return WithModelValidation
      */
     public function setValidationRules(array $request = [], $id = null)
     {
@@ -86,7 +86,7 @@ trait EntityFormRequest
 
     /**
      * @param array $request
-     * @return EntityFormRequest ;
+     * @return WithModelValidation ;
      */
     public function setValidationMessages(array $request = [])
     {
@@ -95,7 +95,7 @@ trait EntityFormRequest
 
     /**
      * @param array $request
-     * @return EntityFormRequest
+     * @return WithModelValidation
      */
     public function setValidationAttributes(array $request = [])
     {
