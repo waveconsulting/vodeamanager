@@ -17,6 +17,7 @@ class FileService
      * @param string $path
      *
      * @return array
+     * @throws \Exception
      */
     public function store(Request $request, string $key, string $disk, string $path) {
         try {
@@ -44,11 +45,13 @@ class FileService
                 }
             }
 
+            if (empty($uploaded)) {
+                throw new \Exception('Whoops, Error in file when uploading to storage.');
+            }
+
             return $uploaded;
         } catch (\Exception $e) {
-            \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
-
-            return [];
+            throw $e;
         }
     }
 }
