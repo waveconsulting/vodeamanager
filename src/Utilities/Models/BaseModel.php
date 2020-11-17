@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use Vodeamanager\Core\Utilities\Traits\WithAbility;
-use Vodeamanager\Core\Utilities\Traits\WithHasManySyncable;
 use Vodeamanager\Core\Utilities\Traits\WithModelValidation;
 use Vodeamanager\Core\Utilities\Traits\WithResource;
 use Vodeamanager\Core\Utilities\Traits\WithScope;
@@ -18,11 +17,21 @@ abstract class BaseModel extends Model implements Auditable
 {
     use SoftDeletes,
         Userstamps,
+        AudibleTrait,
         WithSearchable,
         WithModelValidation,
-        AudibleTrait,
         WithResource,
         WithScope,
-        WithAbility,
-        WithHasManySyncable;
+        WithAbility;
+
+    public function hasMany($related, $foreignKey = null, $localKey = null)
+    {
+        $instance = $this->newRelatedInstance($related);
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $localKey = $localKey ?: $this->getKeyName();
+
+        return new HasManySyncable(
+            $instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey
+        );
+    }
 }
