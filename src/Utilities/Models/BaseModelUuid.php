@@ -27,6 +27,8 @@ abstract class BaseModelUuid extends Model implements Auditable
 
     public $incrementing = false;
 
+    public $keyType = 'string';
+
     protected static function boot()
     {
         parent::boot();
