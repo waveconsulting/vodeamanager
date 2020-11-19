@@ -71,6 +71,11 @@ class VodeaManagerServiceProvider extends ServiceProvider
             $this->unsignedBigInteger($column)->nullable($nullable)->index();
             $this->foreign($column)->on($table)->references('id')->onUpdate('cascade');
         });
+
+        Blueprint::macro('uuidRelation', function($column, $table, $nullable = true) {
+            $this->unsignedBigInteger($column)->nullable($nullable)->index();
+            $this->foreign($column)->on($table)->references('id')->onUpdate('cascade');
+        });
     }
 
     private function registerHelpers()
