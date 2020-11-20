@@ -3,6 +3,7 @@
 namespace Vodeamanager\Core\Http\Resources;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -42,7 +43,9 @@ class BaseResource extends JsonResource
                     return $resource::collection($data);
                 }
 
-                if (!empty($data)) {
+                if ($data instanceof Pivot) {
+                    return $data;
+                } else if (!empty($data)) {
                     $resource = $data->getResource();
                 }
 
