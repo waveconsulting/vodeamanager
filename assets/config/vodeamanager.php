@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'decode_search' => true,
     'models' => [
         'user' => config('auth.providers.users.model'),
         'role' => Vodeamanager\Core\Models\Role::class,

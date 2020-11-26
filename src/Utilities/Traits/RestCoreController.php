@@ -46,7 +46,12 @@ trait RestCoreController
     public function index(Request $request)
     {
         if ($request->has('search') && $this->repository->isWithSearchable()) {
-            $repository = $this->repository->search($request->get('search'), null, true);
+            $search = $request->get('search');
+            if (config('vodeamanager.models.decode_search', false)) {
+                $search = urldecode($search);
+            }
+
+            $repository = $this->repository->search($search, null, true);
         } else {
             $repository = $this->repository->query();
         }
