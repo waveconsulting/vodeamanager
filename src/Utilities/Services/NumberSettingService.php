@@ -86,6 +86,7 @@ class NumberSettingService
         $dateColumn = Schema::hasColumn($tableName, 'date') ? 'date' : 'created_at';
 
         $subjectNumbers = app($entity)
+            ->withoutGlobalScopes()
             ->where('number', 'like', $queryNumber)
             ->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
                 $query->whereYear($dateColumn, $date->format('Y'));
