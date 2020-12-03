@@ -2,11 +2,9 @@
 
 namespace Vodeamanager\Core\Utilities\Services;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 use Vodeamanager\Core\Utilities\Constant;
 
 class NumberSettingService
@@ -22,17 +20,14 @@ class NumberSettingService
      */
     public function generateNumber(string $entity, $date = null, $subjectId = null)
     {
+        $tableName = app($entity)->getTable();
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
+
         if (is_null($numberSetting) || !$numberSetting->numberSettingComponents()->exists()) {
-            $tableName = Str::plural(Str::snake(Arr::last(explode('\\', $entity))), 2);
             return (DB::select("show table status like '{$tableName}'"))[0]->Auto_increment;
         }
 
-        if (is_null($date)) {
-            $date = Carbon::now();
-        } else {
-            $date = Carbon::parse($date);
-        }
+        $date = is_null($date) ? Carbon::now() : Carbon::parse($date);
 
         $prefixDigit = 0;
         $digitBeforeCounter = 0;
@@ -64,7 +59,7 @@ class NumberSettingService
                     $dateText = $date->format($component->format);
                     array_push($generatedNumberArray, $dateText);
 
-                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly') {
+                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY) {
                         $dateText = str_repeat('_', strlen($dateText));
                     }
 
@@ -74,7 +69,7 @@ class NumberSettingService
                     $dateText = date($component->format, strtotime($date));
                     array_push($generatedNumberArray, $dateText);
 
-                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly') {
+                    if (is_null($numberSetting->reset_type) || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY) {
                         $dateText = str_repeat('_', strlen($dateText));
                     }
 
@@ -88,23 +83,24 @@ class NumberSettingService
             }
         }
 
-        $dateColumn = Schema::hasColumn(app($entity)->getTable(), 'date') ? 'date' : 'created_at';
+        $dateColumn = Schema::hasColumn($tableName, 'date') ? 'date' : 'created_at';
 
         $subjectNumbers = app($entity)
+            ->withoutGlobalScopes()
             ->where('number', 'like', $queryNumber)
-            ->when($numberSetting->reset_type == 'yearly' || $numberSetting->reset_type == 'monthly',function ($q) use ($dateColumn, $date){
-                $q->whereYear($dateColumn, $date->format('Y'));
-            })->when($numberSetting->reset_type == 'monthly',function ($q) use ($dateColumn, $date){
-                $q->whereMonth($dateColumn, $date->format('m'));
-            })->when($subjectId, function($q) use ($subjectId){
-                $q->where('id', '!=',$subjectId);
+            ->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
+                $query->whereYear($dateColumn, $date->format('Y'));
+            })->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
+                $query->whereMonth($dateColumn, $date->format('m'));
+            })->when($subjectId, function($query) use ($subjectId){
+                $query->where('id', '!=', $subjectId);
             })
             ->withTrashed()
             ->orderBy('number')
             ->pluck('number')
             ->toArray();
 
-        $existingNumbers = array_map(function($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter){
+        $existingNumbers = array_map(function ($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter) {
             $counterIndex = array_search(null,$generatedNumberArray);
             if ($counterIndex == 0) {
                 return intval(substr($subjectNo,0,$prefixDigit));
