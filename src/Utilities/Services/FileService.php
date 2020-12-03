@@ -32,7 +32,10 @@ class FileService
                 foreach ($files as $file) {
                     $fileName = $file->getClientOriginalName();
                     $extension = $file->getClientOriginalExtension();
-                    $encodedName = Carbon::now()->format('Y_m_d_his_') . Str::random() . '.' . $extension;
+                    $encodedName = Carbon::now()->format('Y_m_d_his_') . Str::random();
+                    if ($extension) {
+                        $encodedName .= '.' . $extension;
+                    }
 
                     array_push($uploaded, (object) [
                         'name' => $fileName,
