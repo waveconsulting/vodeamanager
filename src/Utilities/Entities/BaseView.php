@@ -5,12 +5,31 @@ namespace Vodeamanager\Core\Utilities\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 
 abstract class BaseView extends Model
 {
-    use SearchableCustomTrait, ResourceTrait;
+    use SearchableCustomTrait;
+
+    protected $indexResource = BaseResource::class;
+    protected $showResource = BaseResource::class;
+    protected $selectResource = BaseResource::class;
+
+    public function getResource()
+    {
+        return $this->indexResource;
+    }
+
+    public function getShowResource()
+    {
+        return $this->showResource;
+    }
+
+    public function getSelectResource()
+    {
+        return $this->selectResource;
+    }
 
     public function scopeCriteria($query, Request $request) {
         $order = null;

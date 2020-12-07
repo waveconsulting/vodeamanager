@@ -8,14 +8,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
-use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
 use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 use Wildside\Userstamps\Userstamps;
 
 abstract class BaseEntity extends Model implements Auditable
 {
-    use SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
+    use SoftDeletes, Userstamps, SearchableCustomTrait, EntityFormRequest, AudibleTrait;
+
+    protected $indexResource = BaseResource::class;
+    protected $showResource = BaseResource::class;
+    protected $selectResource = BaseResource::class;
+
+    public function getResource()
+    {
+        return $this->indexResource;
+    }
+
+    public function getShowResource()
+    {
+        return $this->showResource;
+    }
+
+    public function getSelectResource()
+    {
+        return $this->selectResource;
+    }
 
     public function scopeCriteria($query, Request $request) {
         $order = null;

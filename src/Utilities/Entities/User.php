@@ -10,15 +10,34 @@ use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\HasApiTokens;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Rules\NotPresent;
 use Vodeamanager\Core\Utilities\Traits\EntityFormRequest;
-use Vodeamanager\Core\Utilities\Traits\ResourceTrait;
 use Vodeamanager\Core\Utilities\Traits\SearchableCustomTrait;
 use Wildside\Userstamps\Userstamps;
 
 abstract class User extends Authenticatable implements Auditable
 {
-    use Notifiable, SoftDeletes, Userstamps, HasApiTokens, SearchableCustomTrait, EntityFormRequest, AudibleTrait, ResourceTrait;
+    use Notifiable, SoftDeletes, Userstamps, HasApiTokens, SearchableCustomTrait, EntityFormRequest, AudibleTrait;
+
+    protected $indexResource = BaseResource::class;
+    protected $showResource = BaseResource::class;
+    protected $selectResource = BaseResource::class;
+
+    public function getResource()
+    {
+        return $this->indexResource;
+    }
+
+    public function getShowResource()
+    {
+        return $this->showResource;
+    }
+
+    public function getSelectResource()
+    {
+        return $this->selectResource;
+    }
 
     public function scopeCriteria($query, Request $request) {
         $order = null;
