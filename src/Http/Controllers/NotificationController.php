@@ -21,7 +21,7 @@ class NotificationController extends Controller
                 ->with('notifiable')
                 ->orderByDesc('notifications.created_at');
 
-            $totalUnreadNotification = $repository->whereNull('read_at')->count();
+            $totalUnreadNotification = (clone $repository)->whereNull('read_at')->count();
 
             if ($request->get('type') == 'read') {
                 $repository = $repository->whereNotNull('read_at');
