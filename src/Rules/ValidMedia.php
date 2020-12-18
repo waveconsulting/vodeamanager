@@ -4,17 +4,20 @@ namespace Vodeamanager\Core\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidUser implements Rule
+class ValidMedia implements Rule
 {
+    protected $request;
     protected $message;
 
     /**
      * Create a new rule instance.
      *
+     * @param array $request
      * @param string $message
      */
-    public function __construct(string $message = 'The selected :attribute is invalid.')
+    public function __construct(array $request = [], string $message = 'The selected :attribute is invalid.')
     {
+        $this->request = $request;
         $this->message = $message;
     }
 
@@ -27,7 +30,7 @@ class ValidUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        return config('vodeamanager.models.user')::where('id', $value)->exists();
+        return config('vodeamanager.models.media')::where('id', $value)->exists();
     }
 
     /**
