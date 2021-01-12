@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use Ramsey\Uuid\Uuid;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\WithAbility;
 use Vodeamanager\Core\Utilities\Traits\WithModelValidation;
-use Vodeamanager\Core\Utilities\Traits\WithResource;
 use Vodeamanager\Core\Utilities\Traits\WithScope;
 use Vodeamanager\Core\Utilities\Traits\WithSearchable;
 use Wildside\Userstamps\Userstamps;
@@ -21,7 +21,6 @@ abstract class BaseModelUuid extends Model implements Auditable
         AudibleTrait,
         WithSearchable,
         WithModelValidation,
-        WithResource,
         WithScope,
         WithAbility;
 
@@ -35,6 +34,25 @@ abstract class BaseModelUuid extends Model implements Auditable
         static::creating(function (self $data) {
             $data->id = Uuid::uuid4();
         });
+    }
+
+    protected $indexResource = BaseResource::class;
+    protected $showResource = BaseResource::class;
+    protected $selectResource = BaseResource::class;
+
+    public function getResource()
+    {
+        return $this->indexResource;
+    }
+
+    public function getShowResource()
+    {
+        return $this->showResource;
+    }
+
+    public function getSelectResource()
+    {
+        return $this->selectResource;
     }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)

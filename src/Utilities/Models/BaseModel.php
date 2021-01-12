@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
+use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\WithAbility;
 use Vodeamanager\Core\Utilities\Traits\WithModelValidation;
-use Vodeamanager\Core\Utilities\Traits\WithResource;
 use Vodeamanager\Core\Utilities\Traits\WithScope;
 use Vodeamanager\Core\Utilities\Traits\WithSearchable;
 use Wildside\Userstamps\Userstamps;
@@ -20,9 +20,27 @@ abstract class BaseModel extends Model implements Auditable
         AudibleTrait,
         WithSearchable,
         WithModelValidation,
-        WithResource,
         WithScope,
         WithAbility;
+
+    protected $indexResource = BaseResource::class;
+    protected $showResource = BaseResource::class;
+    protected $selectResource = BaseResource::class;
+
+    public function getResource()
+    {
+        return $this->indexResource;
+    }
+
+    public function getShowResource()
+    {
+        return $this->showResource;
+    }
+
+    public function getSelectResource()
+    {
+        return $this->selectResource;
+    }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {

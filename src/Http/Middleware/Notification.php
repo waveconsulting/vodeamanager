@@ -17,19 +17,16 @@ class Notification
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && $request->has('notif_id')) {
+        $user = $request->user() ?? $request->user('api');
+        if ($user && $request->has('notif_id')) {
             $notificationId = $request->get('notif_id');
-
-            if (!is_array($notificationId)) {
-                $notificationId = [$notificationId];
-            }
-
-            Auth::user()->notifications()
+            $user->notifications()
                 ->whereNull('notifications.read_at')
-                ->whereIn('notifications.id', $notificationId)
+                ->whereIn('notifications.id', arr_strict($notificationId))
                 ->get()
                 ->markAsRead();
         }
+
 
         return $next($request);
     }
