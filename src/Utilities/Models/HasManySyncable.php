@@ -3,10 +3,11 @@
 namespace Vodeamanager\Core\Utilities\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 
 class HasManySyncable extends HasMany
 {
-    public function sync($data, $deleting = true)
+    public function sync($data, $checkFillAble = true, $deleting = true)
     {
         $changes = [
             'created' => [],
@@ -15,52 +16,43 @@ class HasManySyncable extends HasMany
         ];
 
         $relatedKeyName = $this->related->getKeyName();
+        $tobeDeleteIds = array_column($data, $relatedKeyName);
+        $toBeDeletes = (clone $this->newQuery())
+            ->whereNotIn(
+                $relatedKeyName,
+                array_column($data, $relatedKeyName)
+            )
+            ->get();
 
-        $current = $this->newQuery()->pluck($relatedKeyName)->all();
+        foreach ($toBeDeletes as $toBeDelete) {
+            $changes['deleted'][] = $toBeDelete->$relatedKeyName;
+            $toBeDelete->delete();
+        }
 
-        $updateRows = [];
-        $newRows = [];
-        foreach ($data as $row) {
-            if (is_object($row)) {
-                $row = (array) $row;
-            }
-
-            if (isset($row[$relatedKeyName]) && !empty($row[$relatedKeyName]) && in_array($row[$relatedKeyName], $current)) {
-                $id = $row[$relatedKeyName];
-                $updateRows[$id] = $row;
+        foreach ($data as $item) {
+            if ($checkFillAble) {
+                $updatedData = Arr::only($item, $this->getRelated()->getFillable());
             } else {
-                $newRows[] = $row;
+                $updatedData = $item;
+            }
+
+            $keyValue = $item[$relatedKeyName] ?? null;
+
+            if (empty($keyValue)) {
+                $item = (clone $this->newQuery())->create($updatedData);
+                $changes['created'][] = $item->$relatedKeyName;
+            } else {
+                $item = (clone $this->newQuery())->updateOrCreate([
+                    $relatedKeyName => $item[$relatedKeyName]
+                ], $updatedData);
+            }
+
+            if ($item->$relatedKeyName == $keyValue) {
+                $changes['updated'][] = $keyValue;
+            } else {
+                $changes['created'][] = $item->$relatedKeyName;
             }
         }
-
-        $updateIds = array_keys($updateRows);
-        $deleteIds = [];
-        foreach ($current as $currentId) {
-            if (!in_array($currentId, $updateIds)) {
-                $deleteIds[] = $currentId;
-            }
-        }
-
-        if ($deleting && count($deleteIds) > 0) {
-            $this->getRelated()->destroy($deleteIds);
-            $changes['deleted'] = $this->castKeys($deleteIds);
-        }
-
-        foreach ($updateRows as $id => $row) {
-            $this->getRelated()->where($relatedKeyName, $id)->update($row);
-        }
-
-        $changes['updated'] = $this->castKeys($updateIds);
-
-        $newIds = [];
-        foreach ($newRows as $row) {
-            $newModel = $this->create($row);
-            $newIds[] = $newModel->$relatedKeyName;
-        }
-
-        $changes['created'][] = $this->castKeys($newIds);
-
-        return $changes;
     }
 
 
