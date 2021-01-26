@@ -4,12 +4,13 @@ namespace Vodeamanager\Core\Utilities\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Vodeamanager\Core\Http\Resources\BaseResource;
+use Vodeamanager\Core\Utilities\Traits\WithLabel;
 use Vodeamanager\Core\Utilities\Traits\WithScope;
 use Vodeamanager\Core\Utilities\Traits\WithSearchable;
 
 abstract class BaseView extends Model
 {
-    use WithSearchable, WithScope;
+    use WithSearchable, WithScope, WithLabel;
 
     protected $indexResource = BaseResource::class;
     protected $showResource = BaseResource::class;

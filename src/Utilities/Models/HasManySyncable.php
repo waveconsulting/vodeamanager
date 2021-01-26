@@ -16,7 +16,6 @@ class HasManySyncable extends HasMany
         ];
 
         $relatedKeyName = $this->related->getKeyName();
-        $tobeDeleteIds = array_column($data, $relatedKeyName);
         $toBeDeletes = (clone $this->newQuery())
             ->whereNotIn(
                 $relatedKeyName,

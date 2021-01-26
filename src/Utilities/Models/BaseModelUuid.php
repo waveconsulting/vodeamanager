@@ -9,6 +9,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Ramsey\Uuid\Uuid;
 use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\WithAbility;
+use Vodeamanager\Core\Utilities\Traits\WithLabel;
 use Vodeamanager\Core\Utilities\Traits\WithModelValidation;
 use Vodeamanager\Core\Utilities\Traits\WithScope;
 use Vodeamanager\Core\Utilities\Traits\WithSearchable;
@@ -19,6 +20,7 @@ abstract class BaseModelUuid extends Model implements Auditable
     use SoftDeletes,
         Userstamps,
         AudibleTrait,
+        WithLabel,
         WithSearchable,
         WithModelValidation,
         WithScope,
