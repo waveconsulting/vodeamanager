@@ -18,12 +18,12 @@ class Gate
     public function handle($request, Closure $next)
     {
         if (!Auth::check()) {
-            return abort(401);
+            return abort(401, 'This action is unauthorized.');
         }
 
         $name = class_basename($request->route()->getName());
         if (!Auth::user()->authorized($name)) {
-            return abort(401);
+            return abort(401, 'This action is unauthorized.');
         }
 
         return $next($request);
