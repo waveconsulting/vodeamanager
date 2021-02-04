@@ -27,7 +27,6 @@ abstract class BaseModelUuid extends Model implements Auditable
         WithAbility;
 
     public $incrementing = false;
-    public $forceGenerateUuid = true;
 
     public $keyType = 'string';
 
@@ -35,11 +34,13 @@ abstract class BaseModelUuid extends Model implements Auditable
     {
         parent::boot();
         static::creating(function (self $data) {
-            if (is_null($data->id) || $this->forceGenerateUuid) {
+            if (is_null($data->id) || $data->getForceGenerateUuid()) {
                 $data->id = Uuid::uuid4();
             }
         });
     }
+
+    protected $forceGenerateUuid = true;
 
     protected $indexResource = BaseResource::class;
     protected $showResource = BaseResource::class;
@@ -58,6 +59,11 @@ abstract class BaseModelUuid extends Model implements Auditable
     public function getSelectResource()
     {
         return $this->selectResource;
+    }
+
+    public function getForceGenerateUuid()
+    {
+        return $this->forceGenerateUuid;
     }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
