@@ -27,6 +27,7 @@ abstract class BaseModelUuid extends Model implements Auditable
         WithAbility;
 
     public $incrementing = false;
+    public $forceGenerateUuid = true;
 
     public $keyType = 'string';
 
@@ -34,7 +35,9 @@ abstract class BaseModelUuid extends Model implements Auditable
     {
         parent::boot();
         static::creating(function (self $data) {
-            $data->id = Uuid::uuid4();
+            if (is_null($data->id) || $this->forceGenerateUuid) {
+                $data->id = Uuid::uuid4();
+            }
         });
     }
 
