@@ -36,7 +36,7 @@ class ValidInConstant implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!is_string($value)) {
+        if (!is_string($value) && !is_numeric($value)) {
             return false;
         }
 
