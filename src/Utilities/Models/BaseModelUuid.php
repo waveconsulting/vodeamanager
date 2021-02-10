@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
 use Ramsey\Uuid\Uuid;
-use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\WithAbility;
+use Vodeamanager\Core\Utilities\Traits\WithForceGenerateUuid;
 use Vodeamanager\Core\Utilities\Traits\WithLabel;
 use Vodeamanager\Core\Utilities\Traits\WithModelValidation;
+use Vodeamanager\Core\Utilities\Traits\WithResource;
 use Vodeamanager\Core\Utilities\Traits\WithScope;
 use Vodeamanager\Core\Utilities\Traits\WithSearchable;
+use Vodeamanager\Core\Utilities\Traits\WithTimestamp;
 use Wildside\Userstamps\Userstamps;
 
 abstract class BaseModelUuid extends Model implements Auditable
@@ -24,7 +26,10 @@ abstract class BaseModelUuid extends Model implements Auditable
         WithSearchable,
         WithModelValidation,
         WithScope,
-        WithAbility;
+        WithAbility,
+        WithTimestamp,
+        WithResource,
+        WithForceGenerateUuid;
 
     public $incrementing = false;
 
@@ -38,32 +43,6 @@ abstract class BaseModelUuid extends Model implements Auditable
                 $data->id = Uuid::uuid4();
             }
         });
-    }
-
-    protected $forceGenerateUuid = true;
-
-    protected $indexResource = BaseResource::class;
-    protected $showResource = BaseResource::class;
-    protected $selectResource = BaseResource::class;
-
-    public function getResource()
-    {
-        return $this->indexResource;
-    }
-
-    public function getShowResource()
-    {
-        return $this->showResource;
-    }
-
-    public function getSelectResource()
-    {
-        return $this->selectResource;
-    }
-
-    public function getForceGenerateUuid()
-    {
-        return $this->forceGenerateUuid;
     }
 
     public function hasMany($related, $foreignKey = null, $localKey = null)
