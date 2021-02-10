@@ -18,12 +18,16 @@ class BaseResource extends JsonResource
      */
     public function toArray($request)
     {
-        $resources = array_merge([
-            'id' => $this->id,
-            'creator' => new CreatorResource($this->whenLoaded('creator')),
-            'editor' => new EditorResource($this->whenLoaded('editor')),
-            'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
-        ], $this->resource($request));
+        $resources = array_merge(
+            [
+                'id' => $this->id,
+                'creator' => new CreatorResource($this->whenLoaded('creator')),
+                'editor' => new EditorResource($this->whenLoaded('editor')),
+                'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
+            ],
+            $this->resource($request),
+            $this->timestamp($request)
+        );
 
         foreach (array_keys($this->getRelations()) as $relationName) {
             $name = Str::snake($relationName);
@@ -60,13 +64,29 @@ class BaseResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
-    public function resource($request)
+    protected function resource($request)
     {
         $fields = array_diff($this->resource->getFillable(), $this->resource->getHidden());
 
         $resources = [];
         foreach ($fields as $field) {
             $resources[$field] = $this->$field;
+        }
+
+        return $resources;
+    }
+
+    public function timestamp($request)
+    {
+        $resources = [];
+
+        if ($this->resource->getWithTimestamp()) {
+            $timestampColumns = $this->resource->getTimestampColumns();
+            foreach ($timestampColumns as $timestampColumn) {
+                if ($value = $this->$timestampColumn) {
+                    $resources[$timestampColumn] = $value;
+                }
+            }
         }
 
         return $resources;
