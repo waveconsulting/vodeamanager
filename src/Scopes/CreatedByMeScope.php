@@ -15,7 +15,7 @@ class CreatedByMeScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->whereRaw('created_by = ' . Auth::id() ?? 0);
+        $builder->whereRaw('created_by = ' . (Auth::id() ?? 0));
     }
 
 }
