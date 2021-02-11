@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
+use Vodeamanager\Core\Utilities\Multilingual\Multilingual;
 
 class BaseResource extends JsonResource
 {
@@ -68,22 +69,37 @@ class BaseResource extends JsonResource
     {
         $fields = array_diff($this->resource->getFillable(), $this->resource->getHidden());
 
+        $defaultLocale = config('app.locale');
+        $currentLocale = app()->getLocale();
+
+        $multilingualAttributes = $this->resource instanceof Multilingual
+            ? $this->resource->getMultilingualAttributes()
+            : [];
+
         $resources = [];
         foreach ($fields as $field) {
-            $resources[$field] = $this->$field;
+            if (in_array($field, $multilingualAttributes)) {
+                $value = $this->resource->$field;
+
+                $resources[$field] = is_array($value)
+                    ? ($value[$currentLocale] ?? $value[$defaultLocale] ?? reset($value))
+                    : $value;
+            } else {
+                $resources[$field] = $this->resource->$field;
+            }
         }
 
         return $resources;
     }
 
-    public function timestamp($request)
+    protected function timestamp($request)
     {
         $resources = [];
 
         if ($this->resource->getWithTimestamp()) {
             $timestampColumns = $this->resource->getTimestampColumns();
             foreach ($timestampColumns as $timestampColumn) {
-                if ($value = $this->$timestampColumn) {
+                if ($value = $this->resource->$timestampColumn) {
                     $resources[$timestampColumn] = $value;
                 }
             }
