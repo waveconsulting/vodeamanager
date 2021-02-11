@@ -15,6 +15,6 @@ class MyScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('user_id', Auth::id());
+        $builder->whereRaw('created_by = ' . Auth::id() ?? 0);
     }
 }
