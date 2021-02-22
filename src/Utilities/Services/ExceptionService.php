@@ -49,10 +49,15 @@ class ExceptionService
     public function responseJson($e) {
         \Vodeamanager\Core\Utilities\Facades\ExceptionService::log($e);
 
+        $statusCode = $e->status ?? $e->getCode();
+        if (!in_array($statusCode, [400, 401, 404, 422])) {
+            $statusCode = 500;
+        }
+
         return response()->json([
             'error' => true,
             'message' => $e->getMessage()
-        ], $e->status ?? $e->getCode() ?? 500);
+        ], $statusCode);
     }
 
     /**
