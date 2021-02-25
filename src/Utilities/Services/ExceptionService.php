@@ -57,7 +57,7 @@ class ExceptionService
         return response()->json([
             'error' => true,
             'message' => $e->getMessage()
-        ], $statusCode);
+        ], (int) $statusCode);
     }
 
     /**
