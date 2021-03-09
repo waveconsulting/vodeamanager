@@ -1,7 +1,13 @@
 <?php
 
 return [
+    // decode every query search param
     'decode_search' => true,
+
+    // https://github.com/nicolaslopezj/searchable#entire-text-search
+    'search_relevance_default' => [null, true],
+
+    // model register book
     'models' => [
         'user' => config('auth.providers.users.model'),
         'role' => Vodeamanager\Core\Models\Role::class,

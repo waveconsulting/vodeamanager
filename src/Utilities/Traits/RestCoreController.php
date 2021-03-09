@@ -13,13 +13,21 @@ trait RestCoreController
     protected $repository;
     protected $namespace;
     protected $fillable;
+    protected $policies;
+
     protected $indexResource;
     protected $showResource;
     protected $selectResource;
-    protected $policies;
+
     protected $eagerLoadRelationIndex = [];
     protected $eagerLoadRelationShow = [];
     protected $eagerLoadRelationSelect = [];
+
+    protected $indexSearchRelevance;
+    protected $selectSearchRelevance;
+
+    protected $decodeIndexSearch;
+    protected $decodeSelectSearch;
 
     public function __construct()
     {
@@ -41,6 +49,12 @@ trait RestCoreController
         if (is_null($this->selectResource)) {
             $this->selectResource = $repository->getSelectResource();
         }
+
+        $this->indexSearchRelevance = config('vodeamanager.search_relevance_default', [null, true]);
+        $this->selectSearchRelevance = config('vodeamanager.search_relevance_default', [null, true]);
+
+        $this->decodeIndexSearch = config('vodeamanager.decode_search', false);
+        $this->decodeSelectSearch = config('vodeamanager.decode_search', false);
     }
 
     public function index(Request $request)
@@ -51,7 +65,7 @@ trait RestCoreController
                 $search = urldecode($search);
             }
 
-            $repository = $this->repository->search($search, null, true);
+            $repository = $this->repository->search($search, ...$this->indexSearchRelevance);
         } else {
             $repository = $this->repository->query();
         }
@@ -92,7 +106,12 @@ trait RestCoreController
         $repository = $repository->criteria($request);
 
         if ($request->has('search') && $this->repository->isWithSearchable()) {
-            $repository = $repository->search($request->get('search'), null, true);
+            $search = $request->get('search');
+            if ($this->decodeSelectSearch) {
+                $search = urldecode($search);
+            }
+
+            $repository = $repository->search($request->get('search'), ...$this->selectSearchRelevance);
         }
 
         $data = $request->has('per_page')
