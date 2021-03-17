@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable as AudibleTrait;
 use OwenIt\Auditing\Contracts\Auditable;
-use Vodeamanager\Core\Http\Resources\BaseResource;
 use Vodeamanager\Core\Utilities\Traits\WithAbility;
 use Vodeamanager\Core\Utilities\Traits\WithLabel;
 use Vodeamanager\Core\Utilities\Traits\WithModelValidation;
