@@ -12,6 +12,7 @@ class Media extends BaseModel
     protected $indexResource = MediaResource::class;
     protected $showResource = MediaResource::class;
     protected $selectResource = MediaResource::class;
+    protected $relationResource = MediaResource::class;
 
     protected $fillable = [
         'name',
