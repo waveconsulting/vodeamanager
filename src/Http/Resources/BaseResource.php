@@ -42,7 +42,7 @@ class BaseResource extends JsonResource
 
                 if ($data instanceof Collection) {
                     if ($data->isNotEmpty()) {
-                        $resource = $data[0]->getResource();
+                        $resource = $data[0]->getRelationResource();
                     }
 
                     return $resource::collection($data);
@@ -51,7 +51,7 @@ class BaseResource extends JsonResource
                 if ($data instanceof Pivot) {
                     return $data;
                 } else if (!empty($data)) {
-                    $resource = $data->getResource();
+                    $resource = $data->getRelationResource();
                 }
 
                 return new $resource($data);
