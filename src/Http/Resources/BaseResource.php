@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
+use Vodeamanager\Core\Utilities\Models\BaseView;
 use Vodeamanager\Core\Utilities\Multilingual\Multilingual;
 
 class BaseResource extends JsonResource
@@ -19,13 +20,15 @@ class BaseResource extends JsonResource
      */
     public function toArray($request)
     {
+        $data = $this->resource instanceof BaseView ? [] : [
+            'id' => $this->id,
+            'creator' => new CreatorResource($this->whenLoaded('creator')),
+            'editor' => new EditorResource($this->whenLoaded('editor')),
+            'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
+        ];
+
         $resources = array_merge(
-            [
-                'id' => $this->id,
-                'creator' => new CreatorResource($this->whenLoaded('creator')),
-                'editor' => new EditorResource($this->whenLoaded('editor')),
-                'destroyer' => new DestroyerResource($this->whenLoaded('destroyer')),
-            ],
+            $data,
             $this->resource($request),
             $this->timestamp($request)
         );
@@ -67,8 +70,11 @@ class BaseResource extends JsonResource
      */
     protected function resource($request)
     {
-        $fields = array_diff($this->resource->getFillable(), $this->resource->getHidden());
+        if ($this->resource instanceof BaseView) {
+            return $this->resource->toArray();
+        }
 
+        $fields = array_diff($this->resource->getFillable(), $this->resource->getHidden());
         $defaultLocale = config('app.locale');
         $currentLocale = app()->getLocale();
 
