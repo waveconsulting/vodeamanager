@@ -126,4 +126,110 @@ class NumberSettingService
 
         return implode('',$generatedNumberArray);
     }
+
+
+    public function generateNumberManual(array $components, string $resetType, string $entity, $date = null, $subjectId = null)
+    {
+        $tableName = app($entity)->getTable();
+        $date = is_null($date) ? Carbon::now() : Carbon::parse($date);
+        $prefixDigit = 0;
+        $digitBeforeCounter = 0;
+        $generatedNumberArray = [];
+        $queryNumber = '';
+
+        foreach($components as $index => $component){
+            if (empty($component['type']) || empty($component['format'])) {
+                throw new \Exception("Invalid component format.");
+            }
+
+            if (!in_array(null, $generatedNumberArray) && $component['type'] != Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER) {
+                $digitBeforeCounter += strlen($component['format']);
+            }
+
+            switch ($component['type']) {
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_TEXT:
+                    array_push($generatedNumberArray, $component['format']);
+                    $queryNumber .= str_replace('_', '\\_', $component['format']);
+                    break;
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_YEAR:
+                    $dateText = $date->format($component['format']);
+                    array_push($generatedNumberArray, $dateText);
+
+                    if (is_null($resetType)) {
+                        $dateText = str_repeat('_', strlen($dateText));
+                    }
+
+                    $queryNumber .= $dateText;
+                    break;
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_MONTH:
+                    $dateText = $date->format($component['format']);
+                    array_push($generatedNumberArray, $dateText);
+
+                    if (is_null($resetType) || $resetType == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY) {
+                        $dateText = str_repeat('_', strlen($dateText));
+                    }
+
+                    $queryNumber .= $dateText;
+                    break;
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_DAY:
+                    $dateText = date($component['format'], strtotime($date));
+                    array_push($generatedNumberArray, $dateText);
+
+                    if (is_null($resetType) || $resetType == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $resetType == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY) {
+                        $dateText = str_repeat('_', strlen($dateText));
+                    }
+
+                    $queryNumber .= $dateText;
+                    break;
+                case Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER:
+                    array_push($generatedNumberArray, null);
+                    $queryNumber .= str_repeat('_', $component['format']);
+                    $prefixDigit = $component['format'];
+                    break;
+            }
+        }
+
+        $dateColumn = Schema::hasColumn($tableName, 'date') ? 'date' : 'created_at';
+
+        $subjectNumbers = app($entity)
+            ->withoutGlobalScopes()
+            ->where('number', 'like', $queryNumber)
+            ->when($resetType == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $resetType == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
+                $query->whereYear($dateColumn, $date->format('Y'));
+            })->when($resetType == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
+                $query->whereMonth($dateColumn, $date->format('m'));
+            })->when($subjectId, function($query) use ($subjectId){
+                $query->where('id', '!=', $subjectId);
+            })
+            ->withTrashed()
+            ->orderBy('number')
+            ->pluck('number')
+            ->toArray();
+
+        $existingNumbers = array_map(function ($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter) {
+            $counterIndex = array_search(null,$generatedNumberArray);
+            if ($counterIndex == 0) {
+                return intval(substr($subjectNo,0,$prefixDigit));
+            } else if ($counterIndex+1 == count($generatedNumberArray)) {
+                return intval(substr($subjectNo,$prefixDigit*-1));
+            }
+
+            return intval(substr($subjectNo,$digitBeforeCounter,$prefixDigit));
+        }, $subjectNumbers);
+
+        sort($existingNumbers);
+
+        if (empty($existingNumbers)) {
+            $newCounter = 1;
+        } else {
+            $idealNos = range($existingNumbers[0], $existingNumbers[count($existingNumbers)-1]);
+            $suggestedNos = array_values(array_diff($idealNos, $existingNumbers));
+            $newCounter = empty($suggestedNos) ? ($existingNumbers[(count($existingNumbers)-1)] + 1) : $suggestedNos[0];
+        }
+
+        $newCounter = str_pad($newCounter, $prefixDigit, "0", STR_PAD_LEFT);
+        $generatedNumberArray[array_search(null, $generatedNumberArray)] = $newCounter;
+
+        return implode('',$generatedNumberArray);
+    }
 }
