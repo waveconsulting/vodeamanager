@@ -18,6 +18,7 @@ return [
         'setting' => Vodeamanager\Core\Models\Setting::class,
         'media' => Vodeamanager\Core\Models\Media::class,
         'media_use' => Vodeamanager\Core\Models\MediaUse::class,
+        'booked_number' => Vodeamanager\Core\Models\BookedNumber::class,
         'number_setting' => Vodeamanager\Core\Models\NumberSetting::class,
         'number_setting_component' => Vodeamanager\Core\Models\NumberSettingComponent::class,
         'login_activity' => Vodeamanager\Core\Models\LoginActivity::class,

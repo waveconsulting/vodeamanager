@@ -2,9 +2,11 @@
 
 namespace Vodeamanager\Core\Utilities\Services;
 
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Vodeamanager\Core\Models\BookedNumber;
 use Vodeamanager\Core\Utilities\Constant;
 
 class NumberSettingService
@@ -15,10 +17,10 @@ class NumberSettingService
      * @param string $entity
      * @param null $date
      * @param null $subjectId
-     *
+     * @param int $startCounter
      * @return string
      */
-    public function generateNumber(string $entity, $date = null, $subjectId = null)
+    public function generateNumber(string $entity, $date = null, $subjectId = null, int $startCounter = 0)
     {
         $tableName = app($entity)->getTable();
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
@@ -121,13 +123,35 @@ class NumberSettingService
             $newCounter = empty($suggestedNos) ? ($existingNumbers[(count($existingNumbers)-1)] + 1) : $suggestedNos[0];
         }
 
-        $newCounter = str_pad($newCounter, $prefixDigit, "0", STR_PAD_LEFT);
-        $generatedNumberArray[array_search(null, $generatedNumberArray)] = $newCounter;
+        $newCounter += $startCounter;
+        $generatedNumberArray[array_search(null, $generatedNumberArray)] = str_pad($newCounter, $prefixDigit, "0", STR_PAD_LEFT);
+        $number = implode('',$generatedNumberArray);
 
-        return implode('',$generatedNumberArray);
+        return $this->isBooked($numberSetting->id, $number)
+            ? $this->generateNumber($entity, $date, $subjectId, $newCounter + 1)
+            : $number;
     }
 
+    /**
+     * @return bool
+     */
+    protected function isBooked($numberSettingId, $number)
+    {
+        return BookedNumber::query()
+            ->where('number_setting_id', $numberSettingId)
+            ->where('number', $number)
+            ->exists();
+    }
 
+    /**
+     * @param array $components
+     * @param string $resetType
+     * @param string $entity
+     * @param null $date
+     * @param null $subjectId
+     * @return string
+     * @throws Exception
+     */
     public function generateNumberManual(array $components, string $resetType, string $entity, $date = null, $subjectId = null)
     {
         $tableName = app($entity)->getTable();
