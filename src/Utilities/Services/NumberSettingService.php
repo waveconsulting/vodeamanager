@@ -149,7 +149,7 @@ class NumberSettingService
             throw new Exception("The number setting is invalid.");
         }
 
-        return BookedNumber::create([
+        return config('vodeamanager.models.booked_number')::create([
             'entity' => $entity,
             'number' => $this->generateNumber($entity, $date, $subjectId),
         ]);
