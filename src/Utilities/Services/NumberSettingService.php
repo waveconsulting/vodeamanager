@@ -130,10 +130,6 @@ class NumberSettingService
         $generatedNumberArray[array_search(null, $generatedNumberArray)] = str_pad($newCounter, $prefixDigit, "0", STR_PAD_LEFT);
         $number = implode('',$generatedNumberArray);
 
-        info($newCounter);
-        info($number);
-        info('============================');
-
         return $this->isBooked($entity, $number)
             ? $this->generateNumber($entity, $date, $subjectId, $newCounter+1)
             : $number;
