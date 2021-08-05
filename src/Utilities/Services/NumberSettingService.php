@@ -127,18 +127,38 @@ class NumberSettingService
         $generatedNumberArray[array_search(null, $generatedNumberArray)] = str_pad($newCounter, $prefixDigit, "0", STR_PAD_LEFT);
         $number = implode('',$generatedNumberArray);
 
-        return $this->isBooked($numberSetting->id, $number)
+        return $this->isBooked($entity, $number)
             ? $this->generateNumber($entity, $date, $subjectId, $newCounter + 1)
             : $number;
     }
 
     /**
+     * @param string $entity
+     * @param null $date
+     * @param null $subjectId
+     * @return BookedNumber
+     * @throws Exception
+     */
+    public function bookNumber(string $entity, $date = null, $subjectId = null)
+    {
+        $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
+        if (empty($numberSetting)) {
+            throw new Exception("The number setting is invalid.");
+        }
+
+        return BookedNumber::create([
+            'entity' => $entity,
+            'number' => $this->generateNumber($entity, $date, $subjectId),
+        ]);
+    }
+
+    /**
      * @return bool
      */
-    protected function isBooked($numberSettingId, $number)
+    protected function isBooked($entity, $number)
     {
         return BookedNumber::query()
-            ->where('number_setting_id', $numberSettingId)
+            ->where('entity', $entity)
             ->where('number', $number)
             ->exists();
     }
@@ -163,7 +183,7 @@ class NumberSettingService
 
         foreach($components as $index => $component){
             if (empty($component['type']) || empty($component['format'])) {
-                throw new \Exception("Invalid component format.");
+                throw new Exception("Invalid component format.");
             }
 
             if (!in_array(null, $generatedNumberArray) && $component['type'] != Constant::NUMBER_SETTING_COMPONENT_TYPE_COUNTER) {

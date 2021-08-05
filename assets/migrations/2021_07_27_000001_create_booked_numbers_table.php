@@ -16,8 +16,7 @@ class CreateBookedNumbersTable extends Migration
         Schema::create('booked_numbers', function (Blueprint $table) {
             $table->id();
 
-            $table->uuidMorphs('subject');
-            $table->relation('number_setting_id', 'number_settings', false);
+            $table->string('entity');
             $table->string('number');
 
             $table->userTimeStamp();
