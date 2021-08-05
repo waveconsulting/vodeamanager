@@ -17,10 +17,10 @@ class NumberSettingService
      * @param string $entity
      * @param null $date
      * @param null $subjectId
-     * @param int $startCounter
+     * @param int $addCounter
      * @return string
      */
-    public function generateNumber(string $entity, $date = null, $subjectId = null, int $startCounter = 0)
+    public function generateNumber(string $entity, $date = null, $subjectId = null, int $nextCounter = 0)
     {
         $tableName = app($entity)->getTable();
         $numberSetting = config('vodeamanager.models.number_setting')::where('entity', $entity)->first();
@@ -85,50 +85,57 @@ class NumberSettingService
             }
         }
 
-        $dateColumn = Schema::hasColumn($tableName, 'date') ? 'date' : 'created_at';
+        if ($nextCounter == 0) {
+            $dateColumn = Schema::hasColumn($tableName, 'date') ? 'date' : 'created_at';
 
-        $subjectNumbers = app($entity)
-            ->withoutGlobalScopes()
-            ->where('number', 'like', $queryNumber)
-            ->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
-                $query->whereYear($dateColumn, $date->format('Y'));
-            })->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
-                $query->whereMonth($dateColumn, $date->format('m'));
-            })->when($subjectId, function($query) use ($subjectId){
-                $query->where('id', '!=', $subjectId);
-            })
-            ->withTrashed()
-            ->orderBy('number')
-            ->pluck('number')
-            ->toArray();
+            $subjectNumbers = app($entity)
+                ->withoutGlobalScopes()
+                ->where('number', 'like', $queryNumber)
+                ->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_YEARLY || $numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
+                    $query->whereYear($dateColumn, $date->format('Y'));
+                })->when($numberSetting->reset_type == Constant::NUMBER_SETTING_RESET_TYPE_MONTHLY, function ($query) use ($dateColumn, $date){
+                    $query->whereMonth($dateColumn, $date->format('m'));
+                })->when($subjectId, function($query) use ($subjectId){
+                    $query->where('id', '!=', $subjectId);
+                })
+                ->withTrashed()
+                ->orderBy('number')
+                ->pluck('number')
+                ->toArray();
 
-        $existingNumbers = array_map(function ($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter) {
-            $counterIndex = array_search(null,$generatedNumberArray);
-            if ($counterIndex == 0) {
-                return intval(substr($subjectNo,0,$prefixDigit));
-            } else if ($counterIndex+1 == count($generatedNumberArray)) {
-                return intval(substr($subjectNo,$prefixDigit*-1));
+            $existingNumbers = array_map(function ($subjectNo) use ($generatedNumberArray, $prefixDigit, $digitBeforeCounter) {
+                $counterIndex = array_search(null,$generatedNumberArray);
+                if ($counterIndex == 0) {
+                    return intval(substr($subjectNo,0,$prefixDigit));
+                } else if ($counterIndex+1 == count($generatedNumberArray)) {
+                    return intval(substr($subjectNo,$prefixDigit*-1));
+                }
+
+                return intval(substr($subjectNo,$digitBeforeCounter,$prefixDigit));
+            }, $subjectNumbers);
+
+            sort($existingNumbers);
+
+            if (empty($existingNumbers)) {
+                $newCounter = 1;
+            } else {
+                $idealNos = range($existingNumbers[0], $existingNumbers[count($existingNumbers)-1]);
+                $suggestedNos = array_values(array_diff($idealNos, $existingNumbers));
+                $newCounter = empty($suggestedNos) ? ($existingNumbers[(count($existingNumbers)-1)] + 1) : $suggestedNos[0];
             }
-
-            return intval(substr($subjectNo,$digitBeforeCounter,$prefixDigit));
-        }, $subjectNumbers);
-
-        sort($existingNumbers);
-
-        if (empty($existingNumbers)) {
-            $newCounter = 1;
         } else {
-            $idealNos = range($existingNumbers[0], $existingNumbers[count($existingNumbers)-1]);
-            $suggestedNos = array_values(array_diff($idealNos, $existingNumbers));
-            $newCounter = empty($suggestedNos) ? ($existingNumbers[(count($existingNumbers)-1)] + 1) : $suggestedNos[0];
+            $newCounter = $nextCounter;
         }
 
-        $newCounter += $startCounter;
         $generatedNumberArray[array_search(null, $generatedNumberArray)] = str_pad($newCounter, $prefixDigit, "0", STR_PAD_LEFT);
         $number = implode('',$generatedNumberArray);
 
+        info($newCounter);
+        info($number);
+        info('============================');
+
         return $this->isBooked($entity, $number)
-            ? $this->generateNumber($entity, $date, $subjectId, $newCounter)
+            ? $this->generateNumber($entity, $date, $subjectId, $newCounter+1)
             : $number;
     }
 
