@@ -128,7 +128,7 @@ class NumberSettingService
         $number = implode('',$generatedNumberArray);
 
         return $this->isBooked($entity, $number)
-            ? $this->generateNumber($entity, $date, $subjectId, $newCounter + 1)
+            ? $this->generateNumber($entity, $date, $subjectId, $newCounter)
             : $number;
     }
 
