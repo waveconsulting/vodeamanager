@@ -17,7 +17,7 @@ class NumberSettingService
      * @param string $entity
      * @param null $date
      * @param null $subjectId
-     * @param int $addCounter
+     * @param int $nextCounter
      * @return string
      */
     public function generateNumber(string $entity, $date = null, $subjectId = null, int $nextCounter = 0)
@@ -160,7 +160,7 @@ class NumberSettingService
      */
     protected function isBooked($entity, $number)
     {
-        return BookedNumber::query()
+        return config('vodeamanager.models.booked_number')::query()
             ->where('entity', $entity)
             ->where('number', $number)
             ->exists();
