@@ -162,6 +162,12 @@ class NumberSettingService
      */
     protected function isBooked($entity, $number)
     {
+        $bookedNumberModelNamespace = config('vodeamanager.models.booked_number');
+        $bookedNumberTableName = app($bookedNumberModelNamespace)->getTable();
+        if (!Schema::hasTable($bookedNumberTableName)) {
+            return false;
+        }
+        
         return config('vodeamanager.models.booked_number')::query()
             ->where('entity', $entity)
             ->where('number', $number)
