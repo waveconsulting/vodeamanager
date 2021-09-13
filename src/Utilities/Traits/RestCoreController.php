@@ -83,7 +83,7 @@ trait RestCoreController
             ? $repository->paginate($request->get('per_page'))
             : $repository->get();
 
-        return ResourceService::jsonCollection($this->indexResource,$data);
+        return ResourceService::jsonCollection($this->indexResource, $data);
     }
 
     public function select(Request $request, $id = null)
@@ -100,7 +100,7 @@ trait RestCoreController
         if ($id || $request->has('id')) {
             $data = $repository->findOrFail($id ?? $request->get('id'));
 
-            return ResourceService::jsonResource($this->selectResource,$data);
+            return ResourceService::jsonResource($this->selectResource, $data);
         }
 
         $repository = $repository->criteria($request);
@@ -118,7 +118,7 @@ trait RestCoreController
             ? $repository->paginate($request->get('per_page'))
             : $repository->get();
 
-        return ResourceService::jsonCollection($this->selectResource,$data);
+        return ResourceService::jsonCollection($this->selectResource, $data);
     }
 
     public function show(Request $request, $id)
@@ -134,7 +134,7 @@ trait RestCoreController
 
         $this->gate($data, __FUNCTION__);
 
-        return ResourceService::jsonResource($this->showResource,$data);
+        return ResourceService::jsonResource($this->showResource, $data);
     }
 
     public function destroy(Request $request, $id)
@@ -146,7 +146,11 @@ trait RestCoreController
 
             $this->gate($data, __FUNCTION__);
 
+            $this->beforeDelete($data);
+
             $this->repository->destroy($id);
+
+            $this->afterDelete($data);
 
             DB::commit();
 
@@ -160,13 +164,24 @@ trait RestCoreController
             ExceptionService::log($e);
 
             return response()->json([
-                'error'   => true,
+                'error' => true,
                 'message' => $e->getMessage()
             ]);
         }
     }
 
-    private function gate(Model $data, $policyName) {
+    public function beforeDelete($data)
+    {
+        //
+    }
+
+    public function afterDelete($data)
+    {
+        //
+    }
+
+    private function gate(Model $data, $policyName)
+    {
         if (!empty($this->policies)) {
             if ((is_bool($this->policies) && $this->policies) ||
                 (is_array($this->policies) && in_array($policyName, $this->policies)) ||
