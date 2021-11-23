@@ -28,7 +28,11 @@ class AccountController extends Controller
 
     public function revoke(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = Auth::user();
+
+        if (!empty($user) && method_exists($user,'currentAccessToken')) {
+            $user->currentAccessToken()->delete();
+        }
 
         return response()->json([
             'success' => true,
