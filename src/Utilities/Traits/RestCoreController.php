@@ -89,7 +89,12 @@ trait RestCoreController
             $data = $repository->get();
         }
 
-        return ResourceService::jsonCollection($this->indexResource, $data);
+        return ResourceService::jsonCollection($this->indexResource, $data, $this->additionalDataIndex($request, $repository));
+    }
+
+    protected function additionalDataIndex(Request $request, $repository)
+    {
+        return [];
     }
 
     public function select(Request $request, $id = null)
