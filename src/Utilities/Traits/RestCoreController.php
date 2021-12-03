@@ -29,6 +29,8 @@ trait RestCoreController
     protected $decodeIndexSearch;
     protected $decodeSelectSearch;
 
+    protected $simplePaginateFunction = [];
+
     public function __construct()
     {
         if (is_null($this->namespace)) {
@@ -79,9 +81,13 @@ trait RestCoreController
             ->filter($request)
             ->subQueryIndex($request);
 
-        $data = $request->has('per_page')
-            ? $repository->paginate($request->get('per_page'))
-            : $repository->get();
+        if ($request->has('per_page')) {
+            $data = in_array(__FUNCTION__, $this->simplePaginateFunction)
+                ? $repository->simplePaginate($request->get('per_page'))
+                : $repository->paginate($request->get('per_page'));
+        } else {
+            $data = $repository->get();
+        }
 
         return ResourceService::jsonCollection($this->indexResource, $data);
     }
@@ -111,12 +117,16 @@ trait RestCoreController
                 $search = urldecode($search);
             }
 
-            $repository = $repository->search($request->get('search'), ...$this->selectSearchRelevance);
+            $repository = $repository->search($search, ...$this->selectSearchRelevance);
         }
 
-        $data = $request->has('per_page')
-            ? $repository->paginate($request->get('per_page'))
-            : $repository->get();
+        if ($request->has('per_page')) {
+            $data = in_array(__FUNCTION__, $this->simplePaginateFunction)
+                ? $repository->simplePaginate($request->get('per_page'))
+                : $repository->paginate($request->get('per_page'));
+        } else {
+            $data = $repository->get();
+        }
 
         return ResourceService::jsonCollection($this->selectResource, $data);
     }
