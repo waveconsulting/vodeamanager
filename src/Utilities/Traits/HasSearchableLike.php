@@ -2,7 +2,7 @@
 
 namespace Vodeamanager\Core\Utilities\Traits;
 
-trait WithSearchableLike
+trait HasSearchableLike
 {
     protected $searchableLikeColumn = [];
 
