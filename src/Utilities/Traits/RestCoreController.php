@@ -5,6 +5,7 @@ namespace Vodeamanager\Core\Utilities\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Vodeamanager\Core\Contracts\WithSearchableLike;
 use Vodeamanager\Core\Utilities\Facades\ExceptionService;
 use Vodeamanager\Core\Utilities\Facades\ResourceService;
 
@@ -61,15 +62,30 @@ trait RestCoreController
 
     public function index(Request $request)
     {
-        if ($request->has('search') && $this->repository->isWithSearchable()) {
-            $search = $request->get('search');
+        $repository = $this->repository->query();
+
+        if ($search = $request->get('search')) {
             if (config('vodeamanager.decode_search', false)) {
                 $search = urldecode($search);
             }
 
-            $repository = $this->repository->search($search, ...$this->indexSearchRelevance);
-        } else {
-            $repository = $this->repository->query();
+            if ($this->repository instanceof WithSearchableLike) {
+                $columns = $this->repository->getSearchableColumn();
+
+                $repository = $repository->where(function ($query) use ($search, $columns) {
+                    if (!empty($search)) {
+                        foreach ($columns as $index => $column) {
+                            if ($index == 0) {
+                                $query->where($column, "like", "%$search%");
+                            } else {
+                                $query->orWhere($column, "like", "%$search%");
+                            }
+                        }
+                    }
+                });
+            } elseif ($this->repository->isWithSearchable()) {
+                $repository = $repository->search($search, ...$this->indexSearchRelevance);
+            }
         }
 
         if ($request->has('with')) {
