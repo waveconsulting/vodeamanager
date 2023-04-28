@@ -75,4 +75,5 @@ class Constant
         self::NUMBER_SETTING_COMPONENT_TYPE_COUNTER => 'Counter',
     ];
 
+    const FILE_BLACKLIST_EXTENSION = ['php','js','css','html','sh','asp','aspx','jsp','pl','py','cfm','sh'];
 }
